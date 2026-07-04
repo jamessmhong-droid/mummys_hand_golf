@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>핸디캡별 연습 배분 가이드 — Strokes Gained</title>
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/mascot.png">
+<style>
+:root{--bg:#FDEEF3;--bg-soft:#FCE4EC;--hot:#FF1E88;--hot-deep:#E60F73;--ink:#0E0E10;--white:#FFFFFF;--line:#F4C9DC;--muted:#6B5560;
+--c-drive:#FF9DC7;--c-appr:#FF1E88;--c-short:#C50E63;--c-putt:#0E0E10;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Gothic Neo','Segoe UI',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:860px;margin:0 auto;padding:40px 22px 88px}
+.back{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:var(--hot-deep);text-decoration:none;margin-bottom:24px}
+.back:hover{color:var(--ink)}
+.hero{text-align:center;padding:8px 0 34px;border-bottom:3px solid var(--hot);margin-bottom:36px}
+.kicker{display:inline-block;background:var(--hot);color:#fff;font-size:12.5px;font-weight:800;letter-spacing:.13em;padding:7px 16px;border-radius:999px;margin-bottom:20px}
+.hero h1{font-size:34px;font-weight:900;letter-spacing:-.02em;line-height:1.25}
+.hero h1 span{color:var(--hot)}
+.hero p{margin-top:15px;color:var(--muted);font-size:15.5px;max-width:640px;margin-left:auto;margin-right:auto}
+.src{margin-top:16px;font-size:13px;color:var(--muted)}
+.src a{color:var(--hot-deep);font-weight:800;text-decoration:none}
+.src a:hover{text-decoration:underline}
+
+/* principle strip */
+.keybar{background:var(--ink);color:#fff;border-radius:16px;padding:18px 22px;font-size:15px;font-weight:700;line-height:1.6;margin-bottom:36px;text-align:center}
+.keybar b{color:var(--hot)}
+
+/* CSS-only tabs */
+.tabradio{position:absolute;opacity:0;width:0;height:0}
+.tablabels{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:22px}
+.tablabels label{cursor:pointer;text-align:center;background:var(--white);border:1.5px solid var(--line);border-radius:14px;padding:13px 6px 11px;font-size:15px;font-weight:800;color:var(--muted);line-height:1.2;transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease}
+.tablabels label span{display:block;font-size:11.5px;font-weight:700;color:var(--muted);margin-top:4px;letter-spacing:.02em}
+.tablabels label:hover{transform:translateY(-2px)}
+#t1:checked~.tablabels label[for=t1],#t2:checked~.tablabels label[for=t2],#t3:checked~.tablabels label[for=t3],#t4:checked~.tablabels label[for=t4]{background:var(--hot);color:#fff;border-color:var(--hot);box-shadow:0 10px 24px -12px rgba(230,15,115,.6)}
+#t1:checked~.tablabels label[for=t1] span,#t2:checked~.tablabels label[for=t2] span,#t3:checked~.tablabels label[for=t3] span,#t4:checked~.tablabels label[for=t4] span{color:rgba(255,255,255,.85)}
+.tabradio:focus-visible~.tablabels label{outline:none}
+#t1:focus-visible~.tablabels label[for=t1],#t2:focus-visible~.tablabels label[for=t2],#t3:focus-visible~.tablabels label[for=t3],#t4:focus-visible~.tablabels label[for=t4]{outline:3px solid var(--hot-deep);outline-offset:2px}
+
+.panel{display:none}
+#t1:checked~.panels #p1,#t2:checked~.panels #p2,#t3:checked~.panels #p3,#t4:checked~.panels #p4{display:block}
+
+.card{background:var(--white);border:1px solid var(--line);border-radius:20px;padding:26px 26px 28px;box-shadow:0 10px 30px -18px rgba(230,15,115,.45)}
+.hcline{display:flex;align-items:baseline;flex-wrap:wrap;gap:10px;margin-bottom:6px}
+.hcline h2{font-size:22px;font-weight:900;letter-spacing:-.01em}
+.hcline .hcnum{font-size:12px;font-weight:800;color:#fff;background:var(--ink);padding:4px 11px;border-radius:999px;letter-spacing:.03em}
+.oneline{font-size:15px;color:var(--ink);background:var(--bg-soft);border-left:5px solid var(--hot);border-radius:0 12px 12px 0;padding:12px 16px;margin:12px 0 22px;font-weight:700}
+
+/* allocation bars */
+.alloc{margin:0 0 22px}
+.arow{display:grid;grid-template-columns:88px 1fr 46px;align-items:center;gap:12px;margin-bottom:11px}
+.arow .cat{font-size:13.5px;font-weight:800;color:var(--ink);text-align:right}
+.arow .track{background:var(--bg-soft);border-radius:999px;height:20px;overflow:hidden;border:1px solid var(--line)}
+.arow .fill{height:100%;border-radius:999px}
+.arow .pct{font-size:14px;font-weight:900;color:var(--hot-deep);text-align:left}
+.fill.drive{background:var(--c-drive)}
+.fill.appr{background:var(--c-appr)}
+.fill.short{background:var(--c-short)}
+.fill.putt{background:var(--c-putt)}
+.legend{font-size:12px;color:var(--muted);margin:-6px 0 20px;text-align:right}
+.longsum{display:inline-block;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:3px 11px;border-radius:999px}
+
+.why{list-style:none}
+.why li{position:relative;padding:9px 0 9px 26px;font-size:14.5px;line-height:1.6;border-bottom:1px dashed var(--line)}
+.why li:last-child{border-bottom:none}
+.why li::before{content:"";position:absolute;left:4px;top:16px;width:9px;height:9px;background:var(--hot);border-radius:3px}
+.why b{color:var(--hot-deep)}
+
+/* shared principles */
+.sec{margin-top:44px}
+.sec h3{font-size:15px;font-weight:900;color:var(--hot-deep);text-transform:uppercase;letter-spacing:.04em;margin-bottom:16px;display:flex;align-items:center;gap:9px}
+.sec h3::before{content:"";width:10px;height:10px;background:var(--hot);border-radius:3px;display:inline-block}
+.pr{list-style:none;counter-reset:pr}
+.pr li{counter-increment:pr;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:15px 16px 15px 54px;margin-bottom:11px;font-size:14.5px;position:relative;line-height:1.6}
+.pr li::before{content:counter(pr);position:absolute;left:14px;top:14px;width:28px;height:28px;background:var(--ink);color:#fff;font-weight:900;font-size:13px;border-radius:9px;display:flex;align-items:center;justify-content:center}
+.pr b{color:var(--hot-deep)}
+
+.disc{margin-top:40px;padding:18px 20px;background:var(--white);border:1px dashed var(--line);border-radius:14px;font-size:12.5px;color:var(--muted);line-height:1.7}
+.disc b{color:var(--ink)}
+
+/* brand footer */
+.brand{margin-top:52px;padding-top:26px;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:11px;text-align:center}
+.brand>img{width:48px;height:48px;filter:drop-shadow(0 6px 12px rgba(230,15,115,.35))}
+.brand-ig{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--hot-deep);text-decoration:none}
+.brand-ig:hover{color:var(--ink)}
+
+@media(max-width:560px){.hero h1{font-size:27px}.tablabels{gap:6px}.tablabels label{font-size:13px;padding:11px 4px 9px}.tablabels label span{font-size:10.5px}.arow{grid-template-columns:74px 1fr 42px;gap:9px}.arow .cat{font-size:12.5px}.wrap{padding:32px 15px 72px}}
+</style></head>
+<body><div class="wrap">
+<a class="back" href="index.html">← 홈으로</a>
+
+<header class="hero">
+  <span class="kicker">PRACTICE ALLOCATION · STROKES GAINED</span>
+  <h1>핸디캡별 <span>연습시간 배분</span> 가이드</h1>
+  <p>Mark Broadie의 <b>Strokes Gained</b> 연구에 근거해, 실력 구간별로 연습시간을 어디에 얼마나 둘지 배분했습니다. 핵심 원칙은 하나 — <b>스코어의 약 2/3는 롱게임(어프로치·티샷)에서 갈린다.</b></p>
+  <p class="src">근거: <a href="pages/paper-09.html">Broadie (2012), Strokes Gained — 자료집 9번 →</a> · 핸디캡별 세부 분해는 아마추어 데이터(<i>Every Shot Counts</i>, 2014)</p>
+</header>
+
+<div class="keybar">모든 구간에서 <b>어프로치(아이언)</b>가 가장 큰 조각입니다. 퍼팅은 통념과 달리 실제 기여도(<b>~15–18%</b>)만큼만.</div>
+
+<div class="tabwrap">
+  <input class="tabradio" type="radio" name="hc" id="t1" checked>
+  <input class="tabradio" type="radio" name="hc" id="t2">
+  <input class="tabradio" type="radio" name="hc" id="t3">
+  <input class="tabradio" type="radio" name="hc" id="t4">
+  <div class="tablabels">
+    <label for="t1">초급<span>HDCP 20+</span></label>
+    <label for="t2">보기 플레이어<span>HDCP 13–19</span></label>
+    <label for="t3">중급<span>HDCP 6–12</span></label>
+    <label for="t4">로우·스크래치<span>HDCP 0–5</span></label>
+  </div>
+
+  <div class="panels">
+    <!-- 초급 -->
+    <section class="panel" id="p1"><div class="card">
+      <div class="hcline"><h2>초급</h2><span class="hcnum">HDCP 20+</span></div>
+      <p class="oneline">일단 <b>깨끗한 컨택</b> + <b>대형 실수(OB·해저드) 줄이기</b>. 풀스윙에 절반을 쓰세요.</p>
+      <div class="alloc">
+        <div class="arow"><span class="cat">티샷·드라이버</span><div class="track"><div class="fill drive" style="width:15%"></div></div><span class="pct">15%</span></div>
+        <div class="arow"><span class="cat">어프로치</span><div class="track"><div class="fill appr" style="width:35%"></div></div><span class="pct">35%</span></div>
+        <div class="arow"><span class="cat">숏게임</span><div class="track"><div class="fill short" style="width:33%"></div></div><span class="pct">33%</span></div>
+        <div class="arow"><span class="cat">퍼팅</span><div class="track"><div class="fill putt" style="width:17%"></div></div><span class="pct">17%</span></div>
+      </div>
+      <div class="legend"><span class="longsum">롱게임 합 50%</span></div>
+      <ul class="why">
+        <li>고핸디가 스크래치에 <b>가장 크게 지는 곳도 롱게임(컨택)</b>. 어프로치는 '정밀도'보다 <b>일관된 컨택 + 그린 근처로</b>에 집중.</li>
+        <li>그린 주변 기회가 잦아 <b>칩·피치·벙커 탈출</b> 비중을 높게. 짧은 게임에서 쉬운 타수를 지키는 게 빠른 스코어 단축.</li>
+        <li>퍼팅은 <b>3퍼트만 줄여도</b> 충분 — 라인보다 <b>거리감</b> 위주로.</li>
+      </ul>
+    </div></section>
+
+    <!-- 보기 -->
+    <section class="panel" id="p2"><div class="card">
+      <div class="hcline"><h2>보기 플레이어</h2><span class="hcnum">HDCP 13–19</span></div>
+      <p class="oneline"><b>빅 미스 제거</b> + <b>웨지 거리 컨트롤</b>이 최대 레버리지.</p>
+      <div class="alloc">
+        <div class="arow"><span class="cat">티샷·드라이버</span><div class="track"><div class="fill drive" style="width:18%"></div></div><span class="pct">18%</span></div>
+        <div class="arow"><span class="cat">어프로치</span><div class="track"><div class="fill appr" style="width:37%"></div></div><span class="pct">37%</span></div>
+        <div class="arow"><span class="cat">숏게임</span><div class="track"><div class="fill short" style="width:27%"></div></div><span class="pct">27%</span></div>
+        <div class="arow"><span class="cat">퍼팅</span><div class="track"><div class="fill putt" style="width:18%"></div></div><span class="pct">18%</span></div>
+      </div>
+      <div class="legend"><span class="longsum">롱게임 합 55%</span></div>
+      <ul class="why">
+        <li>롱게임 비중 55%. 티샷은 <b>비거리보다 인플레이</b>(페널티 없이 치기)를 우선.</li>
+        <li><b>30–100yd 웨지 거리 컨트롤</b>이 스코어를 가장 빨리 낮추는 구간.</li>
+        <li>퍼팅은 <b>3–5m 거리감 + 1m 안쪽 숏퍼트</b> 안정화.</li>
+      </ul>
+    </div></section>
+
+    <!-- 중급 -->
+    <section class="panel" id="p3"><div class="card">
+      <div class="hcline"><h2>중급</h2><span class="hcnum">HDCP 6–12</span></div>
+      <p class="oneline"><b>100–175yd 아이언 정확도</b>가 스코어를 가릅니다.</p>
+      <div class="alloc">
+        <div class="arow"><span class="cat">티샷·드라이버</span><div class="track"><div class="fill drive" style="width:20%"></div></div><span class="pct">20%</span></div>
+        <div class="arow"><span class="cat">어프로치</span><div class="track"><div class="fill appr" style="width:40%"></div></div><span class="pct">40%</span></div>
+        <div class="arow"><span class="cat">숏게임</span><div class="track"><div class="fill short" style="width:22%"></div></div><span class="pct">22%</span></div>
+        <div class="arow"><span class="cat">퍼팅</span><div class="track"><div class="fill putt" style="width:18%"></div></div><span class="pct">18%</span></div>
+      </div>
+      <div class="legend"><span class="longsum">롱게임 합 60%</span></div>
+      <ul class="why">
+        <li>롱게임 60%로 정점. <b>어프로치 GIR(그린 적중)</b>을 올리는 게 핵심.</li>
+        <li>숏게임·퍼팅은 이미 어느 정도 완성 — <b>유지·미세조정</b> 단계.</li>
+        <li>티샷은 <b>방향 일관성 + 적정 비거리</b>로 세컨드를 편하게.</li>
+      </ul>
+    </div></section>
+
+    <!-- 로우·스크래치 -->
+    <section class="panel" id="p4"><div class="card">
+      <div class="hcline"><h2>로우 · 스크래치</h2><span class="hcnum">HDCP 0–5</span></div>
+      <p class="oneline">어프로치는 여전히 왕. <b>웨지 정밀도 · 퍼팅 미세 마진</b>으로 승부.</p>
+      <div class="alloc">
+        <div class="arow"><span class="cat">티샷·드라이버</span><div class="track"><div class="fill drive" style="width:20%"></div></div><span class="pct">20%</span></div>
+        <div class="arow"><span class="cat">어프로치</span><div class="track"><div class="fill appr" style="width:39%"></div></div><span class="pct">39%</span></div>
+        <div class="arow"><span class="cat">숏게임</span><div class="track"><div class="fill short" style="width:23%"></div></div><span class="pct">23%</span></div>
+        <div class="arow"><span class="cat">퍼팅</span><div class="track"><div class="fill putt" style="width:18%"></div></div><span class="pct">18%</span></div>
+      </div>
+      <div class="legend"><span class="longsum">롱게임 합 59%</span></div>
+      <ul class="why">
+        <li><b>어프로치 근접도(proximity)</b>가 최대 변별 — 175yd+ 롱아이언·유틸리티 포함.</li>
+        <li>필드가 촘촘 — <b>50–120yd 웨지 정밀도</b>와 <b>퍼팅 make%</b> 미세조정에서 차이가 남.</li>
+        <li>여기서부턴 <b>본인 Strokes Gained 데이터</b>로 약점 카테고리에 +10%p 재배분.</li>
+      </ul>
+    </div></section>
+  </div>
+</div>
+
+<div class="sec">
+  <h3>어느 구간이든 지켜야 할 4가지</h3>
+  <ol class="pr">
+    <li><b>본인 데이터로 보정</b> — 이 표는 출발점입니다. Arccos·Shot Scope·DECADE 등으로 <b>본인</b> Strokes Gained를 재서, 가장 손해 보는 카테고리로 <b>10–15%p 더 옮기세요</b>. "통념 말고 데이터로 배분하라"가 브로디 연구의 진짜 메시지입니다.</li>
+    <li><b>구간 안에서도 우선순위</b> — 어프로치는 <b>100–175yd</b>, 숏게임은 <b>30–100yd 웨지</b>가 아마추어 최대 누수 구간.</li>
+    <li><b>반복수 ≠ 시간</b> — 퍼팅·칩은 분당 반복이 많아 짧은 %로도 반복량이 쌓입니다. 롱게임은 레인지 시간을 넉넉히.</li>
+    <li><b>고핸디의 '연습'엔 코스매니지먼트 포함</b> — 3퍼트·페널티 줄이기가 스윙 교정만큼 스코어를 낮춥니다.</li>
+  </ol>
+</div>
+
+<div class="disc">
+  <b>배분 근거 —</b> Broadie (2012)는 PGA 투어 데이터로 "롱게임이 스코어 차의 약 2/3, 어프로치가 최대 변별 요인, 퍼팅은 통념보다 작음"을 밝혔고, 핸디캡별 세부는 같은 방법을 아마추어에 적용한 <i>Every Shot Counts</i>(2014) 데이터에 근거합니다.
+  위 %는 <b>연습시간 배분의 가이드라인</b>이며, 개인의 실제 약점·연습 환경에 따라 조정하세요.
+</div>
+
+<div class="brand"><img src="assets/mascot.png" alt="마미손 골프 마스코트">
+  <a class="brand-ig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>
+    @mummys_hand_golf</a>
+</div>
+</div></body></html>
