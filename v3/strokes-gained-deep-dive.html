@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Broadie(2012) Strokes Gained 논문 심층 분석 — 공식·기대타수 기준선·롱게임 2/3·타이거 우즈 분해.">
+<meta name="description" content="Broadie(2012) Strokes Gained 논문 심층 분석 — 공식·기대타수 기준선·롱게임 2/3·타이거 분해·PGA 투어 4분할 프레임.">
 <title>Strokes Gained 심층 분석 — Broadie (2012)</title>
 </head>
 <body>
@@ -246,6 +246,26 @@ table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
 .footer{padding:40px 0 0;text-align:center}
 .footer p{font-size:13px;color:var(--muted)}
 .footer .big{font-family:var(--mono);font-weight:800;color:var(--ink);font-size:15px;letter-spacing:.02em;margin-bottom:6px}
+
+/* 4-category framework */
+.defs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px}
+.defs .mini .h .dot{width:11px;height:11px}
+.defs .mini .tag{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--muted);
+  letter-spacing:.06em;display:block;margin-top:8px}
+.eras{display:flex;flex-direction:column;gap:16px;margin-top:8px}
+.era{display:grid;grid-template-columns:154px 1fr;gap:16px;align-items:center}
+.era .elab b{display:block;font-family:var(--mono);font-weight:800;color:var(--ink);font-size:13.5px}
+.era .elab span{font-size:11.5px;color:var(--muted);line-height:1.4;display:block;margin-top:2px}
+.mapb{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.mapb .row{display:flex;gap:5px}
+.mapb .cell{flex:none;display:flex;align-items:center;justify-content:center;height:38px;border-radius:9px;
+  color:#fff;font-family:var(--mono);font-size:11.5px;font-weight:700;white-space:nowrap;padding:0 6px;text-align:center;line-height:1.15}
+.mapb .tags{display:flex;gap:5px}
+.mapb .tags span{flex:none;font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center}
+.mapb .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+@media(max-width:820px){.defs{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.era{grid-template-columns:1fr;gap:8px}}
+@media(max-width:480px){.defs{grid-template-columns:1fr}}
 
 /* theme toggle */
 .tt{position:fixed;top:16px;right:16px;z-index:50;width:42px;height:42px;border-radius:50%;
@@ -530,9 +550,101 @@ table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
     </div>
   </section>
 
-  <!-- ================= 6. 해석 ================= -->
+  <!-- ================= 6. 4분할 프레임 ================= -->
   <section>
-    <span class="eyebrow">06 — 해석 · 함의</span>
+    <span class="eyebrow">06 — 4분할 프레임</span>
+    <h2>롱·숏을 넷으로 쪼개다</h2>
+    <p class="sec-intro mt16">2012년 논문의 뼈대는 <strong>3분할(롱게임·숏게임·퍼팅)</strong>이었다. 이후 Broadie의 저서 『Every Shot Counts』(2014)와 PGA 투어는 이를 더 실용적인 <strong>4분할</strong>로 표준화했다: 롱게임을 <strong>오프더티</strong>와 <strong>어프로치</strong>로 나누고, 숏게임을 <strong>어라운드그린</strong>(그린 30야드 이내)으로 재정의한 것. 오늘날 중계·스탯·베팅이 쓰는 바로 그 체계다.</p>
+
+    <div class="defs">
+      <div class="mini">
+        <div class="h"><span class="dot" style="background:var(--long)"></span>오프더티 · OTT</div>
+        <p>파4·파5의 <strong>티샷</strong>. 드라이버 거리와 정확성을 함께 측정.</p>
+        <span class="tag">SG: Off-the-Tee</span>
+      </div>
+      <div class="mini">
+        <div class="h"><span class="dot" style="background:var(--appr)"></span>어프로치 · APP</div>
+        <p>티샷(파4/5)이 아니고 그린 <strong>30야드 밖</strong>인 샷 + 파3 티샷. 스코어의 최대 변수.</p>
+        <span class="tag">SG: Approach</span>
+      </div>
+      <div class="mini">
+        <div class="h"><span class="dot" style="background:var(--short)"></span>어라운드그린 · ARG</div>
+        <p>그린 엣지 <strong>30야드 이내</strong>의 칩·피치·벙커샷. 그린 위 샷은 제외.</p>
+        <span class="tag">SG: Around-the-Green</span>
+      </div>
+      <div class="mini">
+        <div class="h"><span class="dot" style="background:var(--putt)"></span>퍼팅 · PUTT</div>
+        <p>그린 위 스트로크. 남은 거리별 <strong>기대 퍼트 수</strong> 대비로 평가.</p>
+        <span class="tag">SG: Putting</span>
+      </div>
+    </div>
+    <p class="disc" style="margin-top:12px"><strong>합산 관계</strong> — 티투그린(T2G) = OTT + APP + ARG · <strong>총 획득 타수(Total)</strong> = T2G + 퍼팅.</p>
+
+    <div class="card mt24">
+      <h3>3분할 → 4분할, 어떻게 대응되나</h3>
+      <div class="mapb">
+        <div>
+          <div class="lbl">2012 논문 · 3분할</div>
+          <div class="row">
+            <div class="cell" style="background:var(--long);width:58%">롱게임 · 100yd 밖</div>
+            <div class="cell" style="background:var(--short);width:26%">숏게임</div>
+            <div class="cell" style="background:var(--putt);width:16%">퍼팅</div>
+          </div>
+        </div>
+        <div>
+          <div class="lbl">오늘날 투어 · 4분할</div>
+          <div class="row">
+            <div class="cell" style="background:var(--long);width:29%">오프더티</div>
+            <div class="cell" style="background:var(--appr);width:29%">어프로치</div>
+            <div class="cell" style="background:var(--short);width:26%">어라운드그린</div>
+            <div class="cell" style="background:var(--putt);width:16%">퍼팅</div>
+          </div>
+        </div>
+      </div>
+      <p class="disc" style="margin-top:12px">경계는 완전히 같지 않다. 논문의 숏게임은 <strong>100야드 이내</strong>, 4분할의 어라운드그린은 <strong>30야드 이내</strong>다. 그래서 <strong>30–100야드</strong> 구간 샷은 4분할에서 <strong>어프로치</strong>로 들어간다(위 폭은 개념 비교용).</p>
+    </div>
+
+    <div class="chart-wrap mt24">
+      <div class="ctitle">4분할 기여도 — 두 시대 비교</div>
+      <div class="csub">상위권 선수가 필드 평균 대비 벌어들인 우위의 카테고리별 구성비</div>
+      <div class="eras">
+        <div class="era">
+          <div class="elab"><b>2004–2012</b><span>Broadie · 상위 40명</span></div>
+          <div class="hbar" role="img" aria-label="2004~2012 상위40명: 오프더티 28퍼센트, 어프로치 약 40퍼센트, 어라운드그린 약 17퍼센트, 퍼팅 15퍼센트">
+            <div class="seg" style="background:var(--long);width:28%">28%</div>
+            <div class="seg" style="background:var(--appr);width:40%">~40%</div>
+            <div class="seg" style="background:var(--short);width:17%">~17%</div>
+            <div class="seg" style="background:var(--putt);width:15%">15%</div>
+          </div>
+        </div>
+        <div class="era">
+          <div class="elab"><b>2018 시즌</b><span>상위 40명 · +1.53타/라운드</span></div>
+          <div class="hbar" role="img" aria-label="2018 상위40명: 오프더티 32퍼센트, 어프로치 36퍼센트, 어라운드그린 17퍼센트, 퍼팅 14퍼센트">
+            <div class="seg" style="background:var(--long);width:32%">32%</div>
+            <div class="seg" style="background:var(--appr);width:36%">36%</div>
+            <div class="seg" style="background:var(--short);width:17%">17%</div>
+            <div class="seg" style="background:var(--putt);width:14%">14%</div>
+          </div>
+        </div>
+      </div>
+      <div class="legend">
+        <span class="li"><span class="sw" style="background:var(--long)"></span>오프더티</span>
+        <span class="li"><span class="sw" style="background:var(--appr)"></span>어프로치</span>
+        <span class="li"><span class="sw" style="background:var(--short)"></span>어라운드그린</span>
+        <span class="li"><span class="sw" style="background:var(--putt)"></span>퍼팅</span>
+      </div>
+      <p class="disc">두 시대 모두 <strong>롱게임(OTT+APP) ≈ 2/3</strong>, <strong>퍼팅 ≈ 14–15%</strong>. 어프로치·오프더티 비중은 조금씩 달라도 “긴 샷이 스코어를 가른다”는 결론은 안정적이다. (2004–12의 OTT 28%·퍼팅 15%는 보고값, 어프로치·어라운드그린 세부는 근사.)</p>
+    </div>
+
+    <div class="callout mt24">
+      <div class="lab">The Real King</div>
+      <p>4분할로 쪼개 보면 단일 최대 항목은 거의 언제나 <span class="hot">어프로치(APP)</span>다. “퍼트가 돈을 번다”가 아니라, <strong>150야드 안팎에서 핀에 얼마나 붙이느냐</strong>가 프로들의 서열을 만든다.</p>
+    </div>
+  </section>
+
+  <!-- ================= 7. 해석 ================= -->
+  <section>
+    <span class="eyebrow">07 — 해석 · 함의</span>
     <h2>이 논문이 바꾼 것</h2>
     <div class="stack mt16">
       <p class="sec-intro">Strokes Gained는 단순한 통계가 아니라 <strong>공통 언어</strong>가 되었다. 선수는 연습 우선순위를, 코치는 약점을, 캐디는 코스 전략을, 방송은 경기 흐름을, 도박·팬은 승률을 — 모두 같은 “타수” 단위로 말하게 됐다. 무엇보다 <strong>상대적 벤치마크(투어 평균)</strong>라는 발상이 핵심이다: 절대 점수가 아니라 “같은 상황의 평균 대비 얼마나 잘했나”가 실력을 드러낸다.</p>
@@ -545,7 +657,7 @@ table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
 
   <!-- ================= 7. 유산 ================= -->
   <section>
-    <span class="eyebrow">07 — 유산 · 영향</span>
+    <span class="eyebrow">08 — 유산 · 영향</span>
     <h2>학술 논문에서 스포츠 표준으로</h2>
     <ul class="tl mt16">
       <li><div class="yr">2011.05</div><div class="ti">PGA 투어, ‘Strokes Gained: Putting’ 공식 채택</div><p>퍼팅 측정 지표로 투어가 정식 도입. 학계 아이디어가 실무 표준이 된 순간.</p></li>
@@ -557,7 +669,7 @@ table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
 
   <!-- ================= 8. 한계 ================= -->
   <section>
-    <span class="eyebrow">08 — 한계 · 유의점</span>
+    <span class="eyebrow">09 — 한계 · 유의점</span>
     <h2>무엇을 조심해서 읽을까</h2>
     <div class="stack mt16">
       <div class="limit"><div class="lab">표본의 특수성</div><p>대상은 PGA 투어 <strong>엘리트</strong>. 기준선이 투어 평균이라, 아마추어 스윙·전략에 그대로 일반화하기 어렵다(아마추어는 롱게임 격차가 더 벌어지는 경향).</p></div>
@@ -569,7 +681,7 @@ table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
 
   <!-- ================= 9. 출처 ================= -->
   <section style="border-bottom:none">
-    <span class="eyebrow">09 — 인용 · 출처</span>
+    <span class="eyebrow">10 — 인용 · 출처</span>
     <h2>원문과 참고자료</h2>
     <div class="card mt16">
       <p style="font-size:15px;line-height:1.7"><strong>Broadie, M. (2012).</strong> Assessing Golfer Performance on the PGA TOUR. <i>Interfaces</i>, 42(2), 146–165. <span class="mono">https://doi.org/10.1287/inte.1120.0626</span></p>
@@ -581,6 +693,8 @@ table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
       <p><span class="n">[2]</span> Broadie, M. <i>Every Shot Counts</i> (2014) — 기대타수 기준선 표의 대중서 버전</p>
       <p><span class="n">[3]</span> Golf.com, <a href="https://golf.com/travel/the-man-with-two-brains-stokes-gained-guru-mark-broadies-pioneering-analytics-have-radically-altered-the-game/" target="_blank" rel="noopener">“The Man With Two Brains” — Broadie 프로필</a></p>
       <p><span class="n">[4]</span> Broadie, M. <i>Putts Gained: Measuring Putting on the PGA TOUR</i> (Columbia) — 퍼팅 SG 세부</p>
+      <p><span class="n">[5]</span> PGA TOUR, <a href="https://www.pgatour.com/stats/strokes-gained" target="_blank" rel="noopener">Strokes Gained Categories</a> — 4분할(OTT·APP·ARG·Putting) 공식 정의</p>
+      <p><span class="n">[6]</span> The R&A, <i>Components of Superior Professional Golf Scoring, 1983–2018</i> — 2018 시즌 상위40명 4분할 기여도(+1.53타/라운드)</p>
     </div>
     <p class="disc">본 페이지의 계산 예시·기준선 수치는 논문의 결론과 Broadie의 공개 기준선을 바탕으로 한 대표값이며, 소수점 단위는 자료·시점에 따라 달라질 수 있습니다.</p>
   </section>
