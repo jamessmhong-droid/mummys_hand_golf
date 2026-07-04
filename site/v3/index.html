@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="V3 · 논문 딥다이브 — 골프 경기력 핵심 연구를 한 편씩 깊게 파헤치는 심층판 목차.">
+<title>V3 · 논문 딥다이브 — 골프 경기력 핵심 연구</title>
+<style>
+:root{
+  --bg:#FBF1F4;--bg2:#F6E7EC;--surface:#FFFFFF;--surface2:#FFF7FA;
+  --ink:#1A0C12;--ink2:#4A2E3A;--muted:#7B5B69;--faint:#A98A97;
+  --line:#EFD3DE;--hot:#FF1E88;--hot-deep:#D80F70;--hot-soft:#FFE3F0;
+  --long:#D10E6E;--short:#0E8C7A;--putt:#4A57C4;--appr:#B87400;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);--shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+  --radius:16px;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,"JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Pretendard","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#140A10;--bg2:#1B0F16;--surface:#20131A;--surface2:#291923;
+  --ink:#FCEDF3;--ink2:#E4C6D2;--muted:#BE99A9;--faint:#8A6675;
+  --line:#3A2530;--hot:#FF4DA0;--hot-deep:#FF2E90;--hot-soft:#3A1526;
+  --long:#E7418E;--short:#1EBBA0;--putt:#8A94F0;--appr:#E0A33A;
+  --shadow:0 14px 40px -22px rgba(0,0,0,.7);--shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+}}
+:root[data-theme="light"]{
+  --bg:#FBF1F4;--bg2:#F6E7EC;--surface:#FFFFFF;--surface2:#FFF7FA;
+  --ink:#1A0C12;--ink2:#4A2E3A;--muted:#7B5B69;--faint:#A98A97;
+  --line:#EFD3DE;--hot:#FF1E88;--hot-deep:#D80F70;--hot-soft:#FFE3F0;
+  --long:#D10E6E;--short:#0E8C7A;--putt:#4A57C4;--appr:#B87400;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);--shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+}
+:root[data-theme="dark"]{
+  --bg:#140A10;--bg2:#1B0F16;--surface:#20131A;--surface2:#291923;
+  --ink:#FCEDF3;--ink2:#E4C6D2;--muted:#BE99A9;--faint:#8A6675;
+  --line:#3A2530;--hot:#FF4DA0;--hot-deep:#FF2E90;--hot-soft:#3A1526;
+  --long:#E7418E;--short:#1EBBA0;--putt:#8A94F0;--appr:#E0A33A;
+  --shadow:0 14px 40px -22px rgba(0,0,0,.7);--shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(120% 55% at 100% -10%,var(--bg2) 0%,transparent 60%);}
+::selection{background:var(--hot);color:#fff}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 110px}
+
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--hot-deep);display:inline-flex;align-items:center;gap:9px}
+.eyebrow::before{content:"";width:9px;height:9px;background:var(--hot);border-radius:2px;box-shadow:0 0 0 4px var(--hot-soft)}
+.back{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12.5px;font-weight:600;
+  color:var(--muted);text-decoration:none;padding:28px 0 0}
+.back:hover{color:var(--hot-deep)}
+
+.hero{padding:20px 0 34px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{margin-bottom:18px}
+h1{font-size:clamp(30px,5.4vw,50px);font-weight:900;letter-spacing:-.03em;line-height:1.08;text-wrap:balance;margin:0 0 16px}
+h1 span{color:var(--hot-deep)}
+.hero p{font-size:clamp(15.5px,2vw,18px);color:var(--ink2);max-width:62ch}
+.hero p b{color:var(--ink);font-weight:750}
+.vbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.vpill{font-family:var(--mono);font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+.vpill b{color:var(--hot-deep);font-weight:700}
+.vpill.cur{background:var(--ink);color:#fff;border-color:var(--ink)}
+:root[data-theme="dark"] .vpill.cur{background:#0C0509}
+@media(prefers-color-scheme:dark){.vpill.cur{background:#0C0509}}
+.vpill.cur b{color:var(--hot)}
+
+.secline{display:flex;align-items:baseline;gap:12px;margin:40px 0 16px}
+.secline .n{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--hot-deep);
+  text-transform:uppercase;white-space:nowrap}
+.secline h2{font-size:18px;font-weight:850;letter-spacing:-.01em;color:var(--ink)}
+.secline .rule{flex:1;height:1px;background:var(--line)}
+.secline .count{font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+
+/* featured */
+.feat{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:26px 28px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;
+  transition:transform .16s ease,box-shadow .16s ease}
+.feat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;
+  background:linear-gradient(var(--long),var(--appr),var(--short),var(--putt))}
+.feat:hover{transform:translateY(-4px);box-shadow:0 30px 66px -30px rgba(180,20,95,.6)}
+.feat .ftop{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.feat .no{font-family:var(--mono);font-weight:800;font-size:13px;color:#fff;background:var(--hot);
+  padding:3px 10px;border-radius:7px}
+.feat .live{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--short);
+  display:inline-flex;align-items:center;gap:6px}
+.feat .live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--short);box-shadow:0 0 0 3px color-mix(in srgb,var(--short) 25%,transparent)}
+.feat .part{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em}
+.feat h3{font-size:clamp(20px,3vw,26px);font-weight:850;letter-spacing:-.02em;line-height:1.25;margin-bottom:8px}
+.feat .cite{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-bottom:12px}
+.feat .desc{font-size:15px;color:var(--ink2);margin-bottom:16px;max-width:60ch}
+.feat .chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+.feat .chip{font-family:var(--mono);font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:8px;
+  background:var(--surface2);border:1px solid var(--line);color:var(--ink2)}
+.feat .chip b{color:var(--hot-deep)}
+.feat .go{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:14px;color:var(--hot-deep)}
+.feat:hover .go{gap:12px}
+
+/* roadmap rows */
+.rows{display:flex;flex-direction:column;gap:10px}
+.row{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:14px;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;
+  box-shadow:var(--shadow);opacity:.82}
+.row .rn{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--faint);text-align:center}
+.row .rt{font-size:14.5px;font-weight:700;color:var(--ink2);line-height:1.35}
+.row .rc{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin-top:2px}
+.row .soon{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);
+  background:var(--surface2);border:1px solid var(--line);padding:5px 10px;border-radius:999px;white-space:nowrap}
+
+.foot{margin-top:52px;padding-top:24px;border-top:1px solid var(--line);text-align:center}
+.foot p{font-size:12.5px;color:var(--muted);line-height:1.7}
+.foot .big{font-family:var(--mono);font-weight:800;color:var(--ink);font-size:14px;letter-spacing:.02em;margin-bottom:6px}
+
+.tt{position:fixed;top:16px;right:16px;z-index:50;width:42px;height:42px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:18px;transition:transform .15s}
+.tt:hover{transform:scale(1.08)}
+.tt:focus-visible{outline:2px solid var(--hot);outline-offset:3px}
+
+@media(max-width:560px){
+  .row{grid-template-columns:36px 1fr;gap:10px}
+  .row .soon{grid-column:2;justify-self:start;margin-top:4px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<button class="tt" id="tt" aria-label="라이트/다크 모드 전환" title="테마 전환">◐</button>
+
+<div class="wrap">
+  <a class="back" href="../index.html">← 세 가지 버전으로 돌아가기</a>
+
+  <header class="hero">
+    <span class="eyebrow">Version 3 · 논문 딥다이브</span>
+    <h1>한 편을<br><span>끝까지 파고든다</span></h1>
+    <p><b>V3는 논문 한 편을 통째로 해부하는 심층판이다.</b> V1(카드 요약)·V2(근거 자료집)가 20편을 훑는다면, V3는 개념·공식·데이터·차트·한계까지 한 논문을 깊게 들어간다. 아래에서 완성된 딥다이브를 보고, 나머지는 순차적으로 추가된다.</p>
+    <div class="vbar">
+      <a class="vpill" href="../golf-research-summary.html" style="text-decoration:none"><b>V1</b> 카드용 요약</a>
+      <a class="vpill" href="../v2/golf-research-v2.html" style="text-decoration:none"><b>V2</b> 근거 자료집</a>
+      <span class="vpill cur"><b>V3</b> 딥다이브 · 현재</span>
+    </div>
+  </header>
+
+  <div class="secline">
+    <span class="n">지금 보기</span>
+    <span class="rule"></span>
+    <span class="count">1편 공개</span>
+  </div>
+
+  <a class="feat" href="strokes-gained-deep-dive.html">
+    <div class="ftop">
+      <span class="no">No.11</span>
+      <span class="live">LIVE</span>
+      <span class="part">PART 02 · 경기력·데이터</span>
+    </div>
+    <h3>PGA 투어 선수 경기력 평가 — Strokes Gained</h3>
+    <div class="cite">Broadie, M. (2012) · Interfaces 42(2), 146–165 · DOI 10.1287/inte.1120.0626</div>
+    <p class="desc">모든 샷을 ‘기대 타수’로 환산해 골프를 측정의 스포츠로 바꾼 논문. 공식·기대타수 곡선·워크드 예시부터 롱게임 2/3 발견, 타이거 우즈 분해, PGA 투어 4분할(OTT·APP·ARG·퍼팅) 프레임까지.</p>
+    <div class="chips">
+      <span class="chip"><b>⅔</b> 롱게임 기여도</span>
+      <span class="chip"><b>800만+</b> 샷 (ShotLink)</span>
+      <span class="chip"><b>3.20</b> 타이거 우위</span>
+      <span class="chip">4분할 프레임</span>
+    </div>
+    <span class="go">딥다이브 열기 →</span>
+  </a>
+
+  <div class="secline">
+    <span class="n">딥다이브 예정 · PART 02</span>
+    <span class="rule"></span>
+    <span class="count">경기력·데이터</span>
+  </div>
+  <div class="rows">
+    <div class="row"><div class="rn">12</div><div><div class="rt">Search for the Perfect Swing</div><div class="rc">Cochran, A. & Stobbs, J. (1968)</div></div><span class="soon">준비 중</span></div>
+    <div class="row"><div class="rn">13</div><div><div class="rt">골프 스윙 중 근활성(EMG)</div><div class="rc">McHardy, A. & Pollard, H. (2005)</div></div><span class="soon">준비 중</span></div>
+    <div class="row"><div class="rn">16</div><div><div class="rt">프로·아마추어 스윙 운동학 비교</div><div class="rc">Zheng, N., Barrentine, S.W., Fleisig, G.S. 외 (2008)</div></div><span class="soon">준비 중</span></div>
+    <div class="row"><div class="rn">17</div><div><div class="rt">엘리트 골프: 결과·기술·신체의 관계</div><div class="rc">Hellström, J. (2009)</div></div><span class="soon">준비 중</span></div>
+    <div class="row"><div class="rn">18</div><div><div class="rt">고숙련 골퍼의 근력·유연성·균형</div><div class="rc">Sell, T.C., Tsai, Y.-S., Smoliga, J.M. 외 (2007)</div></div><span class="soon">준비 중</span></div>
+    <div class="row"><div class="rn">19</div><div><div class="rt">골프 경기력 개발에서 생리학의 역할</div><div class="rc">Smith, M. F. (2010)</div></div><span class="soon">준비 중</span></div>
+    <div class="row"><div class="rn">20</div><div><div class="rt">트레이닝을 통한 부상 예방·경기력 향상</div><div class="rc">Meira, E.P. & Brumitt, J. (2010)</div></div><span class="soon">준비 중</span></div>
+  </div>
+
+  <div class="secline">
+    <span class="n">딥다이브 예정 · PART 01</span>
+    <span class="rule"></span>
+    <span class="count">생체역학·스윙</span>
+  </div>
+  <div class="rows">
+    <div class="row"><div class="rn">1</div><div><div class="rt">비거리·정확성을 극대화하는 생체역학의 역할</div><div class="rc">Hume, P., Keogh, J. & Reid, D. (2005)</div></div><span class="soon">준비 중</span></div>
+    <div class="row"><div class="rn">2</div><div><div class="rt">8주 골프 특화 운동 프로그램의 효과</div><div class="rc">Lephart, S.M., Smoliga, J.M., Myers, J.B. 외 (2007)</div></div><span class="soon">준비 중</span></div>
+    <div class="row"><div class="rn">3</div><div><div class="rt">드라이빙에서 상체·골반 회전의 역할</div><div class="rc">Myers, J., Lephart, S., Tsai, Y.-S. 외 (2008)</div></div><span class="soon">준비 중</span></div>
+    <div class="row"><div class="rn">4</div><div><div class="rt">다운스윙에서 X-Factor Stretch의 중요성</div><div class="rc">Cheetham, P.J., Martin, P.E., Mottram, R.E. 외 (2001)</div></div><span class="soon">준비 중</span></div>
+    <div class="row"><div class="rn">5</div><div><div class="rt">핸디캡 10 이하 골퍼의 엉덩이·어깨 회전</div><div class="rc">Burden, A.M., Grimshaw, P.N. & Wallace, E.S. (1998)</div></div><span class="soon">준비 중</span></div>
+    <div class="row"><div class="rn">6</div><div><div class="rt">골프 워밍업과 부상·수행</div><div class="rc">Fradkin, A.J., Sherman, C.A. & Finch, C.F. (2004)</div></div><span class="soon">준비 중</span></div>
+    <div class="row"><div class="rn">7</div><div><div class="rt">골프 스윙의 일·파워 분석 (모델링)</div><div class="rc">Nesbit, S.M. & Serrano, M. (2005)</div></div><span class="soon">준비 중</span></div>
+    <div class="row"><div class="rn">8</div><div><div class="rt">생체역학 변수와 드라이빙 수행의 관계</div><div class="rc">Chu, Y., Sell, T.C. & Lephart, S.M. (2010)</div></div><span class="soon">준비 중</span></div>
+    <div class="row"><div class="rn">9</div><div><div class="rt">골프 스윙의 움직임 변동성 (이론·방법론)</div><div class="rc">Glazier, P. (2011)</div></div><span class="soon">준비 중</span></div>
+    <div class="row"><div class="rn">10</div><div><div class="rt">퍼팅 생체역학 — 골반·몸통의 기여</div><div class="rc">Delphinus, E.M. & Sayers, M.G.L. (2012)</div></div><span class="soon">준비 중</span></div>
+  </div>
+
+  <div class="foot">
+    <p class="big">STROKES GAINED · V3 DEEP DIVE INDEX</p>
+    <p>총 18편 중 1편 공개 · 나머지는 순차 추가 예정 · 골프 경기력 핵심 연구</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('tt');
+  function cur(){var t=root.getAttribute('data-theme');if(t)return t;
+    return (window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';}
+  btn.textContent=cur()==='dark'?'☀':'◐';
+  btn.addEventListener('click',function(){
+    var n=cur()==='dark'?'light':'dark';root.setAttribute('data-theme',n);
+    btn.textContent=n==='dark'?'☀':'◐';
+  });
+})();
+</script>
+</body>
+</html>
