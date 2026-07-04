@@ -512,6 +512,18 @@ def card(card_id):
 cardsA = "\n".join(card(i) for i in partA)
 cardsB = "\n".join(card(i) for i in partB)
 
+# Hero image: drop a file at assets/hero.<ext> and it replaces the placeholder.
+import glob as _glob
+_hero = sorted(_glob.glob(os.path.join(OUT, "assets", "hero.*")))
+_herorel = "assets/" + os.path.basename(_hero[0]) if _hero else "assets/hero.jpg"
+# Always emit the <img>; if the file is missing at view time, onerror falls
+# back to the dashed placeholder — so simply dropping assets/hero.jpg later works.
+imgspot = (
+    f'<div class="imgspot has-img"><img src="{_herorel}" '
+    f'alt="핑크 스키마스크를 쓴 골프공 마스코트" '
+    f"onerror=\"var p=this.parentNode;p.classList.remove('has-img');"
+    f"p.innerHTML='이미지 자리<br>(assets/hero.jpg 추가 시 자동 표시)'\"></div>")
+
 index = f"""<!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -524,6 +536,8 @@ index = f"""<!DOCTYPE html>
 .hero h1 span{{color:var(--hot)}}
 .hero p{{margin-top:16px;color:var(--muted);font-size:16px;max-width:620px;margin-left:auto;margin-right:auto}}
 .imgspot{{margin:36px auto 0;max-width:360px;aspect-ratio:3/4;background:repeating-linear-gradient(135deg,var(--bg-soft) 0 14px,var(--white) 14px 28px);border:2px dashed var(--hot);border-radius:20px;display:flex;align-items:center;justify-content:center;color:var(--hot-deep);font-weight:700;font-size:14px;text-align:center;padding:20px}}
+.imgspot.has-img{{background:none;border:none;padding:0;overflow:hidden;box-shadow:0 16px 38px -18px rgba(230,15,115,.55)}}
+.imgspot.has-img img{{width:100%;height:100%;object-fit:cover;display:block}}
 .sec{{margin-top:72px}}
 .sec-head{{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}}
 .sec-num{{font-size:15px;font-weight:900;color:#fff;background:var(--ink);padding:4px 12px;border-radius:8px;letter-spacing:.05em}}
@@ -552,7 +566,7 @@ index = f"""<!DOCTYPE html>
     <span class="kicker">GOLF PERFORMANCE · RESEARCH</span>
     <h1>골프 경기력을 만든<br><span>핵심 연구 20선</span></h1>
     <p>비거리·정확성·퍼팅·부상예방까지 — 학술적으로 영향력 있는 논문 20편의 핵심 발견을 한눈에 정리했습니다. 각 카드를 누르면 상세 요약으로 이동합니다.</p>
-    <div class="imgspot">이미지 자리<br>(누끼 작업 후 삽입)</div>
+    {imgspot}
   </header>
   <section class="sec">
     <div class="sec-head"><span class="sec-num">PART 01</span><h2>생체역학 · 스윙 메커니즘 10선</h2></div>
