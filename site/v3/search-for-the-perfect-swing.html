@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Cochran & Stobbs(1968) Search for the Perfect Swing 스페셜 종합판 — 이중진자·임팩트·공기역학·샤프트장비·해부생리·토너먼트통계 6대 영역.">
+<meta name="description" content="Search for the Perfect Swing 스페셜 — 6대 영역 + 키네마틱 시퀀스.">
 <title>Search for the Perfect Swing 심층 분석 — Cochran & Stobbs (1968)</title>
 </head>
 <body>
@@ -544,6 +544,24 @@ table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
         <span class="chip" style="background:var(--hot);color:#fff;border-color:var(--hot)">클럽헤드</span>
       </div>
     </div>
+
+    <div class="chart-wrap mt24">
+      <div class="ctitle">키네마틱 시퀀스 — 봉우리가 순서대로, 갈수록 빠르게</div>
+      <div class="csub">다운스윙 중 각 마디의 회전 각속도(deg/s) · 골반 → 몸통 → 팔 → 클럽 순으로 피크</div>
+      <svg id="chart-kseq" viewBox="0 0 380 240" aria-label="골반·몸통·팔·클럽의 각속도가 순서대로 피크에 도달하는 키네마틱 시퀀스 곡선"></svg>
+      <div class="legend">
+        <span class="li"><span class="sw" style="background:var(--putt)"></span>골반</span>
+        <span class="li"><span class="sw" style="background:var(--short)"></span>몸통</span>
+        <span class="li"><span class="sw" style="background:var(--appr)"></span>팔</span>
+        <span class="li"><span class="sw" style="background:var(--long)"></span>클럽</span>
+      </div>
+      <p class="disc">대표값(3D 계측 연구 종합). 핵심은 <strong>순서와 가속</strong> — 골반이 먼저 터지고 감속하며 몸통→팔→클럽으로 속도를 넘긴다. 특히 <strong>팔→클럽 구간에서 속도가 두 배 이상</strong> 뛴다.</p>
+    </div>
+    <div class="callout mt24">
+      <div class="lab">Pros vs Amateurs</div>
+      <p>프로는 네 봉우리가 <strong>골반 → 몸통 → 팔 → 클럽</strong> 순서로 깔끔하게 뜬다. 아마추어는 <span class="hot">팔·클럽이 먼저</span> 터져 순서가 무너진다 — 그게 바로 #12의 <strong>캐스팅</strong>. “늦은 릴리스”란 결국 <strong>순서를 지키는 것</strong>이다. 사슬의 첫 스프링은 골반–몸통의 회전 차이(<strong>X-Factor</strong>, 컬렉션 #4)에서 나온다.</p>
+    </div>
+
     <div class="two mt24">
       <div class="mini"><div class="h"><span class="dot" style="background:var(--long)"></span>근육 · 파워</div><p>다리·등·몸통의 <strong>큰 근육</strong>이 대부분의 파워를 낸다. 손목·손의 작은 근육은 힘보다 <strong>타이밍과 방향</strong> 담당.</p></div>
       <div class="mini"><div class="h"><span class="dot" style="background:var(--putt)"></span>생리 · 제어(사이버네틱스)</div><p>지구력·유연성·협응과 함께, 뇌·신경의 <strong>타이밍 제어</strong>(사이버네틱스)를 스윙 학습의 관점에서 다뤘다.</p></div>
@@ -699,7 +717,7 @@ table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
     series.forEach(function(s){var col=css(s.color), d='';
       s.data.forEach(function(p,i){d+=(i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)+' ';});
       var last=s.data[s.data.length-1], first=s.data[0];
-      out+='<path d="'+d+'L'+X(last[0]).toFixed(1)+' '+Y(ys[0]).toFixed(1)+' L'+X(first[0]).toFixed(1)+' '+Y(ys[0]).toFixed(1)+' Z" fill="'+col+'" opacity="0.08"/>';
+      if(!opts.noArea) out+='<path d="'+d+'L'+X(last[0]).toFixed(1)+' '+Y(ys[0]).toFixed(1)+' L'+X(first[0]).toFixed(1)+' '+Y(ys[0]).toFixed(1)+' Z" fill="'+col+'" opacity="0.08"/>';
       out+='<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>';
       out+='<circle cx="'+X(last[0]).toFixed(1)+'" cy="'+Y(last[1]).toFixed(1)+'" r="4" fill="'+col+'" stroke="'+css('--surface')+'" stroke-width="2"/>';
       s.data.forEach(function(p){out+='<circle cx="'+X(p[0]).toFixed(1)+'" cy="'+Y(p[1]).toFixed(1)+'" r="2.6" fill="'+col+'"><title>'+p[0]+'mph → '+p[1]+'y</title></circle>';});
@@ -707,9 +725,19 @@ table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
     svg.innerHTML=out;
   }
   var dist=[[80,205],[90,232],[100,260],[110,290],[120,320]];
+  var kseq={
+    pelvis:[[0,0],[20,180],[35,420],[45,500],[60,380],[80,180],[100,90]],
+    thorax:[[10,0],[35,350],[55,650],[62,720],[75,560],[90,300],[100,180]],
+    arm:[[25,0],[50,600],[68,1000],[76,1100],[86,820],[95,520],[100,400]],
+    club:[[45,0],[70,700],[85,1600],[92,2200],[98,1850],[100,1550]]
+  };
   function draw(){
     line('chart-dist',[{data:dist,color:'--long'}],
       {x:[75,122],y:[190,330],xticks:[80,90,100,110,120],yticks:[200,240,280,320],xlabel:'헤드 스피드 (mph)'});
+    line('chart-kseq',[
+      {data:kseq.pelvis,color:'--putt'},{data:kseq.thorax,color:'--short'},
+      {data:kseq.arm,color:'--appr'},{data:kseq.club,color:'--long'}],
+      {x:[0,100],y:[0,2400],xticks:[0,50,100],yticks:[0,800,1600,2400],xlabel:'다운스윙 진행(%) → 임팩트',noArea:true});
   }
   draw();
   if(window.matchMedia){var mq=window.matchMedia('(prefers-color-scheme:dark)');

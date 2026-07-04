@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="운동 사슬 & 키네마틱 시퀀스 테마 딥다이브 — 순차 가속·지면반력·X-Factor·후속연구.">
+<title>운동 사슬 & 키네마틱 시퀀스 — 몸이 만드는 클럽 스피드</title>
+</head>
+<body>
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#FBF1F4; --bg2:#F6E7EC; --surface:#FFFFFF; --surface2:#FFF7FA;
+  --ink:#1A0C12; --ink2:#4A2E3A; --muted:#7B5B69; --faint:#A98A97;
+  --line:#EFD3DE; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#D80F70; --hot-soft:#FFE3F0;
+  /* data */
+  --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
+  --gain:#0E9E86; --loss:#E24A38;
+  --grid:#F0DCE4; --axis:#C9AEBB;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);
+  --shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+  --radius:16px;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,"JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Pretendard","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#140A10; --bg2:#1B0F16; --surface:#20131A; --surface2:#291923;
+    --ink:#FCEDF3; --ink2:#E4C6D2; --muted:#BE99A9; --faint:#8A6675;
+    --line:#3A2530; --line2:#301E28;
+    --hot:#FF4DA0; --hot-deep:#FF2E90; --hot-soft:#3A1526;
+    --long:#E7418E; --short:#1EBBA0; --putt:#8A94F0; --appr:#E0A33A;
+    --gain:#22C3A5; --loss:#FF6D57;
+    --grid:#2E1E28; --axis:#5A3F4C;
+    --shadow:0 14px 40px -22px rgba(0,0,0,.7);
+    --shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="light"]{
+  --bg:#FBF1F4; --bg2:#F6E7EC; --surface:#FFFFFF; --surface2:#FFF7FA;
+  --ink:#1A0C12; --ink2:#4A2E3A; --muted:#7B5B69; --faint:#A98A97;
+  --line:#EFD3DE; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#D80F70; --hot-soft:#FFE3F0;
+  --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
+  --gain:#0E9E86; --loss:#E24A38; --grid:#F0DCE4; --axis:#C9AEBB;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);
+  --shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+}
+:root[data-theme="dark"]{
+  --bg:#140A10; --bg2:#1B0F16; --surface:#20131A; --surface2:#291923;
+  --ink:#FCEDF3; --ink2:#E4C6D2; --muted:#BE99A9; --faint:#8A6675;
+  --line:#3A2530; --line2:#301E28;
+  --hot:#FF4DA0; --hot-deep:#FF2E90; --hot-soft:#3A1526;
+  --long:#E7418E; --short:#1EBBA0; --putt:#8A94F0; --appr:#E0A33A;
+  --gain:#22C3A5; --loss:#FF6D57; --grid:#2E1E28; --axis:#5A3F4C;
+  --shadow:0 14px 40px -22px rgba(0,0,0,.7);
+  --shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.72;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  background-image:radial-gradient(120% 60% at 100% -10%,var(--bg2) 0%,transparent 60%);}
+.sg-doc{max-width:960px;margin:0 auto;padding:0 20px 120px;}
+::selection{background:var(--hot);color:#fff}
+
+/* ============ TYPE ============ */
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--hot-deep);display:inline-flex;align-items:center;gap:9px}
+.eyebrow::before{content:"";width:9px;height:9px;background:var(--hot);border-radius:2px;box-shadow:0 0 0 4px var(--hot-soft)}
+h1{font-size:clamp(34px,6.2vw,60px);font-weight:900;letter-spacing:-.03em;line-height:1.06;
+  text-wrap:balance;margin:0}
+h2{font-size:clamp(22px,3.4vw,30px);font-weight:850;letter-spacing:-.02em;line-height:1.2;text-wrap:balance}
+h3{font-size:18px;font-weight:800;letter-spacing:-.01em;line-height:1.35}
+p{font-size:16.5px;color:var(--ink2);text-wrap:pretty}
+strong{color:var(--ink);font-weight:750}
+.hot{color:var(--hot-deep)}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono)}
+
+/* ============ HERO ============ */
+.hero{padding:64px 0 40px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{margin-bottom:22px}
+.hero h1{margin-bottom:20px}
+.hero .lede{font-size:clamp(17px,2.4vw,20px);color:var(--ink2);max-width:60ch;line-height:1.6}
+.hero .lede b{color:var(--ink);font-weight:750}
+.cite-line{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:26px;line-height:1.7}
+.cite-line b{color:var(--ink)}
+.doi{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-family:var(--mono);
+  font-size:12.5px;font-weight:600;text-decoration:none;color:var(--hot-deep);
+  background:var(--surface);border:1.5px solid var(--hot);padding:6px 13px;border-radius:999px;
+  transition:background .15s,color .15s}
+.doi:hover{background:var(--hot);color:#fff}
+
+/* thesis card */
+.thesis{margin-top:38px;display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px 28px;box-shadow:var(--shadow)}
+.thesis .big{font-family:var(--mono);font-weight:800;font-size:clamp(52px,11vw,86px);
+  line-height:.9;color:var(--hot-deep);letter-spacing:-.04em}
+.thesis .big small{display:block;font-size:14px;letter-spacing:.05em;color:var(--muted);margin-top:10px;font-weight:600}
+.thesis .txt{font-size:16.5px;color:var(--ink2)}
+.thesis .txt b{color:var(--ink)}
+
+/* ============ STAT BAND ============ */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:34px 0 8px}
+.stat{background:var(--surface);padding:20px 16px;text-align:center}
+.stat .v{font-family:var(--mono);font-size:clamp(22px,3.4vw,29px);font-weight:800;color:var(--ink);
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.stat .v .u{font-size:.55em;color:var(--hot-deep);margin-left:1px}
+.stat .k{font-size:12px;color:var(--muted);margin-top:9px;line-height:1.3}
+
+/* ============ SECTIONS ============ */
+section{padding:52px 0;border-bottom:1px solid var(--line)}
+section > .eyebrow{margin-bottom:16px}
+section > h2{margin-bottom:14px}
+.sec-intro{font-size:16.5px;color:var(--ink2);max-width:66ch;margin-bottom:8px}
+.stack{display:flex;flex-direction:column;gap:22px}
+.mt24{margin-top:24px}.mt16{margin-top:16px}
+
+/* card */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px 26px;box-shadow:var(--shadow)}
+.card.tint{background:var(--surface2)}
+.card h3{margin-bottom:10px}
+.card p{font-size:15.5px}
+
+/* formula */
+.formula{background:var(--ink);color:#fff;border-radius:var(--radius);padding:26px 26px;box-shadow:var(--shadow-lg)}
+:root[data-theme="dark"] .formula{background:#0C0509;border:1px solid var(--line)}
+@media(prefers-color-scheme:dark){.formula{background:#0C0509;border:1px solid var(--line)}}
+.formula .lab{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--hot);font-weight:600}
+.formula .eq{font-family:var(--mono);font-size:clamp(14px,2.6vw,19px);font-weight:600;margin-top:16px;line-height:1.9;
+  letter-spacing:-.01em;overflow-x:auto;white-space:nowrap;padding-bottom:6px}
+.formula .eq b{color:#fff}
+.formula .eq .a{color:#7BE0CF}.formula .eq .b{color:#FFB4D8}.formula .eq .c{color:#FFD98A}
+.formula .note{font-size:14px;color:#E9C6D4;margin-top:16px;line-height:1.65}
+.formula .note b{color:#fff}
+
+/* shot field diagram */
+.field{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 22px 16px;box-shadow:var(--shadow);overflow-x:auto}
+.field .cap{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.field svg{display:block;width:100%;min-width:560px;height:auto}
+
+/* worked example calculators */
+.calc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.calc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px;box-shadow:var(--shadow)}
+.calc .t{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:4px;line-height:1.35}
+.calc .d{font-size:12.5px;color:var(--muted);margin-bottom:14px;min-height:34px}
+.calc .row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12.5px;
+  padding:5px 0;border-bottom:1px dashed var(--line);color:var(--ink2)}
+.calc .row span:last-child{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.calc .res{margin-top:14px;display:flex;align-items:baseline;justify-content:space-between;
+  background:var(--surface2);border-radius:10px;padding:11px 14px}
+.calc .res .lab{font-size:11px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.calc .res .val{font-family:var(--mono);font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
+.calc .res .val.pos{color:var(--gain)}
+
+/* charts */
+.chart-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px 18px;box-shadow:var(--shadow)}
+.chart-wrap .ctitle{font-size:15px;font-weight:800;color:var(--ink)}
+.chart-wrap .csub{font-size:13px;color:var(--muted);margin-top:2px;margin-bottom:16px}
+.chart-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px}
+.legend .li{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink2);font-weight:600}
+.legend .sw{width:11px;height:11px;border-radius:3px;flex:none}
+.axl{font-family:var(--mono);font-size:10.5px;fill:var(--axis)}
+.axtitle{font-family:var(--mono);font-size:10.5px;fill:var(--muted);letter-spacing:.08em}
+
+/* horizontal stacked bar */
+.hbar{display:flex;height:44px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.hbar .seg{display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--mono);
+  font-size:12.5px;font-weight:700;white-space:nowrap;position:relative}
+.hbar .seg + .seg{box-shadow:inset 2px 0 0 var(--surface)}
+.barrow{display:grid;grid-template-columns:96px 1fr 58px;align-items:center;gap:12px;margin:9px 0}
+.barrow .nm{font-size:13.5px;font-weight:700;color:var(--ink);text-align:right}
+.barrow .track{background:var(--bg2);border-radius:7px;height:26px;overflow:hidden;position:relative}
+.barrow .fill{height:100%;border-radius:7px 0 0 7px;display:block}
+.barrow .vv{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* data table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+table.dt{width:100%;border-collapse:collapse;background:var(--surface);font-size:14px;min-width:480px}
+table.dt th{background:var(--ink);color:#fff;padding:11px 12px;text-align:center;font-weight:700;
+  font-family:var(--mono);font-size:12px;letter-spacing:.03em}
+:root[data-theme="dark"] table.dt th{background:#0C0509}
+@media(prefers-color-scheme:dark){table.dt th{background:#0C0509}}
+table.dt td{padding:10px 12px;text-align:center;border-bottom:1px solid var(--line);
+  font-variant-numeric:tabular-nums;color:var(--ink2)}
+table.dt td:first-child{text-align:left;font-weight:700;color:var(--ink);font-family:var(--mono);font-size:13px}
+table.dt tbody tr:last-child td{border-bottom:none}
+table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
+
+/* callout / take / limit */
+.callout{border-left:4px solid var(--hot);background:var(--surface);border-radius:0 14px 14px 0;
+  padding:18px 22px;box-shadow:var(--shadow)}
+.callout .lab{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--hot-deep);font-weight:600;margin-bottom:7px}
+.callout p{font-size:16px}
+.take{background:var(--ink);color:#fff;border-radius:var(--radius);padding:24px 26px;box-shadow:var(--shadow-lg)}
+:root[data-theme="dark"] .take{background:#0C0509;border:1px solid var(--line)}
+@media(prefers-color-scheme:dark){.take{background:#0C0509;border:1px solid var(--line)}}
+.take .lab{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--hot);font-weight:600;margin-bottom:10px}
+.take p{font-size:18px;font-weight:650;color:#fff;line-height:1.55}
+.take p b{color:var(--hot)}
+.limit{border-left:4px solid var(--ink2);background:var(--surface);border-radius:0 14px 14px 0;padding:16px 20px}
+:root[data-theme="dark"] .limit{border-left-color:var(--muted)}
+@media(prefers-color-scheme:dark){.limit{border-left-color:var(--muted)}}
+.limit .lab{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);font-weight:700;margin-bottom:5px}
+.limit p{font-size:14.5px}
+
+/* two-col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mini{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.mini .h{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.mini .h .dot{width:9px;height:9px;border-radius:50%;flex:none}
+.mini p{font-size:14px;color:var(--ink2)}
+.mini ul{margin:6px 0 0;padding-left:18px}
+.mini li{font-size:13.5px;color:var(--ink2);margin:4px 0}
+
+/* method chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{font-family:var(--mono);font-size:12px;font-weight:600;background:var(--surface2);
+  color:var(--hot-deep);border:1px solid var(--line);padding:6px 12px;border-radius:8px}
+
+/* timeline */
+.tl{list-style:none;position:relative;padding-left:26px;margin-top:6px}
+.tl::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl li{position:relative;padding:0 0 20px 8px}
+.tl li::before{content:"";position:absolute;left:-24px;top:4px;width:12px;height:12px;border-radius:50%;
+  background:var(--hot);box-shadow:0 0 0 4px var(--hot-soft)}
+.tl .yr{font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--hot-deep)}
+.tl .ti{font-size:15px;font-weight:750;color:var(--ink);margin:2px 0 3px}
+.tl p{font-size:14px}
+
+/* sources */
+.src{font-size:13.5px;color:var(--muted);line-height:1.85}
+.src a{color:var(--hot-deep);text-decoration:none;border-bottom:1px solid var(--line)}
+.src a:hover{border-bottom-color:var(--hot)}
+.src .n{font-family:var(--mono);color:var(--faint);margin-right:6px}
+
+.footer{padding:40px 0 0;text-align:center}
+.footer p{font-size:13px;color:var(--muted)}
+.footer .big{font-family:var(--mono);font-weight:800;color:var(--ink);font-size:15px;letter-spacing:.02em;margin-bottom:6px}
+
+/* 4-category framework */
+.defs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px}
+.defs .mini .h .dot{width:11px;height:11px}
+.defs .mini .tag{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--muted);
+  letter-spacing:.06em;display:block;margin-top:8px}
+.eras{display:flex;flex-direction:column;gap:16px;margin-top:8px}
+.era{display:grid;grid-template-columns:154px 1fr;gap:16px;align-items:center}
+.era .elab b{display:block;font-family:var(--mono);font-weight:800;color:var(--ink);font-size:13.5px}
+.era .elab span{font-size:11.5px;color:var(--muted);line-height:1.4;display:block;margin-top:2px}
+.mapb{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.mapb .row{display:flex;gap:5px}
+.mapb .cell{flex:none;display:flex;align-items:center;justify-content:center;height:38px;border-radius:9px;
+  color:#fff;font-family:var(--mono);font-size:11.5px;font-weight:700;white-space:nowrap;padding:0 6px;text-align:center;line-height:1.15}
+.mapb .tags{display:flex;gap:5px}
+.mapb .tags span{flex:none;font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center}
+.mapb .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+@media(max-width:820px){.defs{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.era{grid-template-columns:1fr;gap:8px}}
+@media(max-width:480px){.defs{grid-template-columns:1fr}}
+
+/* theme toggle */
+.tt{position:fixed;top:16px;right:16px;z-index:50;width:42px;height:42px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:18px;
+  transition:transform .15s}
+.tt:hover{transform:scale(1.08)}
+.tt:focus-visible{outline:2px solid var(--hot);outline-offset:3px}
+
+.disc{font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:10px;line-height:1.6}
+
+@media(max-width:720px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats .stat:last-child{grid-column:1 / -1}
+  .thesis{grid-template-columns:1fr;gap:14px;text-align:left}
+  .calc-grid{grid-template-columns:1fr}
+  .two{grid-template-columns:1fr}
+  .barrow{grid-template-columns:76px 1fr 46px;gap:8px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+
+<button class="tt" id="tt" aria-label="라이트/다크 모드 전환" title="테마 전환">◐</button>
+
+<div class="sg-doc">
+<style>
+.findings{list-style:none;counter-reset:f;margin:0;padding:0}
+.findings li{counter-increment:f;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 16px 15px 52px;margin-bottom:11px;font-size:15px;line-height:1.6;position:relative;box-shadow:var(--shadow)}
+.findings li::before{content:counter(f);position:absolute;left:14px;top:14px;width:26px;height:26px;background:var(--hot);color:#fff;font-weight:900;font-size:13px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.findings b{color:var(--hot-deep)}
+.xlink{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--hot);border-radius:0 14px 14px 0;padding:16px 18px;box-shadow:var(--shadow);margin-bottom:10px;transition:transform .15s}
+.xlink:hover{transform:translateX(3px)}
+.xlink .t{font-weight:800;font-size:15px;color:var(--ink);display:flex;gap:8px;align-items:center}
+.xlink .d{font-size:13.5px;color:var(--muted);margin-top:4px}
+.xlink .st{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;padding:3px 8px;border-radius:999px;margin-left:auto}
+.xlink .st.live{background:var(--hot);color:#fff}
+.xlink .st.soon{background:var(--surface2);color:var(--muted);border:1px solid var(--line)}
+</style>
+
+  <!-- HERO -->
+  <header class="hero">
+    <span class="eyebrow">Deep Dive · V3 · THEME · Golf Biomechanics</span>
+    <h1>몸이 만드는<br>클럽 스피드</h1>
+    <p class="lede">골프 스윙의 힘은 팔이 아니라 <b>발밑에서</b> 시작된다. 지면 → 골반 → 몸통 → 팔 → 클럽으로 이어지는 <b>운동 사슬(kinetic chain)</b>이 몸의 회전을 헤드 스피드로 증폭한다. 1968년 『Perfect Swing』이 직관한 이 원리를, 반세기의 3D 계측이 <b>그래프로 증명</b>했다.</p>
+    <div class="cite-line">
+      <b>THEME 딥다이브</b> · 운동 사슬 · 키네마틱 시퀀스 · 지면반력 · X-Factor<br>
+      단일 논문이 아니라 <b>수십 년 후속 연구</b>를 종합한 테마 편 · 컬렉션 #3·#4·#7·#12·#16 연결
+    </div>
+
+    <div class="thesis">
+      <div class="big">×2<small>팔 → 클럽 속도 점프</small></div>
+      <div class="txt">잘 치는 스윙은 네 마디(<b>골반·몸통·팔·클럽</b>)가 <b>순서대로</b> 터지고, 각 마디는 스스로 감속하며 다음으로 속도를 넘긴다. 그 릴레이의 마지막, <b>팔에서 클럽으로 넘어갈 때 속도가 두 배 이상</b> 폭발한다 — 채찍의 끝처럼.</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="v num">4<span class="u">마디</span></div><div class="k">골반·몸통·팔·클럽 릴레이</div></div>
+      <div class="stat"><div class="v num">~2200<span class="u">°/s</span></div><div class="k">클럽 피크 각속도(대표값)</div></div>
+      <div class="stat"><div class="v num">지면</div><div class="k">사슬의 출발점(GRF)</div></div>
+      <div class="stat"><div class="v num">P→D</div><div class="k">몸통→말단 순차 가속</div></div>
+      <div class="stat"><div class="v num">3D</div><div class="k">모캡·포스플레이트로 정량화</div></div>
+    </div>
+    <p class="disc">※ 각속도 수치는 3D 계측 연구들의 대표값이며, 선수·측정법에 따라 달라진다.</p>
+  </header>
+
+  <!-- 1 요약 -->
+  <section>
+    <span class="eyebrow">01 — 한 줄 요약</span>
+    <h2>“팔로 치는 게 아니다” — 온몸의 릴레이</h2>
+    <p class="sec-intro mt16">헤드 스피드는 한 근육의 힘이 아니라 <strong>여러 마디가 순서대로 속도를 쌓아 올린</strong> 결과다. 큰 근육(다리·몸통)이 먼저 큰 운동량을 만들고, 그것을 팔·손목·클럽이라는 <strong>가볍고 빠른 말단</strong>으로 차례차례 넘긴다. 이 “<strong>운동 사슬</strong>”은 야구 투구·테니스 서브·창던지기와 같은 원리이며, 골프 생체역학에서 가장 활발히 연구된 주제다.</p>
+    <div class="chips mt16">
+      <a class="chip" href="#s-whip" style="text-decoration:none">① 채찍 원리</a>
+      <a class="chip" href="#s-seq" style="text-decoration:none">② 키네마틱 시퀀스</a>
+      <a class="chip" href="#s-grf" style="text-decoration:none">③ 지면반력</a>
+      <a class="chip" href="#s-x" style="text-decoration:none">④ X-Factor·분리</a>
+      <a class="chip" href="#s-pro" style="text-decoration:none">⑤ 프로 vs 아마추어</a>
+      <a class="chip" href="#s-research" style="text-decoration:none">⑥ 후속 연구</a>
+    </div>
+  </section>
+
+  <!-- 2 채찍 원리 -->
+  <section id="s-whip">
+    <span class="eyebrow">02 — 채찍 원리</span>
+    <h2>속도 합산의 법칙 (summation of speed)</h2>
+    <p class="sec-intro mt16">핵심 물리는 <strong>‘속도 합산의 법칙’</strong>. 최대 속도를 내려면 움직임은 <strong>크고 무거운 몸통(proximal)에서 시작해 작고 가벼운 말단(distal)</strong>으로 이어져야 하고, 각 마디는 다음 마디가 가속하는 순간 <strong>스스로 감속</strong>해 운동량을 넘긴다. 채찍 손잡이를 멈추면 끝이 폭발하는 것과 같은 원리다.</p>
+    <div class="field mt24">
+      <div class="cap">운동량 전달 — 각 마디가 감속하며 다음을 가속</div>
+      <svg viewBox="0 0 720 150" role="img" aria-label="골반에서 몸통 팔 클럽으로 속도가 커지며 전달되는 채찍 다이어그램">
+        <line x1="40" y1="95" x2="680" y2="95" stroke="var(--line)" stroke-width="2"/>
+        <g font-family="var(--mono)" text-anchor="middle">
+          <circle cx="90" cy="95" r="20" fill="var(--putt)" opacity="0.9"/><text x="90" y="99" font-size="11" fill="#fff" font-weight="700">골반</text>
+          <circle cx="255" cy="95" r="17" fill="var(--short)" opacity="0.9"/><text x="255" y="99" font-size="11" fill="#fff" font-weight="700">몸통</text>
+          <circle cx="420" cy="95" r="13" fill="var(--appr)" opacity="0.95"/><text x="420" y="99" font-size="10" fill="#fff" font-weight="700">팔</text>
+          <circle cx="600" cy="95" r="9" fill="var(--long)"/><text x="600" y="122" font-size="11" fill="var(--muted)">클럽</text>
+          <!-- transfer arrows with growing size -->
+          <g fill="none" stroke="var(--gain)" stroke-width="2.4">
+            <path d="M116 78 q 35 -22 65 0"/><path d="M281 74 q 40 -26 72 0"/><path d="M441 70 q 55 -30 100 0"/>
+          </g>
+          <g fill="var(--gain)">
+            <polygon points="181,78 172,70 173,82"/><polygon points="353,74 344,66 345,79"/><polygon points="541,70 531,62 533,75"/>
+          </g>
+          <text x="148" y="55" font-size="10" fill="var(--muted)">전달</text>
+          <text x="490" y="44" font-size="10" fill="var(--gain)" font-weight="700">속도 급증</text>
+        </g>
+      </svg>
+    </div>
+    <p style="font-size:15px;color:var(--ink2)">마디가 작아질수록(관성이 작아질수록) 같은 운동량이 <strong>더 큰 속도</strong>로 나타난다. 그래서 사슬의 끝(클럽)에서 속도가 폭발한다.</p>
+  </section>
+
+  <!-- 3 키네마틱 시퀀스 -->
+  <section id="s-seq">
+    <span class="eyebrow">03 — 키네마틱 시퀀스</span>
+    <h2>봉우리가 순서대로, 갈수록 빠르게</h2>
+    <p class="sec-intro mt16">3D 모션캡처가 보여주는 스윙의 지문. 각 마디의 회전 각속도를 시간축에 그리면, 잘 치는 선수는 <strong>골반 → 몸통 → 팔 → 클럽</strong> 순서로 피크가 뜨고, 각 피크는 앞선 것보다 <strong>늦게, 그리고 더 빠르게</strong> 나타난다.</p>
+    <div class="chart-wrap mt24">
+      <div class="ctitle">이상적 키네마틱 시퀀스</div>
+      <div class="csub">다운스윙 중 각 마디의 회전 각속도(deg/s) · 대표값(3D 계측 연구 종합)</div>
+      <svg id="chart-kseq" viewBox="0 0 380 240" aria-label="골반 몸통 팔 클럽 각속도가 순서대로 피크에 도달하는 키네마틱 시퀀스"></svg>
+      <div class="legend">
+        <span class="li"><span class="sw" style="background:var(--putt)"></span>골반</span>
+        <span class="li"><span class="sw" style="background:var(--short)"></span>몸통</span>
+        <span class="li"><span class="sw" style="background:var(--appr)"></span>팔</span>
+        <span class="li"><span class="sw" style="background:var(--long)"></span>클럽</span>
+      </div>
+      <p class="disc">네 곡선이 <strong>왼쪽에서 오른쪽으로 차례로</strong> 솟고, 뒤로 갈수록 봉우리가 높다. 특히 <strong>팔→클럽에서 속도가 두 배 이상</strong> 뛴다 — 릴레이의 마지막 폭발.</p>
+    </div>
+  </section>
+
+  <!-- 4 지면반력 -->
+  <section id="s-grf">
+    <span class="eyebrow">04 — 지면반력 (GRF)</span>
+    <h2>사슬의 진짜 출발점은 땅이다</h2>
+    <p class="sec-intro mt16">운동 사슬의 첫 마디는 사실 <strong>지면</strong>이다. 발이 땅을 밀면 땅이 되밀어주는 <strong>지면반력(ground reaction force)</strong>이 사슬을 켠다. 포스플레이트 연구는 좋은 선수가 다운스윙에서 <strong>수직으로 강하게 밀어 올리고(‘점프’ 동작)</strong>, 동시에 <strong>회전 토크</strong>를 만든다는 걸 보여준다.</p>
+    <div class="field mt24">
+      <div class="cap">발이 땅을 밀면, 땅이 사슬을 켠다</div>
+      <svg viewBox="0 0 720 180" role="img" aria-label="지면반력의 수직·수평·회전 성분">
+        <line x1="40" y1="150" x2="680" y2="150" stroke="var(--line)" stroke-width="2"/>
+        <!-- feet -->
+        <rect x="300" y="140" width="120" height="12" rx="4" fill="var(--ink2)" opacity="0.3"/>
+        <!-- vertical force -->
+        <line x1="360" y1="150" x2="360" y2="40" stroke="var(--gain)" stroke-width="4"/>
+        <polygon points="360,32 351,50 369,50" fill="var(--gain)"/>
+        <text x="392" y="60" font-family="var(--mono)" font-size="12" font-weight="700" fill="var(--gain)" text-anchor="start">수직(‘점프’)</text>
+        <!-- horizontal -->
+        <line x1="360" y1="150" x2="470" y2="150" stroke="var(--appr)" stroke-width="4"/>
+        <polygon points="478,150 460,142 460,158" fill="var(--appr)"/>
+        <text x="486" y="150" font-family="var(--mono)" font-size="12" font-weight="700" fill="var(--appr)" text-anchor="start">수평(체중이동)</text>
+        <!-- rotation torque -->
+        <path d="M300 118 A 60 30 0 1 1 300 116" fill="none" stroke="var(--putt)" stroke-width="2.4"/>
+        <polygon points="300,116 292,106 306,108" fill="var(--putt)"/>
+        <text x="230" y="112" font-family="var(--mono)" font-size="12" font-weight="700" fill="var(--putt)" text-anchor="end">회전 토크</text>
+      </svg>
+    </div>
+    <p class="disc">세 성분(수직·수평·회전)이 골반을 돌리고, 그 회전이 사슬을 타고 올라간다. 최근 연구는 <strong>지면반력의 ‘임펄스’</strong>가 헤드 스피드의 핵심 동력임을 강조한다.</p>
+  </section>
+
+  <!-- 5 X-Factor -->
+  <section id="s-x">
+    <span class="eyebrow">05 — X-Factor · 분리</span>
+    <h2>첫 스프링 — 골반과 몸통의 회전 차이</h2>
+    <p class="sec-intro mt16">사슬을 팽팽하게 감는 첫 스프링은 <strong>골반과 어깨(몸통)의 회전 차이</strong>, 이른바 <strong>X-Factor</strong>다. 백스윙에서 골반보다 어깨를 더 돌려 만든 이 ‘비틀림’이, 다운스윙 초반 골반이 먼저 풀리며 더 커지는 <strong>X-Factor 스트레치</strong>가 되어 근육의 <strong>신장-단축 주기(stretch-shortening)</strong>로 탄성 에너지를 저장·방출한다.</p>
+    <div class="two mt24">
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--putt)"></span>X-Factor</div><p>백스윙 정점의 <strong>골반–어깨 분리각</strong>. 클수록 잠재적 파워가 크지만, 과하면 부상·재현성 저하.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--short)"></span>X-Factor 스트레치</div><p>다운스윙 초반 골반이 먼저 열리며 분리각이 <strong>더 벌어지는</strong> 순간 — 여기서 탄성 에너지가 실린다.</p></div>
+    </div>
+    <a class="xlink" href="../v3/index.html" style="margin-top:20px">
+      <div class="t">↝ 컬렉션 연결 · #4 X-Factor Stretch (Cheetham 2001)</div>
+      <div class="d">이 개념을 정면으로 실측한 논문. 다운스윙 초반의 분리각 증가가 수행과 연결된다.</div>
+    </a>
+  </section>
+
+  <!-- 6 프로 vs 아마추어 -->
+  <section id="s-pro">
+    <span class="eyebrow">06 — 프로 vs 아마추어</span>
+    <h2>차이는 힘이 아니라 순서다</h2>
+    <p class="sec-intro mt16">아마추어가 헤드 스피드를 잃는 가장 흔한 이유는 힘이 약해서가 아니라 <strong>순서가 무너져서</strong>다.</p>
+    <ol class="findings mt16">
+      <li><b>순서 붕괴(캐스팅)</b> — 팔·클럽이 골반·몸통보다 먼저 터진다. 위에서 속도를 다 써버려 임팩트에서 남는 게 없다.</li>
+      <li><b>분리 부족</b> — X-Factor가 작거나 스트레치가 없어 첫 스프링이 약하다.</li>
+      <li><b>에너지 누수</b> — 마디 사이 타이밍이 어긋나면 전달돼야 할 운동량이 새어 나간다(‘energy leak’).</li>
+      <li><b>지면 활용 부족</b> — 땅을 밀어 올리는 수직 힘을 못 써 사슬의 출발 동력이 약하다.</li>
+    </ol>
+    <div class="callout mt24">
+      <div class="lab">The Punchline</div>
+      <p>“늦은 릴리스(late hit)”란 신비한 손목 기술이 아니라, <span class="hot">사슬의 순서를 지키는 것</span>일 뿐이다 — 골반·몸통이 먼저, 팔·클럽은 나중에.</p>
+    </div>
+  </section>
+
+  <!-- 7 후속 연구 -->
+  <section id="s-research">
+    <span class="eyebrow">07 — 후속 연구 지형</span>
+    <h2>1968년의 직관이 폭발한 분야</h2>
+    <p class="sec-intro mt16">『Perfect Swing』이 “발밑에서 위로”라고 직관한 뒤, 이 주제는 골프 과학에서 가장 붐빈 영역이 됐다. 3D 모션캡처(GEARS·K-Vest), 포스플레이트, 근전도, 최적제어 모델이 사슬을 정량화했고, 오늘날 <strong>TPI</strong> 같은 지도 체계로 현장에 스몄다. 이 컬렉션 안에서도 여러 논문이 이 사슬의 조각들이다.</p>
+    <div class="mt24">
+      <a class="xlink" href="search-for-the-perfect-swing.html">
+        <div class="t">Search for the Perfect Swing (1968) <span class="st live">LIVE · No.12</span></div>
+        <div class="d">“발밑에서 위로”라는 온몸 동작을 처음 제시한 원류.</div>
+      </a>
+      <a class="xlink" href="../v3/index.html">
+        <div class="t">드라이빙에서 상체·골반 회전 (Myers 2008) <span class="st soon">#3 · 준비 중</span></div>
+        <div class="d">몸통 회전 속도와 볼스피드의 관계 — 사슬의 중간 마디.</div>
+      </a>
+      <a class="xlink" href="../v3/index.html">
+        <div class="t">X-Factor Stretch (Cheetham 2001) <span class="st soon">#4 · 준비 중</span></div>
+        <div class="d">첫 스프링(분리각 스트레치)을 실측.</div>
+      </a>
+      <a class="xlink" href="../v3/index.html">
+        <div class="t">스윙의 일·파워 분석 (Nesbit 2005) <span class="st soon">#7 · 준비 중</span></div>
+        <div class="d">사슬을 통해 몸이 클럽에 전달하는 일(work)·파워를 모델링.</div>
+      </a>
+      <a class="xlink" href="../v3/index.html">
+        <div class="t">프로·아마추어 스윙 운동학 비교 (Zheng 2008) <span class="st soon">#16 · 준비 중</span></div>
+        <div class="d">숙련도에 따른 시퀀스·타이밍 차이를 정량 비교.</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- 8 응용 -->
+  <section>
+    <span class="eyebrow">08 — 응용</span>
+    <h2>훈련·파워·부상 예방으로</h2>
+    <div class="two mt16">
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--hot)"></span>훈련</div><p>3D 시퀀스 피드백으로 <strong>순서</strong>를 교정. “천천히 시작해 늦게 릴리스” 드릴, 지면 밀기(‘점프’) 연습.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--short)"></span>파워</div><p>스피드는 근력만이 아니라 <strong>순서·타이밍</strong>에서도 나온다. 같은 힘이라도 시퀀스가 좋으면 더 빠르다.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--appr)"></span>부상 예방</div><p>사슬이 어긋나면 특정 마디(특히 <strong>허리</strong>)에 부하가 몰린다. 효율적 전달이 곧 부하 분산.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--putt)"></span>피트니스</div><p>회전 가동성·분리 능력·하체 파워를 기르면 사슬의 각 마디가 제 역할을 한다(TPI 스크리닝).</p></div>
+    </div>
+    <div class="take mt24">
+      <div class="lab">Bottom Line</div>
+      <p>헤드 스피드는 <b>힘의 크기</b>가 아니라 <b>순서의 정확함</b>에서 나온다 — 땅에서 시작해 골반·몸통·팔·클럽으로, 늦게 터질수록 빠르다.</p>
+    </div>
+  </section>
+
+  <!-- 9 한계 -->
+  <section>
+    <span class="eyebrow">09 — 한계 · 유의점</span>
+    <h2>무엇을 조심해서 읽을까</h2>
+    <div class="stack mt16">
+      <div class="limit"><div class="lab">‘이상적 순서’ 논쟁</div><p>깔끔한 골반→몸통→팔→클럽이 늘 최선인지는 논쟁적이다. 정상급 선수 중에도 <strong>변형된 시퀀스</strong>로 잘 치는 경우가 있다.</p></div>
+      <div class="limit"><div class="lab">개인차</div><p>체형·가동성·부상 이력에 따라 최적 패턴이 다르다. <strong>하나의 정답 시퀀스</strong>를 모두에게 강요하면 역효과.</p></div>
+      <div class="limit"><div class="lab">상관 ≠ 인과</div><p>좋은 시퀀스와 높은 스피드의 상관이 곧 “순서를 바꾸면 빨라진다”를 보장하진 않는다.</p></div>
+      <div class="limit"><div class="lab">측정 의존성</div><p>각속도 값은 <strong>모델·좌표계·계측 장비</strong>에 따라 크게 달라진다. 절대값보다 <strong>패턴</strong>으로 읽어야 한다.</p></div>
+    </div>
+  </section>
+
+  <!-- 10 출처 -->
+  <section style="border-bottom:none">
+    <span class="eyebrow">10 — 참고 · 출처</span>
+    <h2>테마를 이루는 연구들</h2>
+    <div class="src mt16">
+      <p><span class="n">[1]</span> Cochran &amp; Stobbs (1968), <i>Search for the Perfect Swing</i> — 온몸 동작·운동 사슬의 원류</p>
+      <p><span class="n">[2]</span> Cheetham et al. (2001), <i>X-Factor Stretch</i> — 다운스윙 초반 분리각 증가</p>
+      <p><span class="n">[3]</span> Nesbit &amp; Serrano (2005), <i>Work &amp; Power in the golf swing</i></p>
+      <p><span class="n">[4]</span> Zheng et al. (2008), <i>Kinematic comparison of pro vs amateur</i></p>
+      <p><span class="n">[5]</span> 키네마틱 시퀀스 · 지면반력 후속연구, <a href="https://www.researchgate.net/publication/252236426_Comparison_of_Kinematic_Sequence_Parameters_between_Amateur_and_Professional_Golfers" target="_blank" rel="noopener">Comparison of Kinematic Sequence (Amateur vs Pro)</a> · <a href="https://www.frontiersin.org/journals/sports-and-active-living/articles/10.3389/fspor.2026.1790645/full" target="_blank" rel="noopener">Foot–ground interaction &amp; clubhead speed (2026)</a></p>
+    </div>
+    <p class="disc">본 테마 편은 여러 연구를 종합한 개관이며, 각속도·힘 수치는 대표값입니다. 개별 수치는 원 연구·계측 방식에 따라 달라집니다.</p>
+  </section>
+
+  <div class="footer">
+    <p class="big">KINETIC CHAIN · V3 THEME DEEP DIVE</p>
+    <p>운동 사슬 · 키네마틱 시퀀스 · 골프 경기력 연구 심층 정리</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('tt');
+  function cur(){var t=root.getAttribute('data-theme');if(t)return t;
+    return (window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';}
+  btn.textContent=cur()==='dark'?'☀':'◐';
+  btn.addEventListener('click',function(){
+    var n=cur()==='dark'?'light':'dark';root.setAttribute('data-theme',n);
+    btn.textContent=n==='dark'?'☀':'◐';setTimeout(draw,20);
+  });
+  function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+  function line(id, series, opts){
+    var svg=document.getElementById(id); if(!svg)return;
+    var W=380,H=240, L=44,R=14,T=16,B=34;
+    var xs=opts.x, ys=opts.y;
+    function X(v){return L+(v-xs[0])/(xs[1]-xs[0])*(W-L-R);}
+    function Y(v){return T+(1-(v-ys[0])/(ys[1]-ys[0]))*(H-T-B);}
+    var out='';
+    opts.yticks.forEach(function(t){var y=Y(t);
+      out+='<line x1="'+L+'" y1="'+y+'" x2="'+(W-R)+'" y2="'+y+'" stroke="'+css('--grid')+'" stroke-width="1"/>';
+      out+='<text class="axl" x="'+(L-6)+'" y="'+(y+3)+'" text-anchor="end">'+t+'</text>';});
+    opts.xticks.forEach(function(t){
+      out+='<text class="axl" x="'+X(t)+'" y="'+(H-B+18)+'" text-anchor="middle">'+t+'</text>';});
+    out+='<text class="axtitle" x="'+((L+W-R)/2)+'" y="'+(H-2)+'" text-anchor="middle">'+opts.xlabel+'</text>';
+    series.forEach(function(s){var col=css(s.color), d='';
+      s.data.forEach(function(p,i){d+=(i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)+' ';});
+      var last=s.data[s.data.length-1];
+      out+='<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>';
+      out+='<circle cx="'+X(last[0]).toFixed(1)+'" cy="'+Y(last[1]).toFixed(1)+'" r="4" fill="'+col+'" stroke="'+css('--surface')+'" stroke-width="2"/>';
+    });
+    svg.innerHTML=out;
+  }
+  var kseq={
+    pelvis:[[0,0],[20,180],[35,420],[45,500],[60,380],[80,180],[100,90]],
+    thorax:[[10,0],[35,350],[55,650],[62,720],[75,560],[90,300],[100,180]],
+    arm:[[25,0],[50,600],[68,1000],[76,1100],[86,820],[95,520],[100,400]],
+    club:[[45,0],[70,700],[85,1600],[92,2200],[98,1850],[100,1550]]
+  };
+  function draw(){
+    line('chart-kseq',[
+      {data:kseq.pelvis,color:'--putt'},{data:kseq.thorax,color:'--short'},
+      {data:kseq.arm,color:'--appr'},{data:kseq.club,color:'--long'}],
+      {x:[0,100],y:[0,2400],xticks:[0,50,100],yticks:[0,800,1600,2400],xlabel:'다운스윙 진행(%) → 임팩트'});
+  }
+  draw();
+  if(window.matchMedia){var mq=window.matchMedia('(prefers-color-scheme:dark)');
+    mq.addEventListener&&mq.addEventListener('change',draw);}
+})();
+</script>
+</body>
+</html>
