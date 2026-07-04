@@ -415,6 +415,41 @@ body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Go
 """
 
 
+# ---------------------------------------------------------------
+# Branding: mascot favicon, Instagram footer, card corner watermark
+# ---------------------------------------------------------------
+IG_URL = "https://www.instagram.com/mummys_hand_golf/"
+IG_HANDLE = "@mummys_hand_golf"
+
+BRAND_CSS = """
+.brand{margin-top:56px;padding-top:26px;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:11px;text-align:center}
+.brand>img{width:48px;height:48px;filter:drop-shadow(0 6px 12px rgba(230,15,115,.35))}
+.brand-ig{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--hot-deep);text-decoration:none}
+.brand-ig:hover{color:var(--ink)}
+.cardwm{position:absolute;top:16px;right:16px;z-index:5;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.74);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 6px;text-decoration:none;box-shadow:0 4px 14px -6px rgba(230,15,115,.45)}
+.cardwm img{width:26px;height:26px}
+.cardwm span{font-size:12px;font-weight:800;color:var(--hot-deep);letter-spacing:.01em}
+"""
+
+def favicon_links(prefix):
+    return (f'<link rel="icon" type="image/png" href="{prefix}assets/favicon.png">'
+            f'<link rel="apple-touch-icon" href="{prefix}assets/mascot.png">')
+
+_IG_SVG = ('<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+           'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+           '<rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/>'
+           '<circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>')
+
+def brand_footer(prefix):
+    return (f'<div class="brand"><img src="{prefix}assets/mascot.png" alt="마미손 골프 마스코트">'
+            f'<a class="brand-ig" href="{IG_URL}" target="_blank" rel="noopener">'
+            f'{_IG_SVG}{IG_HANDLE}</a></div>')
+
+def card_watermark(prefix):
+    return (f'<a class="cardwm" href="{IG_URL}" target="_blank" rel="noopener" '
+            f'aria-label="Instagram {IG_HANDLE}"><img src="{prefix}assets/wm.png" alt="">'
+            f'<span>{IG_HANDLE}</span></a>')
+
 def detail_html(pid, p):
     tags = "".join(f'<span class="tag">{html.escape(t)}</span>' for t in p["tags"])
     findings = "".join(f'<li>{f}</li>' for f in p["findings"])
@@ -422,8 +457,9 @@ def detail_html(pid, p):
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(p['title'])} — 논문 요약</title>
-<style>{CSS}
-.wrap{{max-width:760px;margin:0 auto;padding:32px 22px 88px}}
+{favicon_links("../")}
+<style>{CSS}{BRAND_CSS}
+.wrap{{max-width:760px;margin:0 auto;padding:32px 22px 88px;position:relative}}
 .back{{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:var(--hot-deep);text-decoration:none;margin-bottom:26px}}
 .back:hover{{color:var(--ink)}}
 .part{{display:inline-block;background:var(--ink);color:var(--white);font-size:12px;font-weight:800;letter-spacing:.1em;padding:5px 13px;border-radius:999px}}
@@ -468,6 +504,7 @@ h3{{font-size:14px;font-weight:900;color:var(--ink);margin:0 0 10px;padding-bott
 @media(max-width:520px){{h1{{font-size:24px}}.wrap{{padding:24px 15px 64px}}}}
 </style></head>
 <body><div class="wrap">
+{card_watermark("../")}
 <a class="back" href="../golf-research-summary.html">← 전체 20선으로 돌아가기</a>
 <div><span class="part">{html.escape(p['part'])}</span></div>
 <h1>{html.escape(p['title'])}</h1>
@@ -480,6 +517,7 @@ h3{{font-size:14px;font-weight:900;color:var(--ink);margin:0 0 10px;padding-bott
 <section><h2>의의</h2><div class="box">{p['significance']}</div></section>
 <div class="take"><span>ONE-LINE TAKEAWAY</span>{p['takeaway']}</div>
 <div class="foot" style="margin-top:40px;text-align:center"><a href="../golf-research-summary.html" style="color:var(--hot-deep);font-weight:700;text-decoration:none;font-size:14px">← 목록으로</a></div>
+{brand_footer("../")}
 </div></body></html>"""
 
 for pid, p in papers.items():
@@ -528,7 +566,8 @@ index = f"""<!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>골프 경기력 핵심 연구 20선 — 요약</title>
-<style>{CSS}
+{favicon_links("")}
+<style>{CSS}{BRAND_CSS}
 .wrap{{max-width:920px;margin:0 auto;padding:56px 24px 96px}}
 .hero{{text-align:center;padding:40px 0 48px;border-bottom:3px solid var(--hot)}}
 .kicker{{display:inline-block;background:var(--hot);color:#fff;font-size:13px;font-weight:800;letter-spacing:.14em;padding:7px 16px;border-radius:999px;margin-bottom:22px}}
@@ -581,8 +620,8 @@ index = f"""<!DOCTYPE html>
   <div class="footnote">
     <b>참고 —</b> 인용 횟수는 Google Scholar 등 검색엔진·데이터베이스와 시점에 따라 달라지므로, 위 순서는 <b>인용 영향력 기준 대략적 순위</b>이며 수치는 추정치입니다.
     두 리스트에 겹치는 논문은 <b>Hume, Keogh &amp; Reid (2005)</b>와 <b>Myers 외 (2008)</b> 2편이며, 14·15번은 각각 1·3번 페이지로 연결됩니다.
-    <br><br><b>이미지 —</b> 상단 자리는 누끼 작업 완료 후 교체 예정입니다. (테마: 화이트에 가까운 핑크 · 핫핑크 · 화이트 · 블랙)
   </div>
+  {brand_footer("")}
 </div></body></html>"""
 
 with open(os.path.join(OUT, "golf-research-summary.html"), "w", encoding="utf-8") as f:
