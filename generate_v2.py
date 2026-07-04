@@ -121,6 +121,40 @@ h3{font-size:14px;font-weight:900;color:var(--ink);margin:0 0 10px;padding-botto
 @media(max-width:520px){h1{font-size:24px}.wrap{padding:24px 15px 64px}}
 """
 
+# ---- Branding: mascot favicon, Instagram footer, card corner watermark ----
+IG_URL = "https://www.instagram.com/mummys_hand_golf/"
+IG_HANDLE = "@mummys_hand_golf"
+
+BRAND_CSS = """
+.wrap{position:relative}
+.brand{margin-top:56px;padding-top:26px;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:11px;text-align:center}
+.brand>img{width:48px;height:48px;filter:drop-shadow(0 6px 12px rgba(230,15,115,.35))}
+.brand-ig{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--hot-deep);text-decoration:none}
+.brand-ig:hover{color:var(--ink)}
+.cardwm{position:absolute;top:16px;right:16px;z-index:5;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.74);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 6px;text-decoration:none;box-shadow:0 4px 14px -6px rgba(230,15,115,.45)}
+.cardwm img{width:26px;height:26px}
+.cardwm span{font-size:12px;font-weight:800;color:var(--hot-deep);letter-spacing:.01em}
+"""
+
+def favicon_links(prefix):
+    return (f'<link rel="icon" type="image/png" href="{prefix}assets/favicon.png">'
+            f'<link rel="apple-touch-icon" href="{prefix}assets/mascot.png">')
+
+_IG_SVG = ('<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+           'stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+           '<rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/>'
+           '<circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>')
+
+def brand_footer(prefix):
+    return (f'<div class="brand"><img src="{prefix}assets/mascot.png" alt="마미손 골프 마스코트">'
+            f'<a class="brand-ig" href="{IG_URL}" target="_blank" rel="noopener">'
+            f'{_IG_SVG}{IG_HANDLE}</a></div>')
+
+def card_watermark(prefix):
+    return (f'<a class="cardwm" href="{IG_URL}" target="_blank" rel="noopener" '
+            f'aria-label="Instagram {IG_HANDLE}"><img src="{prefix}assets/wm.png" alt="">'
+            f'<span>{IG_HANDLE}</span></a>')
+
 def detail(pid, p):
     st, caveat = meta.get(pid, ("연구",""))
     tags = "".join(f'<span class="tag">{esc(t)}</span>' for t in p["tags"])
@@ -130,7 +164,9 @@ def detail(pid, p):
     h.append("<!DOCTYPE html><html lang='ko'><head><meta charset='UTF-8'>")
     h.append("<meta name='viewport' content='width=device-width, initial-scale=1.0'>")
     h.append(f"<title>{esc(p['title'])} — 전문가용 (V2)</title>")
-    h.append(f"<style>{DETAIL_CSS}</style></head><body><div class='wrap'>")
+    h.append(favicon_links("../../"))
+    h.append(f"<style>{DETAIL_CSS}{BRAND_CSS}</style></head><body><div class='wrap'>")
+    h.append(card_watermark("../../"))
     h.append("<a class='back' href='../golf-research-v2.html'>← 근거 자료집(V2)으로 돌아가기</a>")
     h.append(f"<div><span class='part'>{esc(p['part'])} · No.{pid:02d}</span></div>")
     h.append(f"<h1>{esc(p['title'])}</h1>")
@@ -147,6 +183,7 @@ def detail(pid, p):
     h.append(f"<section><div class='limit'><span class='lab'>한계·유의 · Limitations</span>{esc(caveat)}</div></section>")
     h.append(f"<div class='take'><span>BOTTOM LINE</span>{esc(p['takeaway'])}</div>")
     h.append("<div class='foot'><a href='../golf-research-v2.html'>← 목록으로</a></div>")
+    h.append(brand_footer("../../"))
     h.append("</div></body></html>")
     return "".join(h)
 
@@ -242,7 +279,8 @@ ix = []
 ix.append("<!DOCTYPE html><html lang='ko'><head><meta charset='UTF-8'>")
 ix.append("<meta name='viewport' content='width=device-width, initial-scale=1.0'>")
 ix.append("<title>골프 경기력 핵심 연구 20선 — 전문가용 근거 자료집 (V2)</title>")
-ix.append(f"<style>{INDEX_CSS}</style></head><body><div class='wrap'>")
+ix.append(favicon_links("../"))
+ix.append(f"<style>{INDEX_CSS}{BRAND_CSS}</style></head><body><div class='wrap'>")
 ix.append("<header class='hero'><span class='kicker'>EVIDENCE DOSSIER · 전문가용</span>"
           "<h1>골프 경기력 핵심 연구 20선<br><span>— 근거 자료집</span></h1>"
           "<p>V1(카드용 요약)과 동일한 20편을, <b>연구 설계·표본·핵심 통계·한계</b>까지 담아 전문가용으로 재정리했습니다. "
@@ -258,6 +296,7 @@ ix.append(ref_bibliography())
 ix.append("<div class='footnote'><b>해석 유의 —</b> 리뷰/종설은 자체 표본이 없고, 단면·상관 연구는 인과를 함의하지 않으며, "
           "소표본·자가보고·특정 성별/숙련도 한정 연구는 일반화에 주의가 필요합니다. 각 상세 페이지의 '한계·유의'를 함께 참고하세요. "
           "인용 수는 데이터베이스·시점에 따라 달라집니다. 14·15번은 1·3번과 동일 논문(중복)입니다.</div>")
+ix.append(brand_footer("../"))
 ix.append("</div></body></html>")
 
 with open(os.path.join(V2, "golf-research-v2.html"), "w", encoding="utf-8") as f:
