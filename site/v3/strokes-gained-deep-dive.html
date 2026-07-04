@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Broadie(2012) Strokes Gained 논문 심층 분석 — 공식·기대타수 기준선·롱게임 2/3·타이거 우즈 분해.">
+<title>Strokes Gained 심층 분석 — Broadie (2012)</title>
+</head>
+<body>
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#FBF1F4; --bg2:#F6E7EC; --surface:#FFFFFF; --surface2:#FFF7FA;
+  --ink:#1A0C12; --ink2:#4A2E3A; --muted:#7B5B69; --faint:#A98A97;
+  --line:#EFD3DE; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#D80F70; --hot-soft:#FFE3F0;
+  /* data */
+  --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
+  --gain:#0E9E86; --loss:#E24A38;
+  --grid:#F0DCE4; --axis:#C9AEBB;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);
+  --shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+  --radius:16px;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,"JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Pretendard","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#140A10; --bg2:#1B0F16; --surface:#20131A; --surface2:#291923;
+    --ink:#FCEDF3; --ink2:#E4C6D2; --muted:#BE99A9; --faint:#8A6675;
+    --line:#3A2530; --line2:#301E28;
+    --hot:#FF4DA0; --hot-deep:#FF2E90; --hot-soft:#3A1526;
+    --long:#E7418E; --short:#1EBBA0; --putt:#8A94F0; --appr:#E0A33A;
+    --gain:#22C3A5; --loss:#FF6D57;
+    --grid:#2E1E28; --axis:#5A3F4C;
+    --shadow:0 14px 40px -22px rgba(0,0,0,.7);
+    --shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="light"]{
+  --bg:#FBF1F4; --bg2:#F6E7EC; --surface:#FFFFFF; --surface2:#FFF7FA;
+  --ink:#1A0C12; --ink2:#4A2E3A; --muted:#7B5B69; --faint:#A98A97;
+  --line:#EFD3DE; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#D80F70; --hot-soft:#FFE3F0;
+  --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
+  --gain:#0E9E86; --loss:#E24A38; --grid:#F0DCE4; --axis:#C9AEBB;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);
+  --shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+}
+:root[data-theme="dark"]{
+  --bg:#140A10; --bg2:#1B0F16; --surface:#20131A; --surface2:#291923;
+  --ink:#FCEDF3; --ink2:#E4C6D2; --muted:#BE99A9; --faint:#8A6675;
+  --line:#3A2530; --line2:#301E28;
+  --hot:#FF4DA0; --hot-deep:#FF2E90; --hot-soft:#3A1526;
+  --long:#E7418E; --short:#1EBBA0; --putt:#8A94F0; --appr:#E0A33A;
+  --gain:#22C3A5; --loss:#FF6D57; --grid:#2E1E28; --axis:#5A3F4C;
+  --shadow:0 14px 40px -22px rgba(0,0,0,.7);
+  --shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.72;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  background-image:radial-gradient(120% 60% at 100% -10%,var(--bg2) 0%,transparent 60%);}
+.sg-doc{max-width:960px;margin:0 auto;padding:0 20px 120px;}
+::selection{background:var(--hot);color:#fff}
+
+/* ============ TYPE ============ */
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--hot-deep);display:inline-flex;align-items:center;gap:9px}
+.eyebrow::before{content:"";width:9px;height:9px;background:var(--hot);border-radius:2px;box-shadow:0 0 0 4px var(--hot-soft)}
+h1{font-size:clamp(34px,6.2vw,60px);font-weight:900;letter-spacing:-.03em;line-height:1.06;
+  text-wrap:balance;margin:0}
+h2{font-size:clamp(22px,3.4vw,30px);font-weight:850;letter-spacing:-.02em;line-height:1.2;text-wrap:balance}
+h3{font-size:18px;font-weight:800;letter-spacing:-.01em;line-height:1.35}
+p{font-size:16.5px;color:var(--ink2);text-wrap:pretty}
+strong{color:var(--ink);font-weight:750}
+.hot{color:var(--hot-deep)}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono)}
+
+/* ============ HERO ============ */
+.hero{padding:64px 0 40px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{margin-bottom:22px}
+.hero h1{margin-bottom:20px}
+.hero .lede{font-size:clamp(17px,2.4vw,20px);color:var(--ink2);max-width:60ch;line-height:1.6}
+.hero .lede b{color:var(--ink);font-weight:750}
+.cite-line{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:26px;line-height:1.7}
+.cite-line b{color:var(--ink)}
+.doi{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-family:var(--mono);
+  font-size:12.5px;font-weight:600;text-decoration:none;color:var(--hot-deep);
+  background:var(--surface);border:1.5px solid var(--hot);padding:6px 13px;border-radius:999px;
+  transition:background .15s,color .15s}
+.doi:hover{background:var(--hot);color:#fff}
+
+/* thesis card */
+.thesis{margin-top:38px;display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px 28px;box-shadow:var(--shadow)}
+.thesis .big{font-family:var(--mono);font-weight:800;font-size:clamp(52px,11vw,86px);
+  line-height:.9;color:var(--hot-deep);letter-spacing:-.04em}
+.thesis .big small{display:block;font-size:14px;letter-spacing:.05em;color:var(--muted);margin-top:10px;font-weight:600}
+.thesis .txt{font-size:16.5px;color:var(--ink2)}
+.thesis .txt b{color:var(--ink)}
+
+/* ============ STAT BAND ============ */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:34px 0 8px}
+.stat{background:var(--surface);padding:20px 16px;text-align:center}
+.stat .v{font-family:var(--mono);font-size:clamp(22px,3.4vw,29px);font-weight:800;color:var(--ink);
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.stat .v .u{font-size:.55em;color:var(--hot-deep);margin-left:1px}
+.stat .k{font-size:12px;color:var(--muted);margin-top:9px;line-height:1.3}
+
+/* ============ SECTIONS ============ */
+section{padding:52px 0;border-bottom:1px solid var(--line)}
+section > .eyebrow{margin-bottom:16px}
+section > h2{margin-bottom:14px}
+.sec-intro{font-size:16.5px;color:var(--ink2);max-width:66ch;margin-bottom:8px}
+.stack{display:flex;flex-direction:column;gap:22px}
+.mt24{margin-top:24px}.mt16{margin-top:16px}
+
+/* card */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px 26px;box-shadow:var(--shadow)}
+.card.tint{background:var(--surface2)}
+.card h3{margin-bottom:10px}
+.card p{font-size:15.5px}
+
+/* formula */
+.formula{background:var(--ink);color:#fff;border-radius:var(--radius);padding:26px 26px;box-shadow:var(--shadow-lg)}
+:root[data-theme="dark"] .formula{background:#0C0509;border:1px solid var(--line)}
+@media(prefers-color-scheme:dark){.formula{background:#0C0509;border:1px solid var(--line)}}
+.formula .lab{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--hot);font-weight:600}
+.formula .eq{font-family:var(--mono);font-size:clamp(14px,2.6vw,19px);font-weight:600;margin-top:16px;line-height:1.9;
+  letter-spacing:-.01em;overflow-x:auto;white-space:nowrap;padding-bottom:6px}
+.formula .eq b{color:#fff}
+.formula .eq .a{color:#7BE0CF}.formula .eq .b{color:#FFB4D8}.formula .eq .c{color:#FFD98A}
+.formula .note{font-size:14px;color:#E9C6D4;margin-top:16px;line-height:1.65}
+.formula .note b{color:#fff}
+
+/* shot field diagram */
+.field{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 22px 16px;box-shadow:var(--shadow);overflow-x:auto}
+.field .cap{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.field svg{display:block;width:100%;min-width:560px;height:auto}
+
+/* worked example calculators */
+.calc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.calc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px;box-shadow:var(--shadow)}
+.calc .t{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:4px;line-height:1.35}
+.calc .d{font-size:12.5px;color:var(--muted);margin-bottom:14px;min-height:34px}
+.calc .row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12.5px;
+  padding:5px 0;border-bottom:1px dashed var(--line);color:var(--ink2)}
+.calc .row span:last-child{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.calc .res{margin-top:14px;display:flex;align-items:baseline;justify-content:space-between;
+  background:var(--surface2);border-radius:10px;padding:11px 14px}
+.calc .res .lab{font-size:11px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.calc .res .val{font-family:var(--mono);font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
+.calc .res .val.pos{color:var(--gain)}
+
+/* charts */
+.chart-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px 18px;box-shadow:var(--shadow)}
+.chart-wrap .ctitle{font-size:15px;font-weight:800;color:var(--ink)}
+.chart-wrap .csub{font-size:13px;color:var(--muted);margin-top:2px;margin-bottom:16px}
+.chart-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px}
+.legend .li{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink2);font-weight:600}
+.legend .sw{width:11px;height:11px;border-radius:3px;flex:none}
+.axl{font-family:var(--mono);font-size:10.5px;fill:var(--axis)}
+.axtitle{font-family:var(--mono);font-size:10.5px;fill:var(--muted);letter-spacing:.08em}
+
+/* horizontal stacked bar */
+.hbar{display:flex;height:44px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.hbar .seg{display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--mono);
+  font-size:12.5px;font-weight:700;white-space:nowrap;position:relative}
+.hbar .seg + .seg{box-shadow:inset 2px 0 0 var(--surface)}
+.barrow{display:grid;grid-template-columns:96px 1fr 58px;align-items:center;gap:12px;margin:9px 0}
+.barrow .nm{font-size:13.5px;font-weight:700;color:var(--ink);text-align:right}
+.barrow .track{background:var(--bg2);border-radius:7px;height:26px;overflow:hidden;position:relative}
+.barrow .fill{height:100%;border-radius:7px 0 0 7px;display:block}
+.barrow .vv{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* data table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+table.dt{width:100%;border-collapse:collapse;background:var(--surface);font-size:14px;min-width:480px}
+table.dt th{background:var(--ink);color:#fff;padding:11px 12px;text-align:center;font-weight:700;
+  font-family:var(--mono);font-size:12px;letter-spacing:.03em}
+:root[data-theme="dark"] table.dt th{background:#0C0509}
+@media(prefers-color-scheme:dark){table.dt th{background:#0C0509}}
+table.dt td{padding:10px 12px;text-align:center;border-bottom:1px solid var(--line);
+  font-variant-numeric:tabular-nums;color:var(--ink2)}
+table.dt td:first-child{text-align:left;font-weight:700;color:var(--ink);font-family:var(--mono);font-size:13px}
+table.dt tbody tr:last-child td{border-bottom:none}
+table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
+
+/* callout / take / limit */
+.callout{border-left:4px solid var(--hot);background:var(--surface);border-radius:0 14px 14px 0;
+  padding:18px 22px;box-shadow:var(--shadow)}
+.callout .lab{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--hot-deep);font-weight:600;margin-bottom:7px}
+.callout p{font-size:16px}
+.take{background:var(--ink);color:#fff;border-radius:var(--radius);padding:24px 26px;box-shadow:var(--shadow-lg)}
+:root[data-theme="dark"] .take{background:#0C0509;border:1px solid var(--line)}
+@media(prefers-color-scheme:dark){.take{background:#0C0509;border:1px solid var(--line)}}
+.take .lab{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--hot);font-weight:600;margin-bottom:10px}
+.take p{font-size:18px;font-weight:650;color:#fff;line-height:1.55}
+.take p b{color:var(--hot)}
+.limit{border-left:4px solid var(--ink2);background:var(--surface);border-radius:0 14px 14px 0;padding:16px 20px}
+:root[data-theme="dark"] .limit{border-left-color:var(--muted)}
+@media(prefers-color-scheme:dark){.limit{border-left-color:var(--muted)}}
+.limit .lab{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);font-weight:700;margin-bottom:5px}
+.limit p{font-size:14.5px}
+
+/* two-col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mini{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.mini .h{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.mini .h .dot{width:9px;height:9px;border-radius:50%;flex:none}
+.mini p{font-size:14px;color:var(--ink2)}
+.mini ul{margin:6px 0 0;padding-left:18px}
+.mini li{font-size:13.5px;color:var(--ink2);margin:4px 0}
+
+/* method chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{font-family:var(--mono);font-size:12px;font-weight:600;background:var(--surface2);
+  color:var(--hot-deep);border:1px solid var(--line);padding:6px 12px;border-radius:8px}
+
+/* timeline */
+.tl{list-style:none;position:relative;padding-left:26px;margin-top:6px}
+.tl::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl li{position:relative;padding:0 0 20px 8px}
+.tl li::before{content:"";position:absolute;left:-24px;top:4px;width:12px;height:12px;border-radius:50%;
+  background:var(--hot);box-shadow:0 0 0 4px var(--hot-soft)}
+.tl .yr{font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--hot-deep)}
+.tl .ti{font-size:15px;font-weight:750;color:var(--ink);margin:2px 0 3px}
+.tl p{font-size:14px}
+
+/* sources */
+.src{font-size:13.5px;color:var(--muted);line-height:1.85}
+.src a{color:var(--hot-deep);text-decoration:none;border-bottom:1px solid var(--line)}
+.src a:hover{border-bottom-color:var(--hot)}
+.src .n{font-family:var(--mono);color:var(--faint);margin-right:6px}
+
+.footer{padding:40px 0 0;text-align:center}
+.footer p{font-size:13px;color:var(--muted)}
+.footer .big{font-family:var(--mono);font-weight:800;color:var(--ink);font-size:15px;letter-spacing:.02em;margin-bottom:6px}
+
+/* theme toggle */
+.tt{position:fixed;top:16px;right:16px;z-index:50;width:42px;height:42px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:18px;
+  transition:transform .15s}
+.tt:hover{transform:scale(1.08)}
+.tt:focus-visible{outline:2px solid var(--hot);outline-offset:3px}
+
+.disc{font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:10px;line-height:1.6}
+
+@media(max-width:720px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats .stat:last-child{grid-column:1 / -1}
+  .thesis{grid-template-columns:1fr;gap:14px;text-align:left}
+  .calc-grid{grid-template-columns:1fr}
+  .two{grid-template-columns:1fr}
+  .barrow{grid-template-columns:76px 1fr 46px;gap:8px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+
+<button class="tt" id="tt" aria-label="라이트/다크 모드 전환" title="테마 전환">◐</button>
+
+<div class="sg-doc">
+
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <span class="eyebrow">Deep Dive · V3 · Golf Analytics</span>
+    <h1>모든 샷을<br>하나의 점수로 환산하다</h1>
+    <p class="lede"><b>Strokes Gained(획득 타수)</b>는 골프의 모든 샷을 “그 자리에서의 기대 타수”와 비교해 <b>±0.xx타</b>의 값으로 환산한다. 이 한 줄의 정의가 <b>“퍼팅이 우승을 만든다”</b>는 100년 된 통념을 데이터로 뒤집었다.</p>
+    <div class="cite-line">
+      <b>Broadie, M. (2012)</b> · “Assessing Golfer Performance on the PGA TOUR”<br>
+      <i>Interfaces</i>, 42(2), 146–165 · Columbia University · DOI&nbsp;10.1287/inte.1120.0626
+    </div>
+    <a class="doi" href="https://doi.org/10.1287/inte.1120.0626" target="_blank" rel="noopener">원문 DOI 10.1287/inte.1120.0626 ↗</a>
+
+    <div class="thesis">
+      <div class="big">⅔<small>롱게임 기여도</small></div>
+      <div class="txt">투어 프로들 사이의 <b>스코어 차이 중 약 2/3는 롱게임(100야드 밖 샷)</b>에서 갈린다. 퍼팅이 설명하는 몫은 상위권과 평균의 격차 기준 <b>약 15%</b>에 불과했다. 짧은 게임이 전부라는 오랜 믿음의 정반대다.</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="v num">800<span class="u">만+</span></div><div class="k">분석한 샷 수 (ShotLink)</div></div>
+      <div class="stat"><div class="v num">2003–10</div><div class="k">데이터 기간 (8시즌)</div></div>
+      <div class="stat"><div class="v num">3.20<span class="u">타</span></div><div class="k">타이거 우즈 라운드당 우위 (1위)</div></div>
+      <div class="stat"><div class="v num">2011<span class="u">.05</span></div><div class="k">PGA 투어 공식 지표 채택</div></div>
+      <div class="stat"><div class="v num">200<span class="u">명+</span></div><div class="k">순위화된 투어 선수</div></div>
+    </div>
+    <p class="disc">※ 상단 수치는 논문 본문·표(Table 1) 및 저자 후속 자료 기준. 세부 값은 아래 각 절과 출처에서 확인.</p>
+  </header>
+
+  <!-- ================= 1. 왜 중요한가 ================= -->
+  <section>
+    <span class="eyebrow">01 — 한 줄 요약</span>
+    <h2>골프를 “느낌의 스포츠”에서 “측정의 스포츠”로</h2>
+    <p class="sec-intro mt16">2012년 이전까지 골프 통계는 <strong>퍼팅 수(putts)</strong>, <strong>페어웨이 안착률</strong>, <strong>그린 적중률(GIR)</strong> 같은 <em>맥락 없는 집계</em>에 머물렀다. 이 지표들은 “어디서 쳤는지”를 무시하기 때문에, 좋은 샷과 나쁜 샷을 구분하지 못한다. Broadie는 PGA 투어의 샷 단위 추적 데이터(ShotLink)에 <strong>기대 타수 모델</strong>을 결합해, 개별 샷 하나하나의 가치를 숫자로 매기는 <strong>Strokes Gained</strong> 프레임을 학술적으로 정립했다. 이 논문은 골프 분석학(golf analytics)의 사실상 출발점이 되었다.</p>
+    <div class="callout mt24">
+      <div class="lab">The Core Question</div>
+      <p>“왜 어떤 선수는 늘 더 낮은 스코어를 내는가?” — 이 질문에 <strong>“퍼팅/드라이버/아이언 중 무엇이 얼마나 기여하는가”</strong>를 <strong>타수(strokes)라는 하나의 단위</strong>로 분해해 답한 것이 이 논문의 본질이다.</p>
+    </div>
+  </section>
+
+  <!-- ================= 2. 핵심 아이디어 ================= -->
+  <section>
+    <span class="eyebrow">02 — 핵심 아이디어</span>
+    <h2>Strokes Gained란 무엇인가</h2>
+    <p class="sec-intro mt16">출발점은 <strong>기대 타수(expected strokes)</strong>다. 방대한 투어 데이터로부터, 코스 위 <em>어떤 위치에서든</em> 홀아웃까지 평균 몇 타가 걸리는지를 계산한다. 그러면 한 번의 샷이 만든 “위치 변화”를 타수로 환산할 수 있다.</p>
+
+    <div class="stack mt24">
+      <div class="formula">
+        <div class="lab">Definition · 획득 타수 공식</div>
+        <div class="eq"><span class="a">SG(샷)</span> = <span class="b">(샷 전 위치의 기대타수)</span> − <span class="c">(샷 후 위치의 기대타수)</span> − <b>1</b></div>
+        <p class="note"><b>−1</b>은 방금 친 그 한 타. 값이 <b>양수(+)</b>면 투어 평균보다 상황을 좋게 만든 것, <b>음수(−)</b>면 나쁘게 만든 것. 라운드의 모든 샷 SG를 더하면 그날의 총 획득 타수가 되고, 샷을 카테고리별로 묶으면 롱게임·숏게임·퍼팅 각각의 기여도가 나온다.</p>
+      </div>
+
+      <div class="field">
+        <div class="cap">기대 타수 지형 — 파4 홀의 위치별 “남은 평균 타수”</div>
+        <svg viewBox="0 0 720 210" role="img" aria-label="티에서 그린까지 위치별 기대 타수가 줄어드는 다이어그램">
+          <defs>
+            <linearGradient id="fw" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="var(--short)" stop-opacity="0.10"/>
+              <stop offset="1" stop-color="var(--short)" stop-opacity="0.30"/>
+            </linearGradient>
+          </defs>
+          <!-- fairway strip -->
+          <rect x="40" y="120" width="600" height="40" rx="20" fill="url(#fw)" stroke="var(--line)"/>
+          <!-- green -->
+          <circle cx="660" cy="140" r="30" fill="var(--short)" opacity="0.22" stroke="var(--short)" stroke-dasharray="3 3"/>
+          <circle cx="660" cy="140" r="4" fill="var(--hot)"/>
+          <!-- path line -->
+          <line x1="60" y1="140" x2="656" y2="140" stroke="var(--axis)" stroke-width="1.5" stroke-dasharray="5 6"/>
+          <!-- markers -->
+          <g font-family="var(--mono)" text-anchor="middle">
+            <!-- tee -->
+            <circle cx="60" cy="140" r="7" fill="var(--long)"/>
+            <text x="60" y="105" font-size="20" font-weight="800" fill="var(--ink)">3.99</text>
+            <text x="60" y="185" font-size="11" fill="var(--muted)">티 (파4)</text>
+            <!-- 150y -->
+            <circle cx="300" cy="140" r="7" fill="var(--appr)"/>
+            <text x="300" y="105" font-size="20" font-weight="800" fill="var(--ink)">2.98</text>
+            <text x="300" y="185" font-size="11" fill="var(--muted)">페어웨이 150y</text>
+            <!-- 20ft green -->
+            <circle cx="500" cy="140" r="7" fill="var(--putt)"/>
+            <text x="500" y="105" font-size="20" font-weight="800" fill="var(--ink)">1.87</text>
+            <text x="500" y="185" font-size="11" fill="var(--muted)">그린 20ft</text>
+            <!-- hole -->
+            <text x="660" y="105" font-size="20" font-weight="800" fill="var(--hot-deep)">0</text>
+            <text x="660" y="185" font-size="11" fill="var(--muted)">홀 아웃</text>
+          </g>
+          <!-- SG arrows between -->
+          <g font-family="var(--mono)" font-size="11" font-weight="700" text-anchor="middle">
+            <text x="180" y="132" fill="var(--gain)">드라이브 +0.01</text>
+            <text x="400" y="132" fill="var(--gain)">어프로치 +0.11</text>
+            <text x="580" y="132" fill="var(--gain)">퍼트 +0.87</text>
+          </g>
+        </svg>
+      </div>
+
+      <p style="font-size:15px;color:var(--ink2)">각 위치의 숫자는 “여기서부터 홀까지 평균 몇 타”라는 뜻이다. 한 샷의 SG는 <strong>도착 위치의 낮아진 기대타수</strong>에서 얻는다. 아래는 실제 계산 예시.</p>
+
+      <div class="calc-grid">
+        <div class="calc">
+          <div class="t">20피트 퍼트 → 원퍼트 홀인</div>
+          <div class="d">그린 20ft에서 한 번에 넣었다.</div>
+          <div class="row"><span>샷 전 기대타수</span><span>1.87</span></div>
+          <div class="row"><span>샷 후 (홀인)</span><span>0.00</span></div>
+          <div class="row"><span>친 타수</span><span>− 1</span></div>
+          <div class="res"><span class="lab">Strokes Gained</span><span class="val pos">+0.87</span></div>
+        </div>
+        <div class="calc">
+          <div class="t">150야드 어프로치 → 20ft 붙임</div>
+          <div class="d">페어웨이 150y에서 그린 20ft로.</div>
+          <div class="row"><span>샷 전 기대타수</span><span>2.98</span></div>
+          <div class="row"><span>샷 후 (20ft)</span><span>1.87</span></div>
+          <div class="row"><span>친 타수</span><span>− 1</span></div>
+          <div class="res"><span class="lab">Strokes Gained</span><span class="val pos">+0.11</span></div>
+        </div>
+        <div class="calc">
+          <div class="t">파4 티샷 → 페어웨이 100y</div>
+          <div class="d">평균보다 조금 더 짧게 남긴 드라이브.</div>
+          <div class="row"><span>샷 전 기대타수</span><span>3.99</span></div>
+          <div class="row"><span>샷 후 (100y)</span><span>2.80</span></div>
+          <div class="row"><span>친 타수</span><span>− 1</span></div>
+          <div class="res"><span class="lab">Strokes Gained</span><span class="val pos">+0.19</span></div>
+        </div>
+      </div>
+      <p class="disc">기대타수 값은 Broadie의 PGA 투어 평균 기준선(대표값). 실제 논문·저서는 거리·라이별로 더 촘촘한 표를 제공한다.</p>
+    </div>
+  </section>
+
+  <!-- ================= 3. 기준선 ================= -->
+  <section>
+    <span class="eyebrow">03 — 기대 타수 기준선</span>
+    <h2>“평균”을 어떻게 만들었나</h2>
+    <p class="sec-intro mt16">기준선의 핵심 통찰: 홀까지의 타수를 결정하는 가장 강력한 두 변수는 <strong>홀까지 거리</strong>와 <strong>라이(lie)</strong>다. Broadie는 라이를 <strong>티·페어웨이·러프·벙커·리커버리·그린</strong>으로 나누고, 거리별로 800만 샷의 결과를 집계해 매끄러운 기준선을 얻었다. 아래 곡선과 표가 그 “평균”의 실체다.</p>
+
+    <div class="two mt24">
+      <div class="chart-wrap">
+        <div class="ctitle">퍼팅 기준선</div>
+        <div class="csub">그린에서 남은 거리(ft) → 홀아웃까지 평균 퍼트 수</div>
+        <svg id="chart-putt" viewBox="0 0 380 240" aria-label="퍼팅 거리별 평균 퍼트 수 곡선"></svg>
+      </div>
+      <div class="chart-wrap">
+        <div class="ctitle">롱·어프로치 기준선</div>
+        <div class="csub">홀까지 거리(yd) → 홀아웃까지 평균 타수 · 페어웨이 vs 러프</div>
+        <svg id="chart-appr" viewBox="0 0 380 240" aria-label="거리별 페어웨이와 러프의 평균 타수 곡선"></svg>
+        <div class="legend">
+          <span class="li"><span class="sw" style="background:var(--short)"></span>페어웨이</span>
+          <span class="li"><span class="sw" style="background:var(--appr)"></span>러프</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tbl-wrap mt24">
+      <table class="dt">
+        <thead><tr><th>위치 / 라이</th><th>거리</th><th>기대 타수</th><th>의미</th></tr></thead>
+        <tbody>
+          <tr><td>퍼트</td><td>3 ft</td><td>1.04</td><td>거의 확정 (원퍼트)</td></tr>
+          <tr><td>퍼트</td><td>8 ft</td><td>1.50</td><td>절반은 넣고 절반은 놓침</td></tr>
+          <tr><td>퍼트</td><td>20 ft</td><td>1.87</td><td>사실상 투퍼트 기대</td></tr>
+          <tr><td>페어웨이</td><td>100 yd</td><td>2.80</td><td>웨지 어프로치 구간</td></tr>
+          <tr><td>페어웨이</td><td>150 yd</td><td>2.98</td><td>스코어를 가르는 핵심 거리</td></tr>
+          <tr><td>페어웨이</td><td>200 yd</td><td>3.19</td><td>롱아이언/하이브리드</td></tr>
+          <tr><td>러프</td><td>150 yd</td><td>3.10</td><td>페어웨이보다 +0.12타 손해</td></tr>
+          <tr><td>티 (파4)</td><td>~450 yd</td><td>3.99</td><td>홀 전체의 평균 스코어</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="disc">Broadie 기준선의 대표값(근사). 같은 거리라도 러프·벙커는 페어웨이보다 기대타수가 높다 — 이 차이가 곧 “라이의 벌점”이다.</p>
+  </section>
+
+  <!-- ================= 4. 방법론 ================= -->
+  <section>
+    <span class="eyebrow">04 — 연구 설계 · 방법</span>
+    <h2>모델은 어떻게 작동하나</h2>
+    <div class="stack mt16">
+      <div class="two">
+        <div class="mini">
+          <div class="h"><span class="dot" style="background:var(--hot)"></span>데이터</div>
+          <p>PGA 투어 <strong>ShotLink</strong> 시스템의 샷 단위 기록. 2003–2010, <strong>800만 샷 이상</strong>. 레이저·GPS로 모든 샷의 시작·종료 좌표를 측정.</p>
+        </div>
+        <div class="mini">
+          <div class="h"><span class="dot" style="background:var(--short)"></span>모델</div>
+          <p>각 (거리, 라이) 상태의 <strong>홀아웃까지 기대 타수</strong>를 추정. 위치를 상태로 보는 <strong>동적·기대값 기반</strong> 접근으로 벤치마크를 구축.</p>
+        </div>
+        <div class="mini">
+          <div class="h"><span class="dot" style="background:var(--putt)"></span>핵심 변수</div>
+          <p>홀까지 <strong>거리</strong>와 <strong>라이 유형</strong>이 스코어를 결정하는 가장 중요한 두 요인임을 데이터로 확인.</p>
+        </div>
+        <div class="mini">
+          <div class="h"><span class="dot" style="background:var(--appr)"></span>산출물</div>
+          <p>선수별·카테고리별 SG 순위(Table 1)와 코스 난이도 평가. 강점/약점을 <strong>타수 단위</strong>로 진단.</p>
+        </div>
+      </div>
+      <div class="card tint">
+        <h3>게임을 나누는 3분할</h3>
+        <p style="margin-top:6px">Broadie는 샷을 세 부분으로 묶어 기여도를 계산했다.</p>
+        <div class="chips">
+          <span class="chip">롱게임 · 100yd 밖 (티샷+어프로치)</span>
+          <span class="chip">숏게임 · 100yd 이내 (칩·피치·벙커, 퍼트 제외)</span>
+          <span class="chip">퍼팅 · 그린 위</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 5. 핵심 발견 ================= -->
+  <section>
+    <span class="eyebrow">05 — 핵심 발견</span>
+    <h2>스코어는 어디서 갈리는가</h2>
+    <p class="sec-intro mt16">가장 유명한 결과. 투어 프로들 사이의 스코어 차이를 카테고리별로 분해하면, <strong>롱게임이 압도적</strong>이다. “드라이버는 쇼, 퍼터는 돈(drive for show, putt for dough)”이라는 격언이 데이터 앞에서 무너졌다.</p>
+
+    <div class="chart-wrap mt24">
+      <div class="ctitle">스코어 차이에 대한 대략적 기여도</div>
+      <div class="csub">투어 선수 간 스코어 변동성 분해 — 롱게임이 약 2/3</div>
+      <div class="hbar" style="margin-top:6px" role="img" aria-label="롱게임 약 67퍼센트, 숏게임 약 18퍼센트, 퍼팅 약 15퍼센트">
+        <div class="seg" style="background:var(--long);width:67%">롱게임 ~67%</div>
+        <div class="seg" style="background:var(--short);width:18%">숏 ~18%</div>
+        <div class="seg" style="background:var(--putt);width:15%">퍼팅 ~15%</div>
+      </div>
+      <div class="legend">
+        <span class="li"><span class="sw" style="background:var(--long)"></span>롱게임 (100yd 밖)</span>
+        <span class="li"><span class="sw" style="background:var(--short)"></span>숏게임</span>
+        <span class="li"><span class="sw" style="background:var(--putt)"></span>퍼팅</span>
+      </div>
+      <p class="disc">논문의 핵심 결론(롱게임 약 2/3, 퍼팅 약 15%)에 근거한 근사 분해. 정확한 비율은 표본·연도·측정 방식에 따라 달라진다.</p>
+    </div>
+
+    <div class="two mt24">
+      <div class="chart-wrap">
+        <div class="ctitle">타이거 우즈의 우위, 어디서 왔나</div>
+        <div class="csub">2003–2010 라운드당 획득 타수 3.20의 분해</div>
+        <div style="margin-top:10px">
+          <div class="barrow"><span class="nm">롱게임</span><div class="track"><span class="fill" style="width:100%;background:var(--long)"></span></div><span class="vv">2.08</span></div>
+          <div class="barrow"><span class="nm">퍼팅</span><div class="track"><span class="fill" style="width:33.7%;background:var(--putt)"></span></div><span class="vv">0.70</span></div>
+          <div class="barrow"><span class="nm">숏게임</span><div class="track"><span class="fill" style="width:20.2%;background:var(--short)"></span></div><span class="vv">0.42</span></div>
+          <div class="barrow"><span class="nm" style="font-weight:800">합계</span><div class="track" style="background:transparent"></div><span class="vv" style="color:var(--hot-deep)">3.20</span></div>
+        </div>
+        <p class="disc">우즈의 우위 중 약 65%가 롱게임. “퍼팅 천재”의 이미지와 달리 진짜 엔진은 티샷·아이언이었다.</p>
+      </div>
+      <div class="chart-wrap">
+        <div class="ctitle">라운드당 총 획득 타수 (상위 예시)</div>
+        <div class="csub">평균적인 투어 필드 대비 · 2003–2010</div>
+        <div style="margin-top:10px">
+          <div class="barrow"><span class="nm">T. 우즈</span><div class="track"><span class="fill" style="width:100%;background:var(--long)"></span></div><span class="vv">3.20</span></div>
+          <div class="barrow"><span class="nm">J. 퍼릭</span><div class="track"><span class="fill" style="width:66.3%;background:var(--hot)"></span></div><span class="vv">2.12</span></div>
+          <div class="barrow"><span class="nm">투어 평균</span><div class="track"><span class="fill" style="width:1%;background:var(--axis)"></span></div><span class="vv">0.00</span></div>
+        </div>
+        <p class="disc">기준선이 “투어 평균”이므로 필드 평균의 SG는 정의상 0. 우즈는 2위(퍼릭)를 1타 이상 앞섰다.</p>
+      </div>
+    </div>
+
+    <div class="callout mt24">
+      <div class="lab">Myth vs Data</div>
+      <p>70타를 치는 골퍼와 80타를 치는 골퍼를 비교하면, <strong>퍼팅 차이는 약 1.5타에 불과</strong>하지만 <strong>100야드 밖에서 벌어지는 차이는 약 6.5타</strong>에 달한다. 스코어를 실제로 가르는 것은 그린이 아니라 <span class="hot">긴 샷의 정확성</span>이다.</p>
+    </div>
+
+    <div class="card mt24">
+      <h3>덤으로: 전통 통계는 왜 틀리나</h3>
+      <p style="margin-top:6px"><strong>퍼팅 수(putts/round)</strong>는 그린 적중을 많이 한 선수일수록 먼 첫 퍼트가 많아 불리하게 잡히고, <strong>페어웨이 안착률</strong>은 20cm 벗어난 것과 30m 벗어난 것을 똑같이 “실패”로 센다. <strong>GIR</strong>은 3피트 붙인 샷과 40피트 남긴 샷을 구분하지 않는다. Strokes Gained는 “어디서 어디로”를 모두 반영해 이 왜곡을 제거한다.</p>
+    </div>
+  </section>
+
+  <!-- ================= 6. 해석 ================= -->
+  <section>
+    <span class="eyebrow">06 — 해석 · 함의</span>
+    <h2>이 논문이 바꾼 것</h2>
+    <div class="stack mt16">
+      <p class="sec-intro">Strokes Gained는 단순한 통계가 아니라 <strong>공통 언어</strong>가 되었다. 선수는 연습 우선순위를, 코치는 약점을, 캐디는 코스 전략을, 방송은 경기 흐름을, 도박·팬은 승률을 — 모두 같은 “타수” 단위로 말하게 됐다. 무엇보다 <strong>상대적 벤치마크(투어 평균)</strong>라는 발상이 핵심이다: 절대 점수가 아니라 “같은 상황의 평균 대비 얼마나 잘했나”가 실력을 드러낸다.</p>
+      <div class="take">
+        <div class="lab">Bottom Line</div>
+        <p>모든 샷을 <b>‘그 자리의 기대 타수’</b>로 채점하니, 프로들의 성적 차이 중 약 <b>2/3는 퍼팅이 아니라 롱게임</b>에서 갈렸다 — 골프 상식을 데이터로 다시 쓴 논문.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 7. 유산 ================= -->
+  <section>
+    <span class="eyebrow">07 — 유산 · 영향</span>
+    <h2>학술 논문에서 스포츠 표준으로</h2>
+    <ul class="tl mt16">
+      <li><div class="yr">2011.05</div><div class="ti">PGA 투어, ‘Strokes Gained: Putting’ 공식 채택</div><p>퍼팅 측정 지표로 투어가 정식 도입. 학계 아이디어가 실무 표준이 된 순간.</p></li>
+      <li><div class="yr">2012</div><div class="ti">Interfaces 논문 발표</div><p>본 논문. INFORMS의 응용분석 학술지에 게재되며 골프 분석학의 이론적 토대 확립.</p></li>
+      <li><div class="yr">2014</div><div class="ti">저서 『Every Shot Counts』 출간</div><p>대중서로 확장. 이후 투어는 SG를 Off-the-Tee/Approach/Around-the-Green/Putting 4분할로 공식 집계.</p></li>
+      <li><div class="yr">이후</div><div class="ti">방송·코칭·베팅의 기본 언어</div><p>중계 그래픽, 선수 연습 우선순위, 데이터골프 등 분석 서비스, 후속 학술 연구까지 SG가 표준 프레임으로 자리 잡음.</p></li>
+    </ul>
+  </section>
+
+  <!-- ================= 8. 한계 ================= -->
+  <section>
+    <span class="eyebrow">08 — 한계 · 유의점</span>
+    <h2>무엇을 조심해서 읽을까</h2>
+    <div class="stack mt16">
+      <div class="limit"><div class="lab">표본의 특수성</div><p>대상은 PGA 투어 <strong>엘리트</strong>. 기준선이 투어 평균이라, 아마추어 스윙·전략에 그대로 일반화하기 어렵다(아마추어는 롱게임 격차가 더 벌어지는 경향).</p></div>
+      <div class="limit"><div class="lab">상대적 지표</div><p>SG는 <strong>절대적 실력이 아니라 필드 평균 대비</strong> 값이다. 필드 수준이 오르면 같은 플레이도 낮은 SG로 나타난다.</p></div>
+      <div class="limit"><div class="lab">모델링 선택</div><p>롱/숏 경계 <strong>100야드</strong>, 라이 분류, 리커버리 처리 등은 저자의 합리적 선택이며 절대 기준은 아니다. 후속 연구는 세분화 방식이 조금씩 다르다.</p></div>
+      <div class="limit"><div class="lab">측정·표본 오차</div><p>ShotLink는 매우 정밀하지만 라이 판정·좌표에 오차가 있고, 짧은 기간 SG는 표본 변동이 크다(특히 퍼팅의 “운” 성분).</p></div>
+    </div>
+  </section>
+
+  <!-- ================= 9. 출처 ================= -->
+  <section style="border-bottom:none">
+    <span class="eyebrow">09 — 인용 · 출처</span>
+    <h2>원문과 참고자료</h2>
+    <div class="card mt16">
+      <p style="font-size:15px;line-height:1.7"><strong>Broadie, M. (2012).</strong> Assessing Golfer Performance on the PGA TOUR. <i>Interfaces</i>, 42(2), 146–165. <span class="mono">https://doi.org/10.1287/inte.1120.0626</span></p>
+      <a class="doi" style="margin-top:14px" href="https://doi.org/10.1287/inte.1120.0626" target="_blank" rel="noopener">INFORMS 원문으로 이동 ↗</a>
+    </div>
+    <div class="mt24 src">
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">더 읽기 · 확인에 사용한 자료</div>
+      <p><span class="n">[1]</span> INFORMS, <a href="https://pubsonline.informs.org/doi/10.1287/inte.1120.0626" target="_blank" rel="noopener">Assessing Golfer Performance on the PGA TOUR — Interfaces</a></p>
+      <p><span class="n">[2]</span> Broadie, M. <i>Every Shot Counts</i> (2014) — 기대타수 기준선 표의 대중서 버전</p>
+      <p><span class="n">[3]</span> Golf.com, <a href="https://golf.com/travel/the-man-with-two-brains-stokes-gained-guru-mark-broadies-pioneering-analytics-have-radically-altered-the-game/" target="_blank" rel="noopener">“The Man With Two Brains” — Broadie 프로필</a></p>
+      <p><span class="n">[4]</span> Broadie, M. <i>Putts Gained: Measuring Putting on the PGA TOUR</i> (Columbia) — 퍼팅 SG 세부</p>
+    </div>
+    <p class="disc">본 페이지의 계산 예시·기준선 수치는 논문의 결론과 Broadie의 공개 기준선을 바탕으로 한 대표값이며, 소수점 단위는 자료·시점에 따라 달라질 수 있습니다.</p>
+  </section>
+
+  <div class="footer">
+    <p class="big">STROKES GAINED · V3 DEEP DIVE</p>
+    <p>Broadie (2012) · Interfaces 42(2) · 골프 경기력 연구 심층 정리</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  // ---- theme toggle ----
+  var root=document.documentElement, btn=document.getElementById('tt');
+  function cur(){var t=root.getAttribute('data-theme');if(t)return t;
+    return (window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';}
+  btn.addEventListener('click',function(){
+    var n=cur()==='dark'?'light':'dark';root.setAttribute('data-theme',n);
+    btn.textContent=n==='dark'?'☀':'◐';
+  });
+
+  // ---- tiny line-chart renderer ----
+  function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+  function line(id, series, opts){
+    var svg=document.getElementById(id); if(!svg)return;
+    var W=380,H=240, L=42,R=14,T=16,B=34;
+    var xs=opts.x, ys=opts.y; // [min,max]
+    function X(v){return L+(v-xs[0])/(xs[1]-xs[0])*(W-L-R);}
+    function Y(v){return T+(1-(v-ys[0])/(ys[1]-ys[0]))*(H-T-B);}
+    var NS='http://www.w3.org/2000/svg', out='';
+    // gridlines + y labels
+    opts.yticks.forEach(function(t){
+      var y=Y(t);
+      out+='<line x1="'+L+'" y1="'+y+'" x2="'+(W-R)+'" y2="'+y+'" stroke="'+css('--grid')+'" stroke-width="1"/>';
+      out+='<text class="axl" x="'+(L-6)+'" y="'+(y+3)+'" text-anchor="end">'+t.toFixed(1)+'</text>';
+    });
+    // x labels
+    opts.xticks.forEach(function(t){
+      out+='<text class="axl" x="'+X(t)+'" y="'+(H-B+18)+'" text-anchor="middle">'+t+'</text>';
+    });
+    out+='<text class="axtitle" x="'+((L+W-R)/2)+'" y="'+(H-2)+'" text-anchor="middle">'+opts.xlabel+'</text>';
+    // series
+    series.forEach(function(s){
+      var col=css(s.color), d='';
+      s.data.forEach(function(p,i){ d+=(i?'L':'M')+X(p[0]).toFixed(1)+' '+Y(p[1]).toFixed(1)+' '; });
+      // area
+      var last=s.data[s.data.length-1], first=s.data[0];
+      var area=d+'L'+X(last[0]).toFixed(1)+' '+Y(ys[0]).toFixed(1)+' L'+X(first[0]).toFixed(1)+' '+Y(ys[0]).toFixed(1)+' Z';
+      out+='<path d="'+area+'" fill="'+col+'" opacity="0.08"/>';
+      out+='<path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>';
+      // endpoint
+      out+='<circle cx="'+X(last[0]).toFixed(1)+'" cy="'+Y(last[1]).toFixed(1)+'" r="4" fill="'+col+'" stroke="'+css('--surface')+'" stroke-width="2"/>';
+      // dots
+      s.data.forEach(function(p){ out+='<circle cx="'+X(p[0]).toFixed(1)+'" cy="'+Y(p[1]).toFixed(1)+'" r="2.6" fill="'+col+'"><title>'+p[0]+' → '+p[1].toFixed(2)+'타</title></circle>'; });
+    });
+    svg.innerHTML=out;
+  }
+
+  var puttData=[[3,1.04],[5,1.23],[8,1.50],[10,1.61],[15,1.78],[20,1.87],[30,1.98],[40,2.06],[50,2.13],[60,2.19]];
+  var fwData=[[60,2.69],[100,2.80],[120,2.85],[150,2.98],[180,3.11],[200,3.19],[250,3.45]];
+  var roughData=[[100,2.93],[150,3.10],[200,3.34],[250,3.60]];
+
+  function draw(){
+    line('chart-putt',[{data:puttData,color:'--putt'}],
+      {x:[0,60],y:[1.0,2.3],xticks:[3,20,40,60],yticks:[1.0,1.4,1.8,2.2],xlabel:'남은 거리 (ft)'});
+    line('chart-appr',[{data:fwData,color:'--short'},{data:roughData,color:'--appr'}],
+      {x:[40,250],y:[2.5,3.7],xticks:[60,100,150,200,250],yticks:[2.6,3.0,3.4],xlabel:'홀까지 거리 (yd)'});
+  }
+  draw();
+  btn.addEventListener('click',function(){setTimeout(draw,20);}); // recolor on theme change
+  if(window.matchMedia){window.matchMedia('(prefers-color-scheme:dark)').addEventListener&&
+    window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',draw);}
+})();
+</script>
+</body>
+</html>
