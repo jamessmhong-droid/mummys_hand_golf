@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Sell(2007) 근력·유연성·균형 딥다이브.">
+<title>숙련 골퍼의 근력·유연성·균형 — Sell et al. (2007)</title>
+</head>
+<body>
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#FBF1F4; --bg2:#F6E7EC; --surface:#FFFFFF; --surface2:#FFF7FA;
+  --ink:#1A0C12; --ink2:#4A2E3A; --muted:#7B5B69; --faint:#A98A97;
+  --line:#EFD3DE; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#D80F70; --hot-soft:#FFE3F0;
+  /* data */
+  --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
+  --gain:#0E9E86; --loss:#E24A38;
+  --grid:#F0DCE4; --axis:#C9AEBB;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);
+  --shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+  --radius:16px;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,"JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Pretendard","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#140A10; --bg2:#1B0F16; --surface:#20131A; --surface2:#291923;
+    --ink:#FCEDF3; --ink2:#E4C6D2; --muted:#BE99A9; --faint:#8A6675;
+    --line:#3A2530; --line2:#301E28;
+    --hot:#FF4DA0; --hot-deep:#FF2E90; --hot-soft:#3A1526;
+    --long:#E7418E; --short:#1EBBA0; --putt:#8A94F0; --appr:#E0A33A;
+    --gain:#22C3A5; --loss:#FF6D57;
+    --grid:#2E1E28; --axis:#5A3F4C;
+    --shadow:0 14px 40px -22px rgba(0,0,0,.7);
+    --shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="light"]{
+  --bg:#FBF1F4; --bg2:#F6E7EC; --surface:#FFFFFF; --surface2:#FFF7FA;
+  --ink:#1A0C12; --ink2:#4A2E3A; --muted:#7B5B69; --faint:#A98A97;
+  --line:#EFD3DE; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#D80F70; --hot-soft:#FFE3F0;
+  --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
+  --gain:#0E9E86; --loss:#E24A38; --grid:#F0DCE4; --axis:#C9AEBB;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);
+  --shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+}
+:root[data-theme="dark"]{
+  --bg:#140A10; --bg2:#1B0F16; --surface:#20131A; --surface2:#291923;
+  --ink:#FCEDF3; --ink2:#E4C6D2; --muted:#BE99A9; --faint:#8A6675;
+  --line:#3A2530; --line2:#301E28;
+  --hot:#FF4DA0; --hot-deep:#FF2E90; --hot-soft:#3A1526;
+  --long:#E7418E; --short:#1EBBA0; --putt:#8A94F0; --appr:#E0A33A;
+  --gain:#22C3A5; --loss:#FF6D57; --grid:#2E1E28; --axis:#5A3F4C;
+  --shadow:0 14px 40px -22px rgba(0,0,0,.7);
+  --shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.72;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  background-image:radial-gradient(120% 60% at 100% -10%,var(--bg2) 0%,transparent 60%);}
+.sg-doc{max-width:960px;margin:0 auto;padding:0 20px 120px;}
+::selection{background:var(--hot);color:#fff}
+
+/* ============ TYPE ============ */
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--hot-deep);display:inline-flex;align-items:center;gap:9px}
+.eyebrow::before{content:"";width:9px;height:9px;background:var(--hot);border-radius:2px;box-shadow:0 0 0 4px var(--hot-soft)}
+h1{font-size:clamp(34px,6.2vw,60px);font-weight:900;letter-spacing:-.03em;line-height:1.06;
+  text-wrap:balance;margin:0}
+h2{font-size:clamp(22px,3.4vw,30px);font-weight:850;letter-spacing:-.02em;line-height:1.2;text-wrap:balance}
+h3{font-size:18px;font-weight:800;letter-spacing:-.01em;line-height:1.35}
+p{font-size:16.5px;color:var(--ink2);text-wrap:pretty}
+strong{color:var(--ink);font-weight:750}
+.hot{color:var(--hot-deep)}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono)}
+
+/* ============ HERO ============ */
+.hero{padding:64px 0 40px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{margin-bottom:22px}
+.hero h1{margin-bottom:20px}
+.hero .lede{font-size:clamp(17px,2.4vw,20px);color:var(--ink2);max-width:60ch;line-height:1.6}
+.hero .lede b{color:var(--ink);font-weight:750}
+.cite-line{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:26px;line-height:1.7}
+.cite-line b{color:var(--ink)}
+.doi{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-family:var(--mono);
+  font-size:12.5px;font-weight:600;text-decoration:none;color:var(--hot-deep);
+  background:var(--surface);border:1.5px solid var(--hot);padding:6px 13px;border-radius:999px;
+  transition:background .15s,color .15s}
+.doi:hover{background:var(--hot);color:#fff}
+
+/* thesis card */
+.thesis{margin-top:38px;display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px 28px;box-shadow:var(--shadow)}
+.thesis .big{font-family:var(--mono);font-weight:800;font-size:clamp(52px,11vw,86px);
+  line-height:.9;color:var(--hot-deep);letter-spacing:-.04em}
+.thesis .big small{display:block;font-size:14px;letter-spacing:.05em;color:var(--muted);margin-top:10px;font-weight:600}
+.thesis .txt{font-size:16.5px;color:var(--ink2)}
+.thesis .txt b{color:var(--ink)}
+
+/* ============ STAT BAND ============ */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:34px 0 8px}
+.stat{background:var(--surface);padding:20px 16px;text-align:center}
+.stat .v{font-family:var(--mono);font-size:clamp(22px,3.4vw,29px);font-weight:800;color:var(--ink);
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.stat .v .u{font-size:.55em;color:var(--hot-deep);margin-left:1px}
+.stat .k{font-size:12px;color:var(--muted);margin-top:9px;line-height:1.3}
+
+/* ============ SECTIONS ============ */
+section{padding:52px 0;border-bottom:1px solid var(--line)}
+section > .eyebrow{margin-bottom:16px}
+section > h2{margin-bottom:14px}
+.sec-intro{font-size:16.5px;color:var(--ink2);max-width:66ch;margin-bottom:8px}
+.stack{display:flex;flex-direction:column;gap:22px}
+.mt24{margin-top:24px}.mt16{margin-top:16px}
+
+/* card */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px 26px;box-shadow:var(--shadow)}
+.card.tint{background:var(--surface2)}
+.card h3{margin-bottom:10px}
+.card p{font-size:15.5px}
+
+/* formula */
+.formula{background:var(--ink);color:#fff;border-radius:var(--radius);padding:26px 26px;box-shadow:var(--shadow-lg)}
+:root[data-theme="dark"] .formula{background:#0C0509;border:1px solid var(--line)}
+@media(prefers-color-scheme:dark){.formula{background:#0C0509;border:1px solid var(--line)}}
+.formula .lab{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--hot);font-weight:600}
+.formula .eq{font-family:var(--mono);font-size:clamp(14px,2.6vw,19px);font-weight:600;margin-top:16px;line-height:1.9;
+  letter-spacing:-.01em;overflow-x:auto;white-space:nowrap;padding-bottom:6px}
+.formula .eq b{color:#fff}
+.formula .eq .a{color:#7BE0CF}.formula .eq .b{color:#FFB4D8}.formula .eq .c{color:#FFD98A}
+.formula .note{font-size:14px;color:#E9C6D4;margin-top:16px;line-height:1.65}
+.formula .note b{color:#fff}
+
+/* shot field diagram */
+.field{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 22px 16px;box-shadow:var(--shadow);overflow-x:auto}
+.field .cap{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.field svg{display:block;width:100%;min-width:560px;height:auto}
+
+/* worked example calculators */
+.calc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.calc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px;box-shadow:var(--shadow)}
+.calc .t{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:4px;line-height:1.35}
+.calc .d{font-size:12.5px;color:var(--muted);margin-bottom:14px;min-height:34px}
+.calc .row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12.5px;
+  padding:5px 0;border-bottom:1px dashed var(--line);color:var(--ink2)}
+.calc .row span:last-child{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.calc .res{margin-top:14px;display:flex;align-items:baseline;justify-content:space-between;
+  background:var(--surface2);border-radius:10px;padding:11px 14px}
+.calc .res .lab{font-size:11px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.calc .res .val{font-family:var(--mono);font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
+.calc .res .val.pos{color:var(--gain)}
+
+/* charts */
+.chart-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px 18px;box-shadow:var(--shadow)}
+.chart-wrap .ctitle{font-size:15px;font-weight:800;color:var(--ink)}
+.chart-wrap .csub{font-size:13px;color:var(--muted);margin-top:2px;margin-bottom:16px}
+.chart-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px}
+.legend .li{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink2);font-weight:600}
+.legend .sw{width:11px;height:11px;border-radius:3px;flex:none}
+.axl{font-family:var(--mono);font-size:10.5px;fill:var(--axis)}
+.axtitle{font-family:var(--mono);font-size:10.5px;fill:var(--muted);letter-spacing:.08em}
+
+/* horizontal stacked bar */
+.hbar{display:flex;height:44px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.hbar .seg{display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--mono);
+  font-size:12.5px;font-weight:700;white-space:nowrap;position:relative}
+.hbar .seg + .seg{box-shadow:inset 2px 0 0 var(--surface)}
+.barrow{display:grid;grid-template-columns:96px 1fr 58px;align-items:center;gap:12px;margin:9px 0}
+.barrow .nm{font-size:13.5px;font-weight:700;color:var(--ink);text-align:right}
+.barrow .track{background:var(--bg2);border-radius:7px;height:26px;overflow:hidden;position:relative}
+.barrow .fill{height:100%;border-radius:7px 0 0 7px;display:block}
+.barrow .vv{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* data table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+table.dt{width:100%;border-collapse:collapse;background:var(--surface);font-size:14px;min-width:480px}
+table.dt th{background:var(--ink);color:#fff;padding:11px 12px;text-align:center;font-weight:700;
+  font-family:var(--mono);font-size:12px;letter-spacing:.03em}
+:root[data-theme="dark"] table.dt th{background:#0C0509}
+@media(prefers-color-scheme:dark){table.dt th{background:#0C0509}}
+table.dt td{padding:10px 12px;text-align:center;border-bottom:1px solid var(--line);
+  font-variant-numeric:tabular-nums;color:var(--ink2)}
+table.dt td:first-child{text-align:left;font-weight:700;color:var(--ink);font-family:var(--mono);font-size:13px}
+table.dt tbody tr:last-child td{border-bottom:none}
+table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
+
+/* callout / take / limit */
+.callout{border-left:4px solid var(--hot);background:var(--surface);border-radius:0 14px 14px 0;
+  padding:18px 22px;box-shadow:var(--shadow)}
+.callout .lab{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--hot-deep);font-weight:600;margin-bottom:7px}
+.callout p{font-size:16px}
+.take{background:var(--ink);color:#fff;border-radius:var(--radius);padding:24px 26px;box-shadow:var(--shadow-lg)}
+:root[data-theme="dark"] .take{background:#0C0509;border:1px solid var(--line)}
+@media(prefers-color-scheme:dark){.take{background:#0C0509;border:1px solid var(--line)}}
+.take .lab{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--hot);font-weight:600;margin-bottom:10px}
+.take p{font-size:18px;font-weight:650;color:#fff;line-height:1.55}
+.take p b{color:var(--hot)}
+.limit{border-left:4px solid var(--ink2);background:var(--surface);border-radius:0 14px 14px 0;padding:16px 20px}
+:root[data-theme="dark"] .limit{border-left-color:var(--muted)}
+@media(prefers-color-scheme:dark){.limit{border-left-color:var(--muted)}}
+.limit .lab{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);font-weight:700;margin-bottom:5px}
+.limit p{font-size:14.5px}
+
+/* two-col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mini{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.mini .h{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.mini .h .dot{width:9px;height:9px;border-radius:50%;flex:none}
+.mini p{font-size:14px;color:var(--ink2)}
+.mini ul{margin:6px 0 0;padding-left:18px}
+.mini li{font-size:13.5px;color:var(--ink2);margin:4px 0}
+
+/* method chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{font-family:var(--mono);font-size:12px;font-weight:600;background:var(--surface2);
+  color:var(--hot-deep);border:1px solid var(--line);padding:6px 12px;border-radius:8px}
+
+/* timeline */
+.tl{list-style:none;position:relative;padding-left:26px;margin-top:6px}
+.tl::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl li{position:relative;padding:0 0 20px 8px}
+.tl li::before{content:"";position:absolute;left:-24px;top:4px;width:12px;height:12px;border-radius:50%;
+  background:var(--hot);box-shadow:0 0 0 4px var(--hot-soft)}
+.tl .yr{font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--hot-deep)}
+.tl .ti{font-size:15px;font-weight:750;color:var(--ink);margin:2px 0 3px}
+.tl p{font-size:14px}
+
+/* sources */
+.src{font-size:13.5px;color:var(--muted);line-height:1.85}
+.src a{color:var(--hot-deep);text-decoration:none;border-bottom:1px solid var(--line)}
+.src a:hover{border-bottom-color:var(--hot)}
+.src .n{font-family:var(--mono);color:var(--faint);margin-right:6px}
+
+.footer{padding:40px 0 0;text-align:center}
+.footer p{font-size:13px;color:var(--muted)}
+.footer .big{font-family:var(--mono);font-weight:800;color:var(--ink);font-size:15px;letter-spacing:.02em;margin-bottom:6px}
+
+/* 4-category framework */
+.defs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px}
+.defs .mini .h .dot{width:11px;height:11px}
+.defs .mini .tag{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--muted);
+  letter-spacing:.06em;display:block;margin-top:8px}
+.eras{display:flex;flex-direction:column;gap:16px;margin-top:8px}
+.era{display:grid;grid-template-columns:154px 1fr;gap:16px;align-items:center}
+.era .elab b{display:block;font-family:var(--mono);font-weight:800;color:var(--ink);font-size:13.5px}
+.era .elab span{font-size:11.5px;color:var(--muted);line-height:1.4;display:block;margin-top:2px}
+.mapb{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.mapb .row{display:flex;gap:5px}
+.mapb .cell{flex:none;display:flex;align-items:center;justify-content:center;height:38px;border-radius:9px;
+  color:#fff;font-family:var(--mono);font-size:11.5px;font-weight:700;white-space:nowrap;padding:0 6px;text-align:center;line-height:1.15}
+.mapb .tags{display:flex;gap:5px}
+.mapb .tags span{flex:none;font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center}
+.mapb .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+@media(max-width:820px){.defs{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.era{grid-template-columns:1fr;gap:8px}}
+@media(max-width:480px){.defs{grid-template-columns:1fr}}
+
+/* theme toggle */
+.tt{position:fixed;top:16px;right:16px;z-index:50;width:42px;height:42px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:18px;
+  transition:transform .15s}
+.tt:hover{transform:scale(1.08)}
+.tt:focus-visible{outline:2px solid var(--hot);outline-offset:3px}
+
+.disc{font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:10px;line-height:1.6}
+
+@media(max-width:720px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats .stat:last-child{grid-column:1 / -1}
+  .thesis{grid-template-columns:1fr;gap:14px;text-align:left}
+  .calc-grid{grid-template-columns:1fr}
+  .two{grid-template-columns:1fr}
+  .barrow{grid-template-columns:76px 1fr 46px;gap:8px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+
+<button class="tt" id="tt" aria-label="라이트/다크 모드 전환" title="테마 전환">◐</button>
+
+<div class="sg-doc">
+<style>
+.findings{list-style:none;counter-reset:f;margin:0;padding:0}
+.findings li{counter-increment:f;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 16px 15px 52px;margin-bottom:11px;font-size:15px;line-height:1.6;position:relative;box-shadow:var(--shadow)}
+.findings li::before{content:counter(f);position:absolute;left:14px;top:14px;width:26px;height:26px;background:var(--hot);color:#fff;font-weight:900;font-size:13px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.findings b{color:var(--hot-deep)}
+</style>
+
+  <header class="hero">
+    <span class="eyebrow">Deep Dive · V3 · No.18 · Golf Conditioning</span>
+    <h1>잘 치는 몸의<br>초상화</h1>
+    <p class="lede">골퍼 <b>257명</b>을 핸디캡으로 나눠, 잘 치는 사람의 <b>몸</b>이 무엇이 다른지 재봤다. 스크래치급은 <b>회전 근력·유연성·균형</b>이 확연히 좋았다 — 특히 <b>힙·몸통의 회전 축</b>에서.</p>
+    <div class="cite-line">
+      <b>Sell, T. C., Tsai, Y.-S., Smoliga, J. M., Myers, J. B., Lephart, S. M. (2007)</b><br>
+      “Strength, flexibility, and balance characteristics of highly proficient golfers” · <i>J Strength Cond Res</i>, 21(4), 1166–1171
+    </div>
+    <a class="doi" href="https://pubmed.ncbi.nlm.nih.gov/18076270/" target="_blank" rel="noopener">PubMed에서 보기 ↗</a>
+
+    <div class="thesis">
+      <div class="big">257<small>명 · 핸디 3군</small></div>
+      <div class="txt">대규모 표본을 핸디캡 <b>≤0 / 1–9 / 10–20</b> 세 군으로 나누니, 최상위군은 <b>힙·몸통·어깨 근력</b>, <b>어깨·힙·몸통 유연성</b>, 그리고 <b>눈뜬 균형</b>에서 유의하게 앞섰다. 반면 <b>눈감은 균형</b>은 실력을 가르지 못했다.</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="v num">257</div><div class="k">남성 골퍼(대규모)</div></div>
+      <div class="stat"><div class="v num">3<span class="u">군</span></div><div class="k">핸디 ≤0 / 1–9 / 10–20</div></div>
+      <div class="stat"><div class="v num">회전</div><div class="k">힙·몸통 축이 핵심</div></div>
+      <div class="stat"><div class="v num">균형</div><div class="k">눈뜬 균형만 구별</div></div>
+      <div class="stat"><div class="v num">2007</div><div class="k">발표(JSCR)</div></div>
+    </div>
+    <p class="disc">※ 횡단연구(상관). ‘숙련자가 이런 몸을 가졌다’이지 ‘이 몸을 만들면 숙련자가 된다’의 증명은 아님(그 답은 #2).</p>
+  </header>
+
+  <section>
+    <span class="eyebrow">01 — 한 줄 요약</span>
+    <h2>실력을 가르는 신체 특성을 찾다</h2>
+    <p class="sec-intro mt16">‘골프에 좋은 몸’이 실재하는가? 이 논문은 <strong>257명</strong>의 근력(Biodex 등속·등척)·유연성(ROM)·균형(외다리 스탠스)을 재고, 핸디캡 세 군을 비교해 <strong>최상위 골퍼만의 신체 특성</strong>을 추렸다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 — 무엇을 쟀나</span>
+    <h2>세 영역, 회전 축 중심으로</h2>
+    <div class="two mt16">
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--long)"></span>근력</div><p><strong>힙</strong> 내전/외전(등척), <strong>몸통</strong> 회전(등속), <strong>어깨</strong> 내·외회전.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--short)"></span>유연성</div><p>몸통(좌우 회전)·어깨·힙 <strong>가동범위(ROM)</strong>.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--putt)"></span>균형</div><p>리드 다리 <strong>외다리 스탠스</strong>, 눈뜸/눈감음.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--appr)"></span>비교</div><p>핸디 <strong>≤0 vs 1–9 vs 10–20</strong> 군간 차이(p&lt;0.05).</p></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 — 핵심 발견</span>
+    <h2>스크래치급이 앞선 것들</h2>
+    <p class="sec-intro mt16">최상위군(핸디 ≤0)이 최하위군(10–20)보다 유의하게 우수했던 특성:</p>
+    <ol class="findings mt16">
+      <li><b>회전 근력</b> — 힙·몸통·어깨 근력이 모두 더 강했다(회전 사슬의 파워원).</li>
+      <li><b>유연성</b> — 어깨·힙·몸통(특히 우측) ROM이 더 컸다(더 큰 코일·아크).</li>
+      <li><b>눈뜬 균형</b> — 외다리 정적 안정성이 더 좋았다(일관성의 토대).</li>
+      <li><b>눈감은 균형은 무의차</b> — 시각을 없앤 균형은 실력을 <b>가르지 못했다</b>.</li>
+    </ol>
+    <div class="callout mt24">
+      <div class="lab">The Signal</div>
+      <p>실력을 가른 건 ‘전신 근력’이 아니라 <span class="hot">회전 축(힙–몸통)의 근력·유연성</span>. 골프에 필요한 건 무거운 걸 드는 힘이 아니라 <strong>잘 비틀고 잘 버티는 몸</strong>이다.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 — 함의</span>
+    <h2>프로필에서 처방으로</h2>
+    <p class="sec-intro mt16">이 신체 특성들은 <strong>훈련으로 바꿀 수 있다</strong>. 그래서 컨디셔닝의 표적이 분명해진다 — <strong>몸통 회전 근력, 힙 근력, 어깨·힙 가동성, 외다리 균형</strong>. 실제로 이 표적을 겨눈 8주 프로그램(#2)이 거리를 늘렸다.</p>
+    <a class="card" href="exercise-program-8week.html" style="display:block;text-decoration:none;color:inherit;border-left:4px solid var(--hot);margin-top:8px">
+      <div style="font-weight:800;color:var(--ink)">↝ No.2 · 8주 운동 프로그램</div>
+      <p style="margin-top:6px;font-size:14px">이 프로필을 ‘만들면’ 실제로 거리·X-Factor가 는다는 실증. <span class="hot" style="font-weight:800">함께 보기 →</span></p>
+    </a>
+  </section>
+
+  <section>
+    <span class="eyebrow">05 — 한계 · 유의점</span>
+    <h2>무엇을 조심해서 읽을까</h2>
+    <div class="stack mt16">
+      <div class="limit"><div class="lab">상관 ≠ 인과</div><p>숙련자가 이 특성을 <strong>가졌다</strong>는 것이지, 특성을 기르면 숙련자가 <strong>된다</strong>는 증명은 아니다(그 답은 #2의 개입 연구).</p></div>
+      <div class="limit"><div class="lab">남성·핸디 지표</div><p>남성만, 실력은 <strong>핸디캡 대리지표</strong>. 여성·기술·심리 요인은 담기지 않는다.</p></div>
+      <div class="limit"><div class="lab">스윙·거리 미측정</div><p>신체 특성을 <strong>핸디</strong>에 연결했을 뿐, 스윙 역학·헤드 스피드와 직접 연결하진 않았다.</p></div>
+      <div class="limit"><div class="lab">정적 균형만</div><p>정적 외다리 균형만 봐, 스윙 중 동적 균형은 아니다.</p></div>
+    </div>
+  </section>
+
+  <section style="border-bottom:none">
+    <span class="eyebrow">06 — 인용 · 출처</span>
+    <h2>원문과 참고자료</h2>
+    <div class="card mt16">
+      <p style="font-size:15px;line-height:1.7"><strong>Sell, T. C., Tsai, Y.-S., Smoliga, J. M., Myers, J. B., Lephart, S. M. (2007).</strong> Strength, flexibility, and balance characteristics of highly proficient golfers. <i>Journal of Strength and Conditioning Research</i>, 21(4), 1166–1171.</p>
+      <a class="doi" style="margin-top:14px" href="https://pubmed.ncbi.nlm.nih.gov/18076270/" target="_blank" rel="noopener">PubMed에서 열람 ↗</a>
+    </div>
+    <div class="mt24 src">
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">더 읽기 · 연결</div>
+      <p><span class="n">[1]</span> Lephart et al. (2007) 8주 운동 프로그램 — 컬렉션 #2</p>
+      <p><span class="n">[2]</span> Smith (2010) 생리학의 역할 — 컬렉션 #19</p>
+    </div>
+    <p class="disc">본문의 안전한 사실(n=257, 3군, 우세 영역, 눈감은 균형 무의차)은 원문 기준. 세부 토크·각도값은 원문 표 확인 권장.</p>
+  </section>
+
+  <div class="footer">
+    <p class="big">PHYSICAL PROFILE · V3 DEEP DIVE</p>
+    <p>Sell et al. (2007) · JSCR · 골프 경기력 연구 심층 정리</p>
+  </div>
+</div>
+<script>
+(function(){var root=document.documentElement,btn=document.getElementById('tt');
+function cur(){var t=root.getAttribute('data-theme');if(t)return t;return (window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';}
+btn.textContent=cur()==='dark'?'☀':'◐';
+btn.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';root.setAttribute('data-theme',n);btn.textContent=n==='dark'?'☀':'◐';});})();
+</script>
+</body>
+</html>
