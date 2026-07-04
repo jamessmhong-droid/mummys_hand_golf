@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang='ko'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>8주 골프 특화 운동 프로그램의 효과 — 전문가용 (V2)</title><style>
+:root{--bg:#FDEEF3;--bg-soft:#FCE4EC;--hot:#FF1E88;--hot-deep:#E60F73;--ink:#0E0E10;--white:#FFFFFF;--line:#F4C9DC;--muted:#6B5560;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Gothic Neo','Segoe UI',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
+
+.reflinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:13px;padding-top:13px;border-top:1px dashed var(--line)}
+.reflinks.bib{margin-top:9px;padding-top:0;border-top:none}
+.reflab{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.reflink{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;text-decoration:none;background:var(--white);color:var(--hot-deep);border:1.5px solid var(--hot);padding:5px 12px;border-radius:999px;transition:background .15s ease,color .15s ease}
+.reflink:hover{background:var(--hot);color:#fff}
+.reflink .ext{font-weight:700;opacity:.8}
+
+.wrap{max-width:760px;margin:0 auto;padding:32px 22px 88px}
+.back{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:var(--hot-deep);text-decoration:none;margin-bottom:26px}
+.back:hover{color:var(--ink)}
+.part{display:inline-block;background:var(--ink);color:var(--white);font-size:12px;font-weight:800;letter-spacing:.1em;padding:5px 13px;border-radius:999px}
+h1{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1.3;margin:18px 0 14px}
+.cite{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:14px;color:var(--muted);margin-bottom:14px}
+.cite b{color:var(--ink)}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pill{display:inline-block;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px}
+.pill.k{background:var(--ink)}
+.badges{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 30px}
+.tag{font-size:12px;font-weight:700;background:var(--bg-soft);color:var(--hot-deep);padding:5px 12px;border-radius:999px;border:1px solid var(--line)}
+.lead{font-size:17px;line-height:1.75;background:var(--white);border-left:5px solid var(--hot);border-radius:0 14px 14px 0;padding:18px 22px;margin-bottom:34px}
+h2{font-size:15px;font-weight:900;letter-spacing:.02em;color:var(--hot-deep);text-transform:uppercase;margin:0 0 14px;display:flex;align-items:center;gap:9px}
+h2::before{content:"";width:10px;height:10px;background:var(--hot);border-radius:3px;display:inline-block}
+section{margin-bottom:34px}
+.findings{list-style:none;counter-reset:f}
+.findings li{counter-increment:f;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:15px 16px 15px 52px;margin-bottom:11px;font-size:15px;position:relative}
+.findings li::before{content:counter(f);position:absolute;left:14px;top:14px;width:26px;height:26px;background:var(--hot);color:#fff;font-weight:900;font-size:13px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.findings b{color:var(--hot-deep)}
+.box{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15px}
+.take{background:var(--ink);color:#fff;border-radius:16px;padding:20px 22px;font-size:16px;font-weight:700;line-height:1.6}
+.take span{color:var(--hot);display:block;font-size:12px;letter-spacing:.14em;margin-bottom:8px;font-weight:800}
+.limit{background:var(--white);border:1px solid var(--line);border-left:5px solid var(--ink);border-radius:0 14px 14px 0;padding:16px 18px;font-size:15px;line-height:1.7}
+.limit .lab{display:block;font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--ink);text-transform:uppercase;margin-bottom:7px}
+h3{font-size:14px;font-weight:900;color:var(--ink);margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--hot)}
+.prog{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.progcol{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 16px}
+.progcol ul{list-style:none;margin:0;padding:0}
+.progcol li{font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line);line-height:1.45}
+.progcol li:last-child{border-bottom:none}
+.progcol .b{display:inline-block;font-size:10px;font-weight:800;background:var(--hot);color:#fff;padding:1px 7px;border-radius:999px;margin-left:4px;vertical-align:middle}
+.note{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6}
+.note b{color:var(--ink)}
+.dtab{width:100%;border-collapse:collapse;background:var(--white);border-radius:14px;overflow:hidden;border:1px solid var(--line);font-size:13.5px}
+.dtab th{background:var(--ink);color:#fff;padding:11px 10px;text-align:center;font-weight:800;font-size:12.5px;line-height:1.3}
+.dtab td{padding:10px 10px;text-align:center;border-bottom:1px solid var(--line)}
+.dtab td:first-child{text-align:left;font-weight:700}
+.dtab tbody tr:last-child td{border-bottom:none}
+.dtab tbody tr:nth-child(even){background:var(--bg-soft)}
+.foot{margin-top:40px;text-align:center}
+.foot a{color:var(--hot-deep);font-weight:700;text-decoration:none;font-size:14px}
+@media(max-width:640px){.prog{grid-template-columns:1fr}.dtab{font-size:12px}.dtab th,.dtab td{padding:8px 6px}}
+@media(max-width:520px){h1{font-size:24px}.wrap{padding:24px 15px 64px}}
+</style></head><body><div class='wrap'><a class='back' href='../golf-research-v2.html'>← 근거 자료집(V2)으로 돌아가기</a><div><span class='part'>PART 01 · 생체역학 · No.02</span></div><h1>8주 골프 특화 운동 프로그램의 효과</h1><div class='cite'><b>Lephart, S.M., Smoliga, J.M., Myers, J.B., Sell, T.C. &amp; Tsai, Y.-S. (2007)</b><br>J. Strength &amp; Conditioning Research, 21(3), 860–869 · Univ. of Pittsburgh<div class='pills'><span class='pill k'>중재 · 전후 비교(N=15)</span><span class='pill'>약 250+ 인용</span></div><div class='reflinks'><span class='reflab'>원문</span><a class='reflink' href='https://pubmed.ncbi.nlm.nih.gov/17685707/' target='_blank' rel='noopener'>PMID 17685707 <span class='ext'>↗</span></a><a class='reflink' href='https://doi.org/10.1519/R-20606.1' target='_blank' rel='noopener'>DOI 10.1519/R-20606.1 <span class='ext'>↗</span></a></div></div><div class='badges'><span class="tag">중재연구</span><span class="tag">탄력밴드</span><span class="tag">홈트레이닝</span></div><p class='lead'>레크리에이션 남성 골퍼 15명(평균 47세, USGA 핸디캡 12.1)을 대상으로, 비시즌 8주 동안 집에서 <b>탄력밴드+폼패드</b>로 수행한 골프 특화 운동이 신체 특성·스윙 역학·비거리를 실제로 바꾸는지 검증한 중재 연구.</p><section><h2>핵심 결과 · Findings</h2><ol class='findings'><li><b>가동범위(ROM) 전 항목 향상</b> — 어깨 신전 +약 20~23%, 고관절 신전 +약 36~38%, 고관절 굴곡 +약 7%.</li><li><b>몸통 회전 근력·고관절 외전 근력</b>이 유의하게 증가(좌우), 균형(자세 흔들림)도 개선.</li><li>스윙 역학 변화 — 탑에서 <b>골반이 더 열리고</b>, 다운스윙 가속 구간의 <b>상체 회전 속도·X-factor 속도</b>가 빨라짐.</li><li>결과적으로 <b>클럽헤드 스피드·볼 스피드·캐리·총 비거리 모두 유의하게 증가</b>(발사각·백스핀은 변화 없음).</li><li>즉 '체력 향상 → 스윙 역학 개선 → 비거리 증가'로 이어지는 <b>인과 사슬</b>을 실증.</li></ol></section><section><h2>연구 설계·방법 · Methods</h2><div class='box'>동일 집단 전후 비교(pre-post) 설계. 8주 프로그램 전후로 3D 동작분석(Peak Motus, 8카메라), 런치 모니터(Vector/Accusport), Biodex 등속성 근력, ROM·균형을 측정. 비시즌 진행, 참가자는 별도 레슨·연습 금지, 운동 로그로 순응도 확인.</div></section>
+<section><h2>실제 운동 프로그램</h2>
+<div class="box" style="margin-bottom:16px">
+<b>구성 원리</b> — 하체는 <b>안정성</b>(균형·고관절 근력·고관절 유연성), 상체는 <b>가동성</b>(몸통 회전·어깨 유연성)을 키우고 <b>몸통 회전 근력</b>을 강화하도록 설계.<br><br>
+<b>도구</b> — 1.8m 탄력 저항 밴드(핸들+고정앵커) + 20×25cm 폼 밸런스 패드.<br>
+<b>빈도</b> — 주 3~4일, 8주. 첫 측정 후 각 운동의 인쇄물·영상 설명을 받아 <b>집에서 자가 수행</b>.<br>
+<b>부하 방식</b> — 스트레칭은 각 30초 유지 / 근력은 밴드로 <b>2초 수축·2초 이완 = 1회</b>, <b>3세트 × 10~15회</b> 좌우. 3세트×15회가 편해지면 앵커에서 더 멀어져 저항 ↑ / 균형은 다리당 30초 <b>2세트</b>.
+</div>
+<div class="prog">
+  <div class="progcol"><h3>스트레칭 (각 30초)</h3><ul>
+    <li>누워서 무릎 당기기(고관절 굴곡)</li>
+    <li>엎드려 몸통 신전 — 엉덩이 들어 '역V' 자세</li>
+    <li>무릎 꿇고 런지(앞다리 90°)</li>
+    <li>앉아서 고관절 회전 — 다리 교차해 당기기</li>
+    <li>앉아서 몸통 회전</li>
+    <li>클럽 들고 앉아서 몸통 회전(목 뒤에 클럽)</li>
+    <li>서서 좌우 측면 굽히기(발 넓게)</li>
+  </ul></div>
+  <div class="progcol"><h3>근력 (3세트 × 10~15회, 2초/2초)</h3><ul>
+    <li>고관절 외전 <span class="b">밴드</span></li>
+    <li>고관절 내전 <span class="b">밴드</span></li>
+    <li>견갑골 후인(scapular retraction) <span class="b">밴드</span></li>
+    <li>저항 백스윙 <span class="b">밴드</span></li>
+    <li>저항 다운스윙 <span class="b">밴드</span></li>
+    <li>저항 스루스윙(팔로스루) <span class="b">밴드</span></li>
+    <li>복부 크런치</li>
+  </ul></div>
+  <div class="progcol"><h3>균형 (다리당 30초 · 2세트)</h3><ul>
+    <li>정적 프론트 스쿼트(무릎 45°)</li>
+    <li>바닥에서 한 발 서기</li>
+    <li>폼 패드 위에서 한 발 서기</li>
+  </ul></div>
+</div>
+<p class="note">* 근력 운동 중 <b>밴드</b> 표시는 탄력 저항 밴드를 사용하는 종목. 스윙 3국면(백/다운/스루)을 밴드 저항으로 그대로 재현하는 것이 이 프로그램의 '골프 특화' 핵심입니다. (출처: Table 4, Lephart et al. 2007)</p>
+</section><section><h2>해석과 함의 · Interpretation</h2><div class='box'>'골프에 맞춘 트레이닝이 성적을 올린다'를 <b>스윙 역학 분석까지 포함</b>해 실험적으로 뒷받침한 초기 근거. 특별한 장비·헬스장 없이 집에서 하는 밴드 운동만으로도 비거리가 늘 수 있음을 보여, 골프 피트니스 분야에서 널리 인용됨.</div></section><section><div class='limit'><span class='lab'>한계·유의 · Limitations</span>대조군 없는 8주 pre–post 설계. 학습·계절 효과를 배제하기 어렵고 중년 남성에 한정된다.</div></section><div class='take'><span>BOTTOM LINE</span>집에서 밴드로 3~4회/주, 8주 — 몸·스윙·비거리가 함께 좋아진다.</div><div class='foot'><a href='../golf-research-v2.html'>← 목록으로</a></div></div></body></html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>비거리·정확성을 극대화하는 생체역학의 역할 — 논문 요약</title>
+<style>
+:root{--bg:#FDEEF3;--bg-soft:#FCE4EC;--hot:#FF1E88;--hot-deep:#E60F73;--ink:#0E0E10;--white:#FFFFFF;--line:#F4C9DC;--muted:#6B5560;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Gothic Neo','Segoe UI',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
+
+.wrap{max-width:760px;margin:0 auto;padding:32px 22px 88px}
+.back{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:var(--hot-deep);text-decoration:none;margin-bottom:26px}
+.back:hover{color:var(--ink)}
+.part{display:inline-block;background:var(--ink);color:var(--white);font-size:12px;font-weight:800;letter-spacing:.1em;padding:5px 13px;border-radius:999px}
+h1{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1.3;margin:18px 0 14px}
+.cite{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:14px;color:var(--muted);margin-bottom:14px}
+.cite b{color:var(--ink)}
+.pill{display:inline-block;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px;margin-top:6px}
+.reflinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:13px;padding-top:13px;border-top:1px dashed var(--line)}
+.reflab{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.reflink{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;text-decoration:none;background:var(--white);color:var(--hot-deep);border:1.5px solid var(--hot);padding:5px 12px;border-radius:999px;transition:background .15s ease,color .15s ease}
+.reflink:hover{background:var(--hot);color:#fff}
+.reflink .ext{font-weight:700;opacity:.8}
+.badges{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 30px}
+.tag{font-size:12px;font-weight:700;background:var(--bg-soft);color:var(--hot-deep);padding:5px 12px;border-radius:999px;border:1px solid var(--line)}
+.lead{font-size:17px;line-height:1.75;background:var(--white);border-left:5px solid var(--hot);border-radius:0 14px 14px 0;padding:18px 22px;margin-bottom:34px}
+h2{font-size:15px;font-weight:900;letter-spacing:.02em;color:var(--hot-deep);text-transform:uppercase;margin:0 0 14px;display:flex;align-items:center;gap:9px}
+h2::before{content:"";width:10px;height:10px;background:var(--hot);border-radius:3px;display:inline-block}
+section{margin-bottom:34px}
+.findings{list-style:none;counter-reset:f}
+.findings li{counter-increment:f;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:15px 16px 15px 52px;margin-bottom:11px;font-size:15px;position:relative}
+.findings li::before{content:counter(f);position:absolute;left:14px;top:14px;width:26px;height:26px;background:var(--hot);color:#fff;font-weight:900;font-size:13px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.findings b{color:var(--hot-deep)}
+.box{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15px}
+.take{background:var(--ink);color:#fff;border-radius:16px;padding:20px 22px;font-size:16px;font-weight:700;line-height:1.6}
+.take span{color:var(--hot);display:block;font-size:12px;letter-spacing:.14em;margin-bottom:8px;font-weight:800}
+h3{font-size:14px;font-weight:900;color:var(--ink);margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--hot)}
+.prog{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.progcol{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 16px}
+.progcol ul{list-style:none;margin:0;padding:0}
+.progcol li{font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line);line-height:1.45}
+.progcol li:last-child{border-bottom:none}
+.progcol .b{display:inline-block;font-size:10px;font-weight:800;background:var(--hot);color:#fff;padding:1px 7px;border-radius:999px;margin-left:4px;vertical-align:middle}
+.note{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6}
+.note b{color:var(--ink)}
+.dtab{width:100%;border-collapse:collapse;background:var(--white);border-radius:14px;overflow:hidden;border:1px solid var(--line);font-size:13.5px}
+.dtab th{background:var(--ink);color:#fff;padding:11px 10px;text-align:center;font-weight:800;font-size:12.5px;line-height:1.3}
+.dtab td{padding:10px 10px;text-align:center;border-bottom:1px solid var(--line)}
+.dtab td:first-child{text-align:left;font-weight:700}
+.dtab tbody tr:last-child td{border-bottom:none}
+.dtab tbody tr:nth-child(even){background:var(--bg-soft)}
+@media(max-width:640px){.prog{grid-template-columns:1fr}.dtab{font-size:12px}.dtab th,.dtab td{padding:8px 6px}}
+@media(max-width:520px){h1{font-size:24px}.wrap{padding:24px 15px 64px}}
+</style></head>
+<body><div class="wrap">
+<a class="back" href="../golf-research-summary.html">← 전체 20선으로 돌아가기</a>
+<div><span class="part">PART 01 · 생체역학</span></div>
+<h1>비거리·정확성을 극대화하는 생체역학의 역할</h1>
+<div class="cite"><b>Hume, P., Keogh, J. &amp; Reid, D. (2005)</b><br>Sports Medicine, 35(5), 429–449<div class="pill">약 400+ 인용</div><div class="reflinks"><span class="reflab">원문</span><a class="reflink" href="https://pubmed.ncbi.nlm.nih.gov/15896091/" target="_blank" rel="noopener">PMID 15896091 <span class="ext">↗</span></a></div></div>
+<div class="badges"><span class="tag">최다인용 리뷰</span><span class="tag">스윙·퍼팅 종합</span><span class="tag">SSC</span></div>
+<p class="lead">골프 샷의 비거리와 정확성을 결정하는 생체역학 요인을 스윙·퍼팅 전반에 걸쳐 종합한, 이 분야에서 가장 많이 인용되는 대표 <b>종설(review)</b>이다. 자체 실험이 아니라 기존 연구들을 통합했다.</p>
+<section><h2>핵심 발견</h2><ol class="findings"><li>비거리 극대화에는 큰 <b>지면반력(GRF)</b>이 필요하며, 백스윙엔 뒷발, 다운스윙·가속 구간엔 <b>앞발로 반력이 이동</b>한다.</li><li>백스윙에서 고관절·몸통·상지를 빠르게 신전시키고, 다운스윙 초반 <b>X-factor를 극대화</b>하는 것이 '힘의 합산(summation of force)' 원리를 쓰는 방법이다.</li><li>구체 지침 — 리드암이 <b>수평보다 약 30° 아래일 때 손목 코킹을 푸는(uncocking)</b> 것이 클럽헤드 스피드에 유리하다.</li><li>정확성(칩·퍼팅)은 그립을 낮게, 백스윙을 <b>느리고 짧게</b>, 어깨·손목 움직임을 <b>일관되게</b> 유지할 때 높아진다.</li><li><b>신장-단축 주기(SSC)</b>와 근력·유연성 등 체력 요소가 스윙 역학과 상호작용하며 수행에 영향을 준다.</li></ol></section>
+<section><h2>연구 방법</h2><div class="box">골프 스윙·퍼팅 생체역학 문헌을 종합한 <b>내러티브 리뷰</b>(자체 표본 없음). 언급된 평가기법: 2D·3D 비디오그래피, 지면반력판(force plate), 근전도(EMG). Sports Medicine 35(5):429–449, PMID 15896091.</div></section>
+
+<section><h2>의의</h2><div class="box">이후 등장한 대부분의 골프 생체역학 연구가 참조하는 개념적 지도. 비거리와 정확성을 하나의 프레임에서 통합해 다뤘다는 점이 핵심이다.</div></section>
+<div class="take"><span>ONE-LINE TAKEAWAY</span>비거리는 지면반력·순차적 힘 전달에서, 정확성은 동작의 일관성에서 나온다.</div>
+<div class="foot" style="margin-top:40px;text-align:center"><a href="../golf-research-summary.html" style="color:var(--hot-deep);font-weight:700;text-decoration:none;font-size:14px">← 목록으로</a></div>
+</div></body></html>

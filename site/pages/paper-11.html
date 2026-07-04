@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PGA 투어 선수 경기력 평가 (Strokes Gained) — 논문 요약</title>
+<style>
+:root{--bg:#FDEEF3;--bg-soft:#FCE4EC;--hot:#FF1E88;--hot-deep:#E60F73;--ink:#0E0E10;--white:#FFFFFF;--line:#F4C9DC;--muted:#6B5560;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Gothic Neo','Segoe UI',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
+
+.wrap{max-width:760px;margin:0 auto;padding:32px 22px 88px}
+.back{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:var(--hot-deep);text-decoration:none;margin-bottom:26px}
+.back:hover{color:var(--ink)}
+.part{display:inline-block;background:var(--ink);color:var(--white);font-size:12px;font-weight:800;letter-spacing:.1em;padding:5px 13px;border-radius:999px}
+h1{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1.3;margin:18px 0 14px}
+.cite{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:14px;color:var(--muted);margin-bottom:14px}
+.cite b{color:var(--ink)}
+.pill{display:inline-block;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px;margin-top:6px}
+.reflinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:13px;padding-top:13px;border-top:1px dashed var(--line)}
+.reflab{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.reflink{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;text-decoration:none;background:var(--white);color:var(--hot-deep);border:1.5px solid var(--hot);padding:5px 12px;border-radius:999px;transition:background .15s ease,color .15s ease}
+.reflink:hover{background:var(--hot);color:#fff}
+.reflink .ext{font-weight:700;opacity:.8}
+.badges{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 30px}
+.tag{font-size:12px;font-weight:700;background:var(--bg-soft);color:var(--hot-deep);padding:5px 12px;border-radius:999px;border:1px solid var(--line)}
+.lead{font-size:17px;line-height:1.75;background:var(--white);border-left:5px solid var(--hot);border-radius:0 14px 14px 0;padding:18px 22px;margin-bottom:34px}
+h2{font-size:15px;font-weight:900;letter-spacing:.02em;color:var(--hot-deep);text-transform:uppercase;margin:0 0 14px;display:flex;align-items:center;gap:9px}
+h2::before{content:"";width:10px;height:10px;background:var(--hot);border-radius:3px;display:inline-block}
+section{margin-bottom:34px}
+.findings{list-style:none;counter-reset:f}
+.findings li{counter-increment:f;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:15px 16px 15px 52px;margin-bottom:11px;font-size:15px;position:relative}
+.findings li::before{content:counter(f);position:absolute;left:14px;top:14px;width:26px;height:26px;background:var(--hot);color:#fff;font-weight:900;font-size:13px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.findings b{color:var(--hot-deep)}
+.box{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15px}
+.take{background:var(--ink);color:#fff;border-radius:16px;padding:20px 22px;font-size:16px;font-weight:700;line-height:1.6}
+.take span{color:var(--hot);display:block;font-size:12px;letter-spacing:.14em;margin-bottom:8px;font-weight:800}
+h3{font-size:14px;font-weight:900;color:var(--ink);margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--hot)}
+.prog{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.progcol{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 16px}
+.progcol ul{list-style:none;margin:0;padding:0}
+.progcol li{font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line);line-height:1.45}
+.progcol li:last-child{border-bottom:none}
+.progcol .b{display:inline-block;font-size:10px;font-weight:800;background:var(--hot);color:#fff;padding:1px 7px;border-radius:999px;margin-left:4px;vertical-align:middle}
+.note{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6}
+.note b{color:var(--ink)}
+.dtab{width:100%;border-collapse:collapse;background:var(--white);border-radius:14px;overflow:hidden;border:1px solid var(--line);font-size:13.5px}
+.dtab th{background:var(--ink);color:#fff;padding:11px 10px;text-align:center;font-weight:800;font-size:12.5px;line-height:1.3}
+.dtab td{padding:10px 10px;text-align:center;border-bottom:1px solid var(--line)}
+.dtab td:first-child{text-align:left;font-weight:700}
+.dtab tbody tr:last-child td{border-bottom:none}
+.dtab tbody tr:nth-child(even){background:var(--bg-soft)}
+@media(max-width:640px){.prog{grid-template-columns:1fr}.dtab{font-size:12px}.dtab th,.dtab td{padding:8px 6px}}
+@media(max-width:520px){h1{font-size:24px}.wrap{padding:24px 15px 64px}}
+</style></head>
+<body><div class="wrap">
+<a class="back" href="../golf-research-summary.html">← 전체 20선으로 돌아가기</a>
+<div><span class="part">PART 02 · 경기력·데이터</span></div>
+<h1>PGA 투어 선수 경기력 평가 (Strokes Gained)</h1>
+<div class="cite"><b>Broadie, M. (2012)</b><br>Interfaces, 42(2), 146–165 · Columbia Univ. · DOI 10.1287/inte.1120.0626<div class="pill">고인용 · 골프 분석학 전환점</div><div class="reflinks"><span class="reflab">원문</span><a class="reflink" href="https://doi.org/10.1287/inte.1120.0626" target="_blank" rel="noopener">DOI 10.1287/inte.1120.0626 <span class="ext">↗</span></a></div></div>
+<div class="badges"><span class="tag">Strokes Gained</span><span class="tag">ShotLink</span><span class="tag">800만 샷</span></div>
+<p class="lead">PGA 투어 <b>ShotLink 데이터(2003~2010, 800만 샷+)</b>에 'Strokes Gained' 지표를 적용해, 선수 경기력을 롱게임·숏게임·퍼팅으로 분해한 골프 분석학의 대표 논문.</p>
+<section><h2>핵심 발견</h2><ol class="findings"><li><b>Strokes Gained(획득 타수)</b>: 각 샷을 '그 상황의 기대 타수' 대비로 평가하는 지표를 정립(동적계획법 기반).</li><li><b>롱게임(100야드 밖 샷)이 투어 선수 간 스코어 변동의 약 2/3를 설명</b> — '숏게임·퍼팅이 전부'라는 통념 반박.</li><li>타이거 우즈는 total strokes gained 1위이며, 그 우위의 <b>약 2/3도 롱게임</b>에서 기인.</li><li>전통 통계(퍼팅 수, 페어웨이 안착률 등)의 한계를 데이터로 드러냈다.</li><li>이 지표는 2011년 5월 PGA 투어가 퍼팅 측정에 <b>공식 도입</b>.</li></ol></section>
+<section><h2>연구 방법</h2><div class="box">PGA 투어 ShotLink의 샷 단위 데이터에 기대타수 모델(dynamic programming)을 적용. 스킬 카테고리별 순위화 + 코스 난이도 평가.</div></section>
+
+<section><h2>Strokes Gained 핵심 개념</h2>
+<div class="box" style="margin-bottom:14px"><b>정의</b> — 어떤 샷의 '획득 타수' = (샷 <u>전</u> 위치의 기대타수) − (샷 <u>후</u> 위치의 기대타수) − 1. 값이 <b>양수면 필드 평균보다 이득</b>, 음수면 손해.</div>
+<div class="prog">
+  <div class="progcol"><h3>롱게임</h3><ul><li>티샷·페어웨이 등 100야드 밖 샷</li><li>선수 간 스코어 차의 <b>약 2/3</b> 설명</li></ul></div>
+  <div class="progcol"><h3>숏게임</h3><ul><li>100야드 이내 어프로치·칩·벙커</li><li>스코어 기여도 상대적으로 작음</li></ul></div>
+  <div class="progcol"><h3>퍼팅</h3><ul><li>그린 위 스트로크</li><li>통념보다 기여도 작음(전부가 아님)</li></ul></div>
+</div>
+<p class="note">'퍼팅이 우승을 만든다'는 오랜 통념을 데이터로 뒤집은 것이 이 논문의 핵심. (출처: Broadie 2012)</p>
+</section>
+<section><h2>의의</h2><div class="box">오늘날 투어·방송·코칭의 표준 지표가 된 Strokes Gained의 학술적 토대. 골프 분석학의 전환점이다.</div></section>
+<div class="take"><span>ONE-LINE TAKEAWAY</span>모든 샷을 '기대 타수'로 평가하니, 성적의 약 2/3는 퍼팅이 아니라 롱게임에서 갈렸다.</div>
+<div class="foot" style="margin-top:40px;text-align:center"><a href="../golf-research-summary.html" style="color:var(--hot-deep);font-weight:700;text-decoration:none;font-size:14px">← 목록으로</a></div>
+</div></body></html>

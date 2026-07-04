@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang='ko'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>생체역학 변수와 드라이빙 수행의 관계 — 전문가용 (V2)</title><style>
+:root{--bg:#FDEEF3;--bg-soft:#FCE4EC;--hot:#FF1E88;--hot-deep:#E60F73;--ink:#0E0E10;--white:#FFFFFF;--line:#F4C9DC;--muted:#6B5560;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Gothic Neo','Segoe UI',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
+
+.reflinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:13px;padding-top:13px;border-top:1px dashed var(--line)}
+.reflinks.bib{margin-top:9px;padding-top:0;border-top:none}
+.reflab{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.reflink{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;text-decoration:none;background:var(--white);color:var(--hot-deep);border:1.5px solid var(--hot);padding:5px 12px;border-radius:999px;transition:background .15s ease,color .15s ease}
+.reflink:hover{background:var(--hot);color:#fff}
+.reflink .ext{font-weight:700;opacity:.8}
+
+.wrap{max-width:760px;margin:0 auto;padding:32px 22px 88px}
+.back{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:var(--hot-deep);text-decoration:none;margin-bottom:26px}
+.back:hover{color:var(--ink)}
+.part{display:inline-block;background:var(--ink);color:var(--white);font-size:12px;font-weight:800;letter-spacing:.1em;padding:5px 13px;border-radius:999px}
+h1{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1.3;margin:18px 0 14px}
+.cite{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:14px;color:var(--muted);margin-bottom:14px}
+.cite b{color:var(--ink)}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pill{display:inline-block;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px}
+.pill.k{background:var(--ink)}
+.badges{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 30px}
+.tag{font-size:12px;font-weight:700;background:var(--bg-soft);color:var(--hot-deep);padding:5px 12px;border-radius:999px;border:1px solid var(--line)}
+.lead{font-size:17px;line-height:1.75;background:var(--white);border-left:5px solid var(--hot);border-radius:0 14px 14px 0;padding:18px 22px;margin-bottom:34px}
+h2{font-size:15px;font-weight:900;letter-spacing:.02em;color:var(--hot-deep);text-transform:uppercase;margin:0 0 14px;display:flex;align-items:center;gap:9px}
+h2::before{content:"";width:10px;height:10px;background:var(--hot);border-radius:3px;display:inline-block}
+section{margin-bottom:34px}
+.findings{list-style:none;counter-reset:f}
+.findings li{counter-increment:f;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:15px 16px 15px 52px;margin-bottom:11px;font-size:15px;position:relative}
+.findings li::before{content:counter(f);position:absolute;left:14px;top:14px;width:26px;height:26px;background:var(--hot);color:#fff;font-weight:900;font-size:13px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.findings b{color:var(--hot-deep)}
+.box{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15px}
+.take{background:var(--ink);color:#fff;border-radius:16px;padding:20px 22px;font-size:16px;font-weight:700;line-height:1.6}
+.take span{color:var(--hot);display:block;font-size:12px;letter-spacing:.14em;margin-bottom:8px;font-weight:800}
+.limit{background:var(--white);border:1px solid var(--line);border-left:5px solid var(--ink);border-radius:0 14px 14px 0;padding:16px 18px;font-size:15px;line-height:1.7}
+.limit .lab{display:block;font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--ink);text-transform:uppercase;margin-bottom:7px}
+h3{font-size:14px;font-weight:900;color:var(--ink);margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--hot)}
+.prog{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.progcol{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 16px}
+.progcol ul{list-style:none;margin:0;padding:0}
+.progcol li{font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line);line-height:1.45}
+.progcol li:last-child{border-bottom:none}
+.progcol .b{display:inline-block;font-size:10px;font-weight:800;background:var(--hot);color:#fff;padding:1px 7px;border-radius:999px;margin-left:4px;vertical-align:middle}
+.note{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6}
+.note b{color:var(--ink)}
+.dtab{width:100%;border-collapse:collapse;background:var(--white);border-radius:14px;overflow:hidden;border:1px solid var(--line);font-size:13.5px}
+.dtab th{background:var(--ink);color:#fff;padding:11px 10px;text-align:center;font-weight:800;font-size:12.5px;line-height:1.3}
+.dtab td{padding:10px 10px;text-align:center;border-bottom:1px solid var(--line)}
+.dtab td:first-child{text-align:left;font-weight:700}
+.dtab tbody tr:last-child td{border-bottom:none}
+.dtab tbody tr:nth-child(even){background:var(--bg-soft)}
+.foot{margin-top:40px;text-align:center}
+.foot a{color:var(--hot-deep);font-weight:700;text-decoration:none;font-size:14px}
+@media(max-width:640px){.prog{grid-template-columns:1fr}.dtab{font-size:12px}.dtab th,.dtab td{padding:8px 6px}}
+@media(max-width:520px){h1{font-size:24px}.wrap{padding:24px 15px 64px}}
+</style></head><body><div class='wrap'><a class='back' href='../golf-research-v2.html'>← 근거 자료집(V2)으로 돌아가기</a><div><span class='part'>PART 01 · 생체역학 · No.08</span></div><h1>생체역학 변수와 드라이빙 수행의 관계</h1><div class='cite'><b>Chu, Y., Sell, T.C. &amp; Lephart, S.M. (2010)</b><br>Journal of Sports Sciences, 28(11), 1251–1259 · PMID 20845215<div class='pills'><span class='pill k'>단면 회귀분석(N=308)</span><span class='pill'>약 120+ 인용</span></div><div class='reflinks'><span class='reflab'>원문</span><a class='reflink' href='https://pubmed.ncbi.nlm.nih.gov/20845215/' target='_blank' rel='noopener'>PMID 20845215 <span class='ext'>↗</span></a></div></div><div class='badges'><span class="tag">N=308</span><span class="tag">회귀분석</span><span class="tag">X-factor</span></div><p class='lead'>골퍼 <b>308명</b>(남 266·여 42, 평균 핸디캡 8.4)을 대상으로, 어떤 생체역학 변수가 실제 볼 스피드를 결정하는지 단계적 회귀분석으로 규명한 대규모 연구.</p><section><h2>핵심 결과 · Findings</h2><ol class='findings'><li>스윙 4개 시점의 회귀모델이 <b>볼 스피드 분산의 43.7~73.5%</b>를 설명 — 임팩트 40ms 전 구간이 73.5%로 가장 높음.</li><li>볼 스피드는 핸디캡과 <b>r=−0.71</b>, 클럽헤드 속도와 <b>r=0.94</b>로 강하게 연관.</li><li>핵심 예측변수: 가속 시점 <b>상체 회전 속도</b>(β=0.43), <b>X-factor</b>(β=−0.25), 임팩트 시 몸통 전방·측면 기울기, 체중 이동.</li><li>상체·골반 각각의 회전보다 <b>둘 사이의 분리(X-factor)</b>가 유의 — 회전량보다 '분리'에 집중해야.</li><li>그동안 간과된 <b>전완 근육</b>도 클럽 릴리스 지연·가속에 중요.</li></ol></section><section><h2>연구 설계·방법 · Methods</h2><div class='box'>8대 고속카메라(240Hz)로 운동학, Kistler 포스플레이트(1200Hz)로 지면반력, FlightScope로 볼 스피드 측정. 10샷 중 상위 5샷 평균에 대해 단계적 다중선형회귀.</div></section><section><h2>해석과 함의 · Interpretation</h2><div class='box'>'지면부터 위로'의 운동 연쇄와 X-factor의 중요성을 대규모 표본으로 뒷받침. 코칭·트레이닝에 직접적 함의를 준다.</div></section><section><div class='limit'><span class='lab'>한계·유의 · Limitations</span>설명분산 기반으로 인과가 아니며 볼 스피드를 종속변수로 한다.</div></section><div class='take'><span>BOTTOM LINE</span>볼 스피드의 최대 73%는 상체 회전속도·X-factor·몸통 기울기·체중이동으로 설명된다.</div><div class='foot'><a href='../golf-research-v2.html'>← 목록으로</a></div></div></body></html>

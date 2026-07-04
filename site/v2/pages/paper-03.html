@@ -1,0 +1,68 @@
+<!DOCTYPE html><html lang='ko'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>드라이빙에서 상체·골반 회전의 역할 — 전문가용 (V2)</title><style>
+:root{--bg:#FDEEF3;--bg-soft:#FCE4EC;--hot:#FF1E88;--hot-deep:#E60F73;--ink:#0E0E10;--white:#FFFFFF;--line:#F4C9DC;--muted:#6B5560;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Gothic Neo','Segoe UI',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
+
+.reflinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:13px;padding-top:13px;border-top:1px dashed var(--line)}
+.reflinks.bib{margin-top:9px;padding-top:0;border-top:none}
+.reflab{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.reflink{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;text-decoration:none;background:var(--white);color:var(--hot-deep);border:1.5px solid var(--hot);padding:5px 12px;border-radius:999px;transition:background .15s ease,color .15s ease}
+.reflink:hover{background:var(--hot);color:#fff}
+.reflink .ext{font-weight:700;opacity:.8}
+
+.wrap{max-width:760px;margin:0 auto;padding:32px 22px 88px}
+.back{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:var(--hot-deep);text-decoration:none;margin-bottom:26px}
+.back:hover{color:var(--ink)}
+.part{display:inline-block;background:var(--ink);color:var(--white);font-size:12px;font-weight:800;letter-spacing:.1em;padding:5px 13px;border-radius:999px}
+h1{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1.3;margin:18px 0 14px}
+.cite{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:14px;color:var(--muted);margin-bottom:14px}
+.cite b{color:var(--ink)}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pill{display:inline-block;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px}
+.pill.k{background:var(--ink)}
+.badges{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 30px}
+.tag{font-size:12px;font-weight:700;background:var(--bg-soft);color:var(--hot-deep);padding:5px 12px;border-radius:999px;border:1px solid var(--line)}
+.lead{font-size:17px;line-height:1.75;background:var(--white);border-left:5px solid var(--hot);border-radius:0 14px 14px 0;padding:18px 22px;margin-bottom:34px}
+h2{font-size:15px;font-weight:900;letter-spacing:.02em;color:var(--hot-deep);text-transform:uppercase;margin:0 0 14px;display:flex;align-items:center;gap:9px}
+h2::before{content:"";width:10px;height:10px;background:var(--hot);border-radius:3px;display:inline-block}
+section{margin-bottom:34px}
+.findings{list-style:none;counter-reset:f}
+.findings li{counter-increment:f;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:15px 16px 15px 52px;margin-bottom:11px;font-size:15px;position:relative}
+.findings li::before{content:counter(f);position:absolute;left:14px;top:14px;width:26px;height:26px;background:var(--hot);color:#fff;font-weight:900;font-size:13px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.findings b{color:var(--hot-deep)}
+.box{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15px}
+.take{background:var(--ink);color:#fff;border-radius:16px;padding:20px 22px;font-size:16px;font-weight:700;line-height:1.6}
+.take span{color:var(--hot);display:block;font-size:12px;letter-spacing:.14em;margin-bottom:8px;font-weight:800}
+.limit{background:var(--white);border:1px solid var(--line);border-left:5px solid var(--ink);border-radius:0 14px 14px 0;padding:16px 18px;font-size:15px;line-height:1.7}
+.limit .lab{display:block;font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--ink);text-transform:uppercase;margin-bottom:7px}
+h3{font-size:14px;font-weight:900;color:var(--ink);margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--hot)}
+.prog{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.progcol{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 16px}
+.progcol ul{list-style:none;margin:0;padding:0}
+.progcol li{font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line);line-height:1.45}
+.progcol li:last-child{border-bottom:none}
+.progcol .b{display:inline-block;font-size:10px;font-weight:800;background:var(--hot);color:#fff;padding:1px 7px;border-radius:999px;margin-left:4px;vertical-align:middle}
+.note{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6}
+.note b{color:var(--ink)}
+.dtab{width:100%;border-collapse:collapse;background:var(--white);border-radius:14px;overflow:hidden;border:1px solid var(--line);font-size:13.5px}
+.dtab th{background:var(--ink);color:#fff;padding:11px 10px;text-align:center;font-weight:800;font-size:12.5px;line-height:1.3}
+.dtab td{padding:10px 10px;text-align:center;border-bottom:1px solid var(--line)}
+.dtab td:first-child{text-align:left;font-weight:700}
+.dtab tbody tr:last-child td{border-bottom:none}
+.dtab tbody tr:nth-child(even){background:var(--bg-soft)}
+.foot{margin-top:40px;text-align:center}
+.foot a{color:var(--hot-deep);font-weight:700;text-decoration:none;font-size:14px}
+@media(max-width:640px){.prog{grid-template-columns:1fr}.dtab{font-size:12px}.dtab th,.dtab td{padding:8px 6px}}
+@media(max-width:520px){h1{font-size:24px}.wrap{padding:24px 15px 64px}}
+</style></head><body><div class='wrap'><a class='back' href='../golf-research-v2.html'>← 근거 자료집(V2)으로 돌아가기</a><div><span class='part'>PART 01 · 생체역학 · No.03</span></div><h1>드라이빙에서 상체·골반 회전의 역할</h1><div class='cite'><b>Myers, J., Lephart, S., Tsai, Y.-S., Sell, T., Smoliga, J. &amp; Jolly, J. (2008)</b><br>Journal of Sports Sciences, 26(2), 181–188 · PMID 17852693<div class='pills'><span class='pill k'>단면 상관연구(N=100)</span><span class='pill'>약 200+ 인용</span></div><div class='reflinks'><span class='reflab'>원문</span><a class='reflink' href='https://pubmed.ncbi.nlm.nih.gov/17852693/' target='_blank' rel='noopener'>PMID 17852693 <span class='ext'>↗</span></a></div></div><div class='badges'><span class="tag">X-factor</span><span class="tag">N=100</span><span class="tag">분리각</span></div><p class='lead'>레크리에이션 골퍼 <b>100명</b>(평균 핸디캡 8.1, 45세)을 볼 스피드로 3군으로 나눠, 상체-골반 회전 분리(X-factor)가 볼 스피드에 어떻게 기여하는지 실측한 핵심 실증 연구.</p><section><h2>핵심 결과 · Findings</h2><ol class='findings'><li>볼 스피드가 빠른 군일수록 <b>몸통-골반 분리각이 뚜렷하게 컸다</b> — 저속 −44°, 중속 −50°, 고속 −59°(P&lt;0.0001).</li><li>최대 <b>상체 회전 속도</b>도 저속 591 → 중속 675 → 고속 767 °/s로 증가(P&lt;0.0001).</li><li>볼 스피드와의 상관은 <b>상체 회전 속도 r=0.59~0.61</b>, 분리각 r≈−0.55로 회전 '속도'가 특히 중요.</li><li><b>골반 회전 위치·속도는 볼 스피드와 유의한 상관 없음</b> — 회전량 자체보다 두 분절의 '분리'가 관건.</li><li>정점 분리각과 최대 분리각이 비슷하게 상관 → '최대 분리가 정점보다 더 중요'하다는 주장은 지지되지 않음.</li></ol></section><section><h2>연구 설계·방법 · Methods</h2><div class='box'>3D 동작분석(Peak Motus, 카메라 8대, 200fps) + 런치 모니터(FlightScope). 본인 드라이버로 10스윙, 볼 스피드 상위 5스윙 분석. 일원 ANOVA + Pearson 상관(r≥0.50만 논의).</div></section>
+<section><h2>볼 스피드 그룹별 회전 데이터</h2>
+<table class="dtab"><thead><tr><th>변수</th><th>저속군<br>(n=21)</th><th>중속군<br>(n=65)</th><th>고속군<br>(n=14)</th></tr></thead>
+<tbody>
+<tr><td>볼 스피드 (m/s)</td><td>55.7</td><td>65.6</td><td>75.4</td></tr>
+<tr><td>정점 분리각 (°)</td><td>−44.2</td><td>−49.5</td><td>−59.1</td></tr>
+<tr><td>최대 분리각 (°)</td><td>−45.6</td><td>−51.7</td><td>−61.8</td></tr>
+<tr><td>최대 상체 회전속도 (°/s)</td><td>591</td><td>675</td><td>767</td></tr>
+<tr><td>평균 핸디캡</td><td>15.1</td><td>7.8</td><td>1.8</td></tr>
+</tbody></table>
+<p class="note">고속군일수록 분리각과 회전 속도가 계단식으로 커진다(모두 P&lt;0.0001). (출처: Myers et al. 2008, Table)</p>
+</section><section><h2>해석과 함의 · Interpretation</h2><div class='box'>'X-factor가 크면 멀리 친다'에 대규모 표본의 정량 근거를 제공. 이후 파워 연구의 기준점이 됐다.</div></section><section><div class='limit'><span class='lab'>한계·유의 · Limitations</span>상관은 인과가 아니며 r≈0.5–0.6로 설명력은 중간 수준이다.</div></section><div class='take'><span>BOTTOM LINE</span>상체를 더 크게·빠르게 돌리고 골반은 덜 돌려 &#x27;분리&#x27;를 키우면 볼 스피드가 오른다.</div><div class='foot'><a href='../golf-research-v2.html'>← 목록으로</a></div></div></body></html>

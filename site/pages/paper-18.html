@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>고숙련 골퍼의 근력·유연성·균형 — 논문 요약</title>
+<style>
+:root{--bg:#FDEEF3;--bg-soft:#FCE4EC;--hot:#FF1E88;--hot-deep:#E60F73;--ink:#0E0E10;--white:#FFFFFF;--line:#F4C9DC;--muted:#6B5560;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Gothic Neo','Segoe UI',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
+
+.wrap{max-width:760px;margin:0 auto;padding:32px 22px 88px}
+.back{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:var(--hot-deep);text-decoration:none;margin-bottom:26px}
+.back:hover{color:var(--ink)}
+.part{display:inline-block;background:var(--ink);color:var(--white);font-size:12px;font-weight:800;letter-spacing:.1em;padding:5px 13px;border-radius:999px}
+h1{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1.3;margin:18px 0 14px}
+.cite{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:14px;color:var(--muted);margin-bottom:14px}
+.cite b{color:var(--ink)}
+.pill{display:inline-block;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px;margin-top:6px}
+.reflinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:13px;padding-top:13px;border-top:1px dashed var(--line)}
+.reflab{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.reflink{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;text-decoration:none;background:var(--white);color:var(--hot-deep);border:1.5px solid var(--hot);padding:5px 12px;border-radius:999px;transition:background .15s ease,color .15s ease}
+.reflink:hover{background:var(--hot);color:#fff}
+.reflink .ext{font-weight:700;opacity:.8}
+.badges{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 30px}
+.tag{font-size:12px;font-weight:700;background:var(--bg-soft);color:var(--hot-deep);padding:5px 12px;border-radius:999px;border:1px solid var(--line)}
+.lead{font-size:17px;line-height:1.75;background:var(--white);border-left:5px solid var(--hot);border-radius:0 14px 14px 0;padding:18px 22px;margin-bottom:34px}
+h2{font-size:15px;font-weight:900;letter-spacing:.02em;color:var(--hot-deep);text-transform:uppercase;margin:0 0 14px;display:flex;align-items:center;gap:9px}
+h2::before{content:"";width:10px;height:10px;background:var(--hot);border-radius:3px;display:inline-block}
+section{margin-bottom:34px}
+.findings{list-style:none;counter-reset:f}
+.findings li{counter-increment:f;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:15px 16px 15px 52px;margin-bottom:11px;font-size:15px;position:relative}
+.findings li::before{content:counter(f);position:absolute;left:14px;top:14px;width:26px;height:26px;background:var(--hot);color:#fff;font-weight:900;font-size:13px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.findings b{color:var(--hot-deep)}
+.box{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15px}
+.take{background:var(--ink);color:#fff;border-radius:16px;padding:20px 22px;font-size:16px;font-weight:700;line-height:1.6}
+.take span{color:var(--hot);display:block;font-size:12px;letter-spacing:.14em;margin-bottom:8px;font-weight:800}
+h3{font-size:14px;font-weight:900;color:var(--ink);margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--hot)}
+.prog{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.progcol{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 16px}
+.progcol ul{list-style:none;margin:0;padding:0}
+.progcol li{font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line);line-height:1.45}
+.progcol li:last-child{border-bottom:none}
+.progcol .b{display:inline-block;font-size:10px;font-weight:800;background:var(--hot);color:#fff;padding:1px 7px;border-radius:999px;margin-left:4px;vertical-align:middle}
+.note{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6}
+.note b{color:var(--ink)}
+.dtab{width:100%;border-collapse:collapse;background:var(--white);border-radius:14px;overflow:hidden;border:1px solid var(--line);font-size:13.5px}
+.dtab th{background:var(--ink);color:#fff;padding:11px 10px;text-align:center;font-weight:800;font-size:12.5px;line-height:1.3}
+.dtab td{padding:10px 10px;text-align:center;border-bottom:1px solid var(--line)}
+.dtab td:first-child{text-align:left;font-weight:700}
+.dtab tbody tr:last-child td{border-bottom:none}
+.dtab tbody tr:nth-child(even){background:var(--bg-soft)}
+@media(max-width:640px){.prog{grid-template-columns:1fr}.dtab{font-size:12px}.dtab th,.dtab td{padding:8px 6px}}
+@media(max-width:520px){h1{font-size:24px}.wrap{padding:24px 15px 64px}}
+</style></head>
+<body><div class="wrap">
+<a class="back" href="../golf-research-summary.html">← 전체 20선으로 돌아가기</a>
+<div><span class="part">PART 02 · 경기력·데이터</span></div>
+<h1>고숙련 골퍼의 근력·유연성·균형</h1>
+<div class="cite"><b>Sell, T.C., Tsai, Y.-S., Smoliga, J.M., Myers, J.B. &amp; Lephart, S.M. (2007)</b><br>J. Strength &amp; Cond. Research, 21(4), 1166–1171 · PMID 18076270<div class="pill">약 다수 인용</div><div class="reflinks"><span class="reflab">원문</span><a class="reflink" href="https://pubmed.ncbi.nlm.nih.gov/18076270/" target="_blank" rel="noopener">PMID 18076270 <span class="ext">↗</span></a></div></div>
+<div class="badges"><span class="tag">N=257</span><span class="tag">핸디캡 3군</span><span class="tag">근력·유연성</span></div>
+<p class="lead">남성 골퍼 <b>257명</b>을 핸디캡으로 3군(≤0 / 1–9 / 10–20)으로 나눠, 근력·유연성·균형이 숙련도에 따라 어떻게 다른지 비교한 연구.</p>
+<section><h2>핵심 발견</h2><ol class="findings"><li>최상급군(핸디캡 ≤0)은 최하위군보다 <b>고관절·몸통·어깨 근력, 유연성, (눈 뜬)균형</b>이 유의하게 우수.</li><li>우측 <b>몸통 회전 근력</b>: ≤0군 157 vs 10–20군 123 (%체중, p=0.001).</li><li>우측 <b>고관절 외전 근력</b>: ≤0군 154 vs 10–20군 122 (%체중, p=0.001).</li><li>자가보고 <b>드라이빙 거리</b>: 281 → 263 → 252야드로 3군 모두 유의차(p=0.001).</li><li>핸디캡과 드라이빙 거리 상관 <b>r=−0.48</b> — 핸디캡이 낮을수록 거리가 길다. 이 특성들은 훈련으로 개선 가능.</li></ol></section>
+<section><h2>연구 방법</h2><div class="box">기술적 코호트. Biodex로 등속성/등척성 근력, 고니오미터로 ROM, Kistler 힘판(100Hz)으로 단일다리 균형(눈 뜨고/감고) 측정.</div></section>
+
+<section><h2>핸디캡 그룹별 비교</h2>
+<table class="dtab"><thead><tr><th>지표</th><th>핸디캡 ≤0<br>(n=45)</th><th>1–9<br>(n=120)</th><th>10–20<br>(n=92)</th></tr></thead>
+<tbody>
+<tr><td>드라이빙 거리 (yd)</td><td>281</td><td>263</td><td>252</td></tr>
+<tr><td>우 몸통회전 근력 (%BW)</td><td>157</td><td>—</td><td>123</td></tr>
+<tr><td>우 고관절외전 근력 (%BW)</td><td>154</td><td>—</td><td>122</td></tr>
+</tbody></table>
+<p class="note">%BW = 체중 대비 최대토크. 핸디캡이 낮은(잘 치는) 군일수록 코어 근력과 거리가 높다(p=0.001). (출처: Sell et al. 2007)</p>
+</section>
+<section><h2>의의</h2><div class="box">'골프를 잘 치려면 어떤 체력이 필요한가'를 대규모 데이터로 제시해 골프 컨디셔닝 프로그램 설계의 근거가 됐다.</div></section>
+<div class="take"><span>ONE-LINE TAKEAWAY</span>코어(고관절·몸통) 근력·유연성·균형이 좋을수록 핸디캡이 낮고 드라이브가 길다.</div>
+<div class="foot" style="margin-top:40px;text-align:center"><a href="../golf-research-summary.html" style="color:var(--hot-deep);font-weight:700;text-decoration:none;font-size:14px">← 목록으로</a></div>
+</div></body></html>
