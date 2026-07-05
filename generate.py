@@ -450,75 +450,86 @@ def card_watermark(prefix):
             f'aria-label="Instagram {IG_HANDLE}"><img src="{prefix}assets/wm.png" alt="">'
             f'<span>{IG_HANDLE}</span></a>')
 
+PIG = ('<a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" '
+       'rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a>')
+CIRC = "①②③④⑤⑥⑦⑧"
+
 def detail_html(pid, p):
-    tags = "".join(f'<span class="tag">{html.escape(t)}</span>' for t in p["tags"])
-    findings = "".join(f'<li>{f}</li>' for f in p["findings"])
+    # V1 = Instagram carousel. One idea per 4:5 slide: cover, each finding, takeaway.
+    finds = p["findings"][:8]
+    v2href = f"../v2/pages/paper-{pid:02d}.html"
+    total = len(finds) + 2
+    S = []
+    # 1) cover
+    S.append(f"""<div class="slide cover" id="s1">
+  <div class="stop"><span class="pno">{pid:02d}</span><img class="smasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
+  <span class="ppart">{html.escape(p['part'])}</span>
+  <h1 class="ctitle">{html.escape(p['title'])}</h1>
+  <div class="ccite"><b>{html.escape(p['authors'])}</b><br>{html.escape(p['journal'])}<div class="cpill">{html.escape(p['cites'])}</div></div>
+  <div class="sfoot">{PIG}<span class="hint">1 / {total}</span></div>
+</div>""")
+    # 2) one finding per slide
+    for i, f in enumerate(finds):
+        S.append(f"""<div class="slide" id="s{i+2}">
+  <div class="stop"><span class="slabel">핵심 발견 {CIRC[i]}</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
+  <div class="sbody"><p class="ftext">{f}</p></div>
+  <div class="sfoot">{PIG}<span class="sidx">{i+2} / {total}</span></div>
+</div>""")
+    # 3) takeaway
+    S.append(f"""<div class="slide take" id="s{total}">
+  <div class="stop"><span class="slabel">ONE-LINE 결론</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
+  <div class="sbody"><p class="ttext">{p['takeaway']}</p></div>
+  <div class="sfoot">{PIG}<a class="more" href="{v2href}">근거 자세히 → V2</a></div>
+</div>""")
+    slides = "\n".join(S)
     return f"""<!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{html.escape(p['title'])} — 논문 요약</title>
+<title>{html.escape(p['title'])} — 카드</title>
 {favicon_links("../")}
-<style>{CSS}{BRAND_CSS}
-.wrap{{max-width:760px;margin:0 auto;padding:32px 22px 88px;position:relative}}
-.back{{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:var(--hot-deep);text-decoration:none;margin-bottom:26px}}
-.back:hover{{color:var(--ink)}}
-.part{{display:inline-block;background:var(--ink);color:var(--white);font-size:12px;font-weight:800;letter-spacing:.1em;padding:5px 13px;border-radius:999px}}
-h1{{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1.3;margin:18px 0 14px}}
-.cite{{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:14px;color:var(--muted);margin-bottom:14px}}
-.cite b{{color:var(--ink)}}
-.pill{{display:inline-block;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px;margin-top:6px}}
-.reflinks{{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:13px;padding-top:13px;border-top:1px dashed var(--line)}}
-.reflab{{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}}
-.reflink{{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;text-decoration:none;background:var(--white);color:var(--hot-deep);border:1.5px solid var(--hot);padding:5px 12px;border-radius:999px;transition:background .15s ease,color .15s ease}}
-.reflink:hover{{background:var(--hot);color:#fff}}
-.reflink .ext{{font-weight:700;opacity:.8}}
-.badges{{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 30px}}
-.tag{{font-size:12px;font-weight:700;background:var(--bg-soft);color:var(--hot-deep);padding:5px 12px;border-radius:999px;border:1px solid var(--line)}}
-.lead{{font-size:17px;line-height:1.75;background:var(--white);border-left:5px solid var(--hot);border-radius:0 14px 14px 0;padding:18px 22px;margin-bottom:34px}}
-h2{{font-size:15px;font-weight:900;letter-spacing:.02em;color:var(--hot-deep);text-transform:uppercase;margin:0 0 14px;display:flex;align-items:center;gap:9px}}
-h2::before{{content:"";width:10px;height:10px;background:var(--hot);border-radius:3px;display:inline-block}}
-section{{margin-bottom:34px}}
-.findings{{list-style:none;counter-reset:f}}
-.findings li{{counter-increment:f;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:15px 16px 15px 52px;margin-bottom:11px;font-size:15px;position:relative}}
-.findings li::before{{content:counter(f);position:absolute;left:14px;top:14px;width:26px;height:26px;background:var(--hot);color:#fff;font-weight:900;font-size:13px;border-radius:8px;display:flex;align-items:center;justify-content:center}}
-.findings b{{color:var(--hot-deep)}}
-.box{{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15px}}
-.take{{background:var(--ink);color:#fff;border-radius:16px;padding:20px 22px;font-size:16px;font-weight:700;line-height:1.6}}
-.take span{{color:var(--hot);display:block;font-size:12px;letter-spacing:.14em;margin-bottom:8px;font-weight:800}}
-h3{{font-size:14px;font-weight:900;color:var(--ink);margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--hot)}}
-.prog{{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}}
-.progcol{{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 16px}}
-.progcol ul{{list-style:none;margin:0;padding:0}}
-.progcol li{{font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line);line-height:1.45}}
-.progcol li:last-child{{border-bottom:none}}
-.progcol .b{{display:inline-block;font-size:10px;font-weight:800;background:var(--hot);color:#fff;padding:1px 7px;border-radius:999px;margin-left:4px;vertical-align:middle}}
-.note{{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6}}
-.note b{{color:var(--ink)}}
-.dtab{{width:100%;border-collapse:collapse;background:var(--white);border-radius:14px;overflow:hidden;border:1px solid var(--line);font-size:13.5px}}
-.dtab th{{background:var(--ink);color:#fff;padding:11px 10px;text-align:center;font-weight:800;font-size:12.5px;line-height:1.3}}
-.dtab td{{padding:10px 10px;text-align:center;border-bottom:1px solid var(--line)}}
-.dtab td:first-child{{text-align:left;font-weight:700}}
-.dtab tbody tr:last-child td{{border-bottom:none}}
-.dtab tbody tr:nth-child(even){{background:var(--bg-soft)}}
-@media(max-width:640px){{.prog{{grid-template-columns:1fr}}.dtab{{font-size:12px}}.dtab th,.dtab td{{padding:8px 6px}}}}
-@media(max-width:520px){{h1{{font-size:24px}}.wrap{{padding:24px 15px 64px}}}}
+<style>{CSS}
+body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:22px 0 40px}}
+.topnav{{width:min(92vw,460px);display:flex;justify-content:space-between;gap:10px;margin:0 auto 14px}}
+.topnav a{{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none}}
+.topnav a:hover{{color:var(--ink)}}
+.carousel{{display:flex;flex-direction:column;align-items:center;gap:20px;width:100%;padding:4px 16px}}
+.slide{{width:min(92vw,440px);aspect-ratio:4/5;background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 22px 56px -30px rgba(230,15,115,.55);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:hidden}}
+.stop{{display:flex;align-items:center;gap:12px;margin-bottom:16px}}
+.pno{{font-size:30px;font-weight:900;color:#fff;background:var(--hot);min-width:56px;height:56px;padding:0 6px;border-radius:15px;display:flex;align-items:center;justify-content:center;letter-spacing:-.02em}}
+.smasc{{width:46px;height:46px;margin-left:auto;filter:drop-shadow(0 5px 10px rgba(230,15,115,.3))}}
+.slabel{{font-size:13px;font-weight:800;letter-spacing:.02em;color:#fff;background:var(--hot);padding:7px 15px;border-radius:999px}}
+.ppart{{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}}
+.ctitle{{font-size:29px;font-weight:900;letter-spacing:-.02em;line-height:1.24;color:var(--ink);margin:2px 0 14px}}
+.ccite{{font-size:14px;line-height:1.6;color:var(--muted);font-weight:600;margin-top:auto}}
+.ccite b{{color:var(--ink);font-weight:800}}
+.cpill{{display:inline-block;margin-top:9px;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 13px;border-radius:999px}}
+.sbody{{flex:1;display:flex;align-items:center;padding:6px 0}}
+.ftext{{font-size:22px;font-weight:700;line-height:1.55;color:var(--ink)}}
+.ftext b{{color:var(--hot-deep)}}
+.slide.take{{background:var(--ink);border-color:var(--ink)}}
+.slide.take .slabel{{background:var(--hot)}}
+.ttext{{font-size:26px;font-weight:800;line-height:1.5;color:#fff}}
+.ttext b{{color:var(--hot)}}
+.sfoot{{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:13px;margin-top:12px}}
+.slide.take .sfoot{{border-top-color:rgba(255,255,255,.18)}}
+.pig{{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:var(--hot-deep);text-decoration:none;white-space:nowrap}}
+.pig img{{width:22px;height:22px}}
+.slide.take .pig{{color:#fff}}
+.hint,.sidx{{font-size:12px;font-weight:800;color:var(--muted)}}
+.more{{font-size:12.5px;font-weight:800;color:var(--hot);text-decoration:none;white-space:nowrap}}
+.swipehint{{margin-top:14px;font-size:13px;color:var(--muted);font-weight:700;text-align:center}}
+.controls{{width:min(92vw,460px);display:flex;justify-content:space-between;gap:10px;margin:6px auto 0}}
+.controls a{{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none;background:var(--white);border:1px solid var(--line);padding:9px 16px;border-radius:999px}}
+.controls a:hover{{background:var(--hot);color:#fff;border-color:var(--hot)}}
 </style></head>
-<body><div class="wrap">
-{card_watermark("../")}
-<a class="back" href="../golf-research-summary.html">← 전체 20선으로 돌아가기</a>
-<div><span class="part">{html.escape(p['part'])}</span></div>
-<h1>{html.escape(p['title'])}</h1>
-<div class="cite"><b>{html.escape(p['authors'])}</b><br>{html.escape(p['journal'])}<div class="pill">{html.escape(p['cites'])}</div>{ref_links(p)}</div>
-<div class="badges">{tags}</div>
-<p class="lead">{p['summary']}</p>
-<section><h2>핵심 발견</h2><ol class="findings">{findings}</ol></section>
-<section><h2>연구 방법</h2><div class="box">{p['method']}</div></section>
-{p.get('extra','')}
-<section><h2>의의</h2><div class="box">{p['significance']}</div></section>
-<div class="take"><span>ONE-LINE TAKEAWAY</span>{p['takeaway']}</div>
-<div class="foot" style="margin-top:40px;text-align:center"><a href="../golf-research-summary.html" style="color:var(--hot-deep);font-weight:700;text-decoration:none;font-size:14px">← 목록으로</a></div>
-{brand_footer("../")}
-</div></body></html>"""
+<body>
+<div class="topnav"><a href="../golf-research-summary.html">← 카드 목록</a><a href="{v2href}">전문가용 근거(V2) →</a></div>
+<div class="carousel">
+{slides}
+</div>
+<p class="swipehint">아래로 스크롤 · 총 {total}장 (표지 · 발견 {len(finds)} · 결론) · 인스타 캐러셀 순서 그대로</p>
+<div class="controls"><a href="../golf-research-summary.html">← 목록</a><a href="{v2href}">근거 자세히 보기 →</a></div>
+</body></html>"""
 
 for pid, p in papers.items():
     with open(os.path.join(PAGES, f"paper-{pid:02d}.html"), "w", encoding="utf-8") as f:
@@ -604,7 +615,7 @@ index = f"""<!DOCTYPE html>
   <header class="hero">
     <span class="kicker">GOLF PERFORMANCE · RESEARCH</span>
     <h1>골프 경기력을 만든<br><span>핵심 연구 20선</span></h1>
-    <p>비거리·정확성·퍼팅·부상예방까지 — 학술적으로 영향력 있는 논문 20편의 핵심 발견을 한눈에 정리했습니다. 각 카드를 누르면 상세 요약으로 이동합니다.</p>
+    <p>비거리·정확성·퍼팅·부상예방까지 — 영향력 있는 논문 20편을 <b>인스타그램 카드</b>로 정리했습니다. 카드를 누르면 <b>스와이프 카드 세트</b>(표지·발견·결론)가 열려요. 더 깊은 근거는 전문가용(V2)에서.</p>
     {imgspot}
   </header>
   <section class="sec">

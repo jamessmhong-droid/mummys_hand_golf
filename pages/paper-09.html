@@ -1,81 +1,83 @@
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>골프 스윙의 움직임 변동성 (이론·방법론) — 논문 요약</title>
+<title>골프 스윙의 움직임 변동성 (이론·방법론) — 카드</title>
 <link rel="icon" type="image/png" href="../assets/favicon.png"><link rel="apple-touch-icon" href="../assets/mascot.png">
 <style>
 :root{--bg:#FDEEF3;--bg-soft:#FCE4EC;--hot:#FF1E88;--hot-deep:#E60F73;--ink:#0E0E10;--white:#FFFFFF;--line:#F4C9DC;--muted:#6B5560;}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Gothic Neo','Segoe UI',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
 
-.brand{margin-top:56px;padding-top:26px;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:11px;text-align:center}
-.brand>img{width:48px;height:48px;filter:drop-shadow(0 6px 12px rgba(230,15,115,.35))}
-.brand-ig{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--hot-deep);text-decoration:none}
-.brand-ig:hover{color:var(--ink)}
-.cardwm{position:absolute;top:16px;right:16px;z-index:5;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.74);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 6px;text-decoration:none;box-shadow:0 4px 14px -6px rgba(230,15,115,.45)}
-.cardwm img{width:26px;height:26px}
-.cardwm span{font-size:12px;font-weight:800;color:var(--hot-deep);letter-spacing:.01em}
-
-.wrap{max-width:760px;margin:0 auto;padding:32px 22px 88px;position:relative}
-.back{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:var(--hot-deep);text-decoration:none;margin-bottom:26px}
-.back:hover{color:var(--ink)}
-.part{display:inline-block;background:var(--ink);color:var(--white);font-size:12px;font-weight:800;letter-spacing:.1em;padding:5px 13px;border-radius:999px}
-h1{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1.3;margin:18px 0 14px}
-.cite{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:14px;color:var(--muted);margin-bottom:14px}
-.cite b{color:var(--ink)}
-.pill{display:inline-block;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px;margin-top:6px}
-.reflinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:13px;padding-top:13px;border-top:1px dashed var(--line)}
-.reflab{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
-.reflink{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;text-decoration:none;background:var(--white);color:var(--hot-deep);border:1.5px solid var(--hot);padding:5px 12px;border-radius:999px;transition:background .15s ease,color .15s ease}
-.reflink:hover{background:var(--hot);color:#fff}
-.reflink .ext{font-weight:700;opacity:.8}
-.badges{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 30px}
-.tag{font-size:12px;font-weight:700;background:var(--bg-soft);color:var(--hot-deep);padding:5px 12px;border-radius:999px;border:1px solid var(--line)}
-.lead{font-size:17px;line-height:1.75;background:var(--white);border-left:5px solid var(--hot);border-radius:0 14px 14px 0;padding:18px 22px;margin-bottom:34px}
-h2{font-size:15px;font-weight:900;letter-spacing:.02em;color:var(--hot-deep);text-transform:uppercase;margin:0 0 14px;display:flex;align-items:center;gap:9px}
-h2::before{content:"";width:10px;height:10px;background:var(--hot);border-radius:3px;display:inline-block}
-section{margin-bottom:34px}
-.findings{list-style:none;counter-reset:f}
-.findings li{counter-increment:f;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:15px 16px 15px 52px;margin-bottom:11px;font-size:15px;position:relative}
-.findings li::before{content:counter(f);position:absolute;left:14px;top:14px;width:26px;height:26px;background:var(--hot);color:#fff;font-weight:900;font-size:13px;border-radius:8px;display:flex;align-items:center;justify-content:center}
-.findings b{color:var(--hot-deep)}
-.box{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15px}
-.take{background:var(--ink);color:#fff;border-radius:16px;padding:20px 22px;font-size:16px;font-weight:700;line-height:1.6}
-.take span{color:var(--hot);display:block;font-size:12px;letter-spacing:.14em;margin-bottom:8px;font-weight:800}
-h3{font-size:14px;font-weight:900;color:var(--ink);margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--hot)}
-.prog{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.progcol{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 16px}
-.progcol ul{list-style:none;margin:0;padding:0}
-.progcol li{font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line);line-height:1.45}
-.progcol li:last-child{border-bottom:none}
-.progcol .b{display:inline-block;font-size:10px;font-weight:800;background:var(--hot);color:#fff;padding:1px 7px;border-radius:999px;margin-left:4px;vertical-align:middle}
-.note{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6}
-.note b{color:var(--ink)}
-.dtab{width:100%;border-collapse:collapse;background:var(--white);border-radius:14px;overflow:hidden;border:1px solid var(--line);font-size:13.5px}
-.dtab th{background:var(--ink);color:#fff;padding:11px 10px;text-align:center;font-weight:800;font-size:12.5px;line-height:1.3}
-.dtab td{padding:10px 10px;text-align:center;border-bottom:1px solid var(--line)}
-.dtab td:first-child{text-align:left;font-weight:700}
-.dtab tbody tr:last-child td{border-bottom:none}
-.dtab tbody tr:nth-child(even){background:var(--bg-soft)}
-@media(max-width:640px){.prog{grid-template-columns:1fr}.dtab{font-size:12px}.dtab th,.dtab td{padding:8px 6px}}
-@media(max-width:520px){h1{font-size:24px}.wrap{padding:24px 15px 64px}}
+body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:22px 0 40px}
+.topnav{width:min(92vw,460px);display:flex;justify-content:space-between;gap:10px;margin:0 auto 14px}
+.topnav a{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none}
+.topnav a:hover{color:var(--ink)}
+.carousel{display:flex;flex-direction:column;align-items:center;gap:20px;width:100%;padding:4px 16px}
+.slide{width:min(92vw,440px);aspect-ratio:4/5;background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 22px 56px -30px rgba(230,15,115,.55);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:hidden}
+.stop{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.pno{font-size:30px;font-weight:900;color:#fff;background:var(--hot);min-width:56px;height:56px;padding:0 6px;border-radius:15px;display:flex;align-items:center;justify-content:center;letter-spacing:-.02em}
+.smasc{width:46px;height:46px;margin-left:auto;filter:drop-shadow(0 5px 10px rgba(230,15,115,.3))}
+.slabel{font-size:13px;font-weight:800;letter-spacing:.02em;color:#fff;background:var(--hot);padding:7px 15px;border-radius:999px}
+.ppart{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.ctitle{font-size:29px;font-weight:900;letter-spacing:-.02em;line-height:1.24;color:var(--ink);margin:2px 0 14px}
+.ccite{font-size:14px;line-height:1.6;color:var(--muted);font-weight:600;margin-top:auto}
+.ccite b{color:var(--ink);font-weight:800}
+.cpill{display:inline-block;margin-top:9px;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 13px;border-radius:999px}
+.sbody{flex:1;display:flex;align-items:center;padding:6px 0}
+.ftext{font-size:22px;font-weight:700;line-height:1.55;color:var(--ink)}
+.ftext b{color:var(--hot-deep)}
+.slide.take{background:var(--ink);border-color:var(--ink)}
+.slide.take .slabel{background:var(--hot)}
+.ttext{font-size:26px;font-weight:800;line-height:1.5;color:#fff}
+.ttext b{color:var(--hot)}
+.sfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:13px;margin-top:12px}
+.slide.take .sfoot{border-top-color:rgba(255,255,255,.18)}
+.pig{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:var(--hot-deep);text-decoration:none;white-space:nowrap}
+.pig img{width:22px;height:22px}
+.slide.take .pig{color:#fff}
+.hint,.sidx{font-size:12px;font-weight:800;color:var(--muted)}
+.more{font-size:12.5px;font-weight:800;color:var(--hot);text-decoration:none;white-space:nowrap}
+.swipehint{margin-top:14px;font-size:13px;color:var(--muted);font-weight:700;text-align:center}
+.controls{width:min(92vw,460px);display:flex;justify-content:space-between;gap:10px;margin:6px auto 0}
+.controls a{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none;background:var(--white);border:1px solid var(--line);padding:9px 16px;border-radius:999px}
+.controls a:hover{background:var(--hot);color:#fff;border-color:var(--hot)}
 </style></head>
-<body><div class="wrap">
-<a class="cardwm" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener" aria-label="Instagram @mummys_hand_golf"><img src="../assets/wm.png" alt=""><span>@mummys_hand_golf</span></a>
-<a class="back" href="../golf-research-summary.html">← 전체 20선으로 돌아가기</a>
-<div><span class="part">PART 01 · 생체역학</span></div>
-<h1>골프 스윙의 움직임 변동성 (이론·방법론)</h1>
-<div class="cite"><b>Glazier, P. (2011)</b><br>Research Quarterly for Exercise and Sport, 82(2), 157–161 · 단독저자 관점논문<div class="pill">약 100+ 인용</div><div class="reflinks"><span class="reflab">원문</span><a class="reflink" href="https://pubmed.ncbi.nlm.nih.gov/21699094/" target="_blank" rel="noopener">PMID 21699094 <span class="ext">↗</span></a></div></div>
-<div class="badges"><span class="tag">변동성</span><span class="tag">동역학계</span><span class="tag">개념논문</span></div>
-<p class="lead">스윙의 동작 변동성(반복 간 흔들림)을 <b>동역학계 이론(dynamical systems)</b> 관점에서 다룬 이론·방법론 논문. 실험 표본이 없는 <b>관점(viewpoint) 논문</b>이라는 점에 유의.</p>
-<section><h2>핵심 발견</h2><ol class="findings"><li>숙련 수행은 '시행 간 변동이 거의 없다'는 통념에 <b>도전</b>한다.</li><li>움직임 변동성은 노이즈·결함이 아니라 숙련 운동의 <b>내재적·기능적 요소</b>일 수 있다.</li><li>일부 변동성은 <b>부하 분산·환경 적응</b> 등 기능적 역할을 하므로 무조건 줄일 대상이 아니다.</li><li>골프 스윙 변동성 연구는 <b>이론·방법론·실무</b> 정비가 필요한 향후 과제로 제시된다.</li></ol></section>
-<section><h2>연구 방법</h2><div class="box">실증 실험이 아닌 개념적 논의. 동역학계 이론 관점에서 변동성의 의미와 측정 방법을 정리(정량 결과치 없음).</div></section>
-
-<section><h2>참고 — 실증 연구는 별도</h2>
-<div class="box">이 논문은 <b>개념·이론 논문</b>이라 구체 수치가 없습니다. '변동성이 <b>수평 발사각</b>·방향 정확성에 부정적'이라는 실증적 주장은 퍼팅·스윙 변동성을 측정한 <b>별도의 실험 연구들</b>(예: 퍼팅 스트로크 변동성 연구)에서 나온 것으로, 저자·출처가 다릅니다. 카드에는 두 갈래를 구분해 표기했습니다.</div>
-</section>
-<section><h2>의의</h2><div class="box">'일관성=좋음, 변동성=나쁨'이라는 단순 도식을 재검토하게 한 연구. 연습·측정 설계에 관점을 제공.</div></section>
-<div class="take"><span>ONE-LINE TAKEAWAY</span>스윙의 흔들림(변동성)은 무조건 결함이 아니라, 기능적일 수도 있다.</div>
-<div class="foot" style="margin-top:40px;text-align:center"><a href="../golf-research-summary.html" style="color:var(--hot-deep);font-weight:700;text-decoration:none;font-size:14px">← 목록으로</a></div>
-<div class="brand"><img src="../assets/mascot.png" alt="마미손 골프 마스코트"><a class="brand-ig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>@mummys_hand_golf</a></div>
-</div></body></html>
+<body>
+<div class="topnav"><a href="../golf-research-summary.html">← 카드 목록</a><a href="../v2/pages/paper-09.html">전문가용 근거(V2) →</a></div>
+<div class="carousel">
+<div class="slide cover" id="s1">
+  <div class="stop"><span class="pno">09</span><img class="smasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
+  <span class="ppart">PART 01 · 생체역학</span>
+  <h1 class="ctitle">골프 스윙의 움직임 변동성 (이론·방법론)</h1>
+  <div class="ccite"><b>Glazier, P. (2011)</b><br>Research Quarterly for Exercise and Sport, 82(2), 157–161 · 단독저자 관점논문<div class="cpill">약 100+ 인용</div></div>
+  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="hint">1 / 6</span></div>
+</div>
+<div class="slide" id="s2">
+  <div class="stop"><span class="slabel">핵심 발견 ①</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
+  <div class="sbody"><p class="ftext">숙련 수행은 '시행 간 변동이 거의 없다'는 통념에 <b>도전</b>한다.</p></div>
+  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="sidx">2 / 6</span></div>
+</div>
+<div class="slide" id="s3">
+  <div class="stop"><span class="slabel">핵심 발견 ②</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
+  <div class="sbody"><p class="ftext">움직임 변동성은 노이즈·결함이 아니라 숙련 운동의 <b>내재적·기능적 요소</b>일 수 있다.</p></div>
+  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="sidx">3 / 6</span></div>
+</div>
+<div class="slide" id="s4">
+  <div class="stop"><span class="slabel">핵심 발견 ③</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
+  <div class="sbody"><p class="ftext">일부 변동성은 <b>부하 분산·환경 적응</b> 등 기능적 역할을 하므로 무조건 줄일 대상이 아니다.</p></div>
+  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="sidx">4 / 6</span></div>
+</div>
+<div class="slide" id="s5">
+  <div class="stop"><span class="slabel">핵심 발견 ④</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
+  <div class="sbody"><p class="ftext">골프 스윙 변동성 연구는 <b>이론·방법론·실무</b> 정비가 필요한 향후 과제로 제시된다.</p></div>
+  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="sidx">5 / 6</span></div>
+</div>
+<div class="slide take" id="s6">
+  <div class="stop"><span class="slabel">ONE-LINE 결론</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
+  <div class="sbody"><p class="ttext">스윙의 흔들림(변동성)은 무조건 결함이 아니라, 기능적일 수도 있다.</p></div>
+  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><a class="more" href="../v2/pages/paper-09.html">근거 자세히 → V2</a></div>
+</div>
+</div>
+<p class="swipehint">아래로 스크롤 · 총 6장 (표지 · 발견 4 · 결론) · 인스타 캐러셀 순서 그대로</p>
+<div class="controls"><a href="../golf-research-summary.html">← 목록</a><a href="../v2/pages/paper-09.html">근거 자세히 보기 →</a></div>
+</body></html>
