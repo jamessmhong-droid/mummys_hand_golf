@@ -12,6 +12,9 @@ papers = {int(k): v for k, v in data["papers"].items()}
 dups = {int(k): v for k, v in data["dups"].items()}
 partA = data["partA"]
 partB = data["partB"]
+# 14·15 duplicate 1·3 → 18 unique papers. Renumber only the displayed badge 1..18.
+order = [i for i in (partA + partB) if i not in dups]
+DISP = {pid: n + 1 for n, pid in enumerate(order)}
 
 def esc(s): return html.escape(str(s))
 
@@ -188,7 +191,7 @@ def detail(pid, p):
     h.append(card_watermark("../../"))
     h.append(nav("../../", "v2"))
     h.append("<a class='back' href='../golf-research-v2.html'>← 근거 자료집(V2)으로 돌아가기</a>")
-    h.append(f"<div><span class='part'>{esc(p['part'])} · No.{pid:02d}</span></div>")
+    h.append(f"<div><span class='part'>{esc(p['part'])} · No.{DISP[pid]:02d}</span></div>")
     h.append(f"<h1>{esc(p['title'])}</h1>")
     h.append(f"<div class='cite'><b>{esc(p['authors'])}</b><br>{esc(p['journal'])}"
              f"<div class='pills'><span class='pill k'>{esc(st)}</span>"
@@ -256,25 +259,22 @@ INDEX_CSS = BASE + REFLINK_CSS + """
 """
 
 def card(cid):
-    target = dups.get(cid, cid)
-    p = papers[target]
-    st = meta.get(target, ("연구",""))[0]
-    href = f"pages/paper-{target:02d}.html"
+    p = papers[cid]
+    st = meta.get(cid, ("연구",""))[0]
+    href = f"pages/paper-{cid:02d}.html"
     tag0 = esc(p["tags"][0]) if p["tags"] else ""
-    dup = f'<span class="tag dup">중복 · {target}번과 동일</span>' if cid in dups else ""
-    suffix = ' <span style="color:var(--hot-deep)">(중복)</span>' if cid in dups else ""
     return (f"<a class='card' href='{href}'>"
-            f"<div class='card-top'><div class='no'>{cid}</div><div class='meta'>"
-            f"<div class='title'>{esc(p['title'])}{suffix}</div>"
+            f"<div class='card-top'><div class='no'>{DISP[cid]}</div><div class='meta'>"
+            f"<div class='title'>{esc(p['title'])}</div>"
             f"<div class='cite'>{esc(p['authors'])} · {esc(p['journal'])} · {esc(p['cites'])}</div>"
             f"<div class='badges'><span class='tag design'>{esc(st)}</span>"
-            f"<span class='tag'>{tag0}</span>{dup}</div>"
+            f"<span class='tag'>{tag0}</span></div>"
             f"</div></div>"
             f"<p class='finding'>{p['summary']}</p>"
             f"<span class='more'>전문가용 상세 →</span></a>")
 
-cardsA = "".join(card(i) for i in partA)
-cardsB = "".join(card(i) for i in partB)
+cardsA = "".join(card(i) for i in partA if i not in dups)
+cardsB = "".join(card(i) for i in partB if i not in dups)
 
 def ref_bibliography():
     """Full References list on the V2 index (unique papers, with live DOI/PMID links)."""
@@ -298,25 +298,25 @@ def ref_bibliography():
 ix = []
 ix.append("<!DOCTYPE html><html lang='ko'><head><meta charset='UTF-8'>")
 ix.append("<meta name='viewport' content='width=device-width, initial-scale=1.0'>")
-ix.append("<title>골프 경기력 핵심 연구 20선 — 전문가용 근거 자료집 (V2)</title>")
+ix.append("<title>골프 경기력 핵심 연구 18선 — 전문가용 근거 자료집 (V2)</title>")
 ix.append(favicon_links("../"))
 ix.append(f"<style>{INDEX_CSS}{BRAND_CSS}{NAV_CSS}</style></head><body><div class='wrap'>")
 ix.append(nav("../", "v2"))
 ix.append("<header class='hero'><span class='kicker'>EVIDENCE DOSSIER · 전문가용</span>"
-          "<h1>골프 경기력 핵심 연구 20선<br><span>— 근거 자료집</span></h1>"
-          "<p>V1(카드용 요약)과 동일한 20편을, <b>연구 설계·표본·핵심 통계·한계</b>까지 담아 전문가용으로 재정리했습니다. "
+          "<h1>골프 경기력 핵심 연구 18선<br><span>— 근거 자료집</span></h1>"
+          "<p>V1(카드용 요약)과 동일한 18편을, <b>연구 설계·표본·핵심 통계·한계</b>까지 담아 전문가용으로 재정리했습니다. "
           "각 카드에 연구 설계 라벨을 달았고, 상세 페이지에는 '한계·유의' 항목을 포함합니다.</p>"
           "<a class='switch' href='../golf-research-summary.html'>V1 (카드용 요약) 보기 →</a></header>")
 ix.append("<section class='sec'><div class='sec-head'><span class='sec-num'>PART 01</span>"
-          "<h2>생체역학 · 스윙 메커니즘 10선</h2></div>"
+          "<h2>생체역학 · 스윙 메커니즘</h2></div>"
           "<p class='sec-sub'>연구 설계 라벨 · 인용 영향력 기준 대략 순위</p>" + cardsA + "</section>")
 ix.append("<section class='sec'><div class='sec-head'><span class='sec-num'>PART 02</span>"
-          "<h2>경기력 · 데이터 · 종합 10선</h2></div>"
+          "<h2>경기력 · 데이터 · 종합</h2></div>"
           "<p class='sec-sub'>연구 설계 라벨 · 인용 영향력 기준 대략 순위</p>" + cardsB + "</section>")
 ix.append(ref_bibliography())
 ix.append("<div class='footnote'><b>해석 유의 —</b> 리뷰/종설은 자체 표본이 없고, 단면·상관 연구는 인과를 함의하지 않으며, "
           "소표본·자가보고·특정 성별/숙련도 한정 연구는 일반화에 주의가 필요합니다. 각 상세 페이지의 '한계·유의'를 함께 참고하세요. "
-          "인용 수는 데이터베이스·시점에 따라 달라집니다. 14·15번은 1·3번과 동일 논문(중복)입니다.</div>")
+          "인용 수는 데이터베이스·시점에 따라 달라집니다. 원자료 중복 2편을 제외한 18편입니다.</div>")
 ix.append(brand_footer("../"))
 ix.append("</div></body></html>")
 

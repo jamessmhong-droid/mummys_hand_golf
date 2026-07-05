@@ -407,6 +407,10 @@ def ref_links(p):
 # order of cards in index
 partA = [1,2,3,4,5,6,7,8,9,10]
 partB = [11,12,13,14,15,16,17,18,19,20]
+# 14·15 are duplicates of 1·3, so there are 18 unique papers ("18선").
+# Keep file names / pids stable; only the DISPLAYED badge is renumbered 1..18.
+order = [i for i in (partA + partB) if i not in dups]
+DISP = {pid: n + 1 for n, pid in enumerate(order)}
 
 CSS = """
 :root{--bg:#FDEEF3;--bg-soft:#FCE4EC;--hot:#FF1E88;--hot-deep:#E60F73;--ink:#0E0E10;--white:#FFFFFF;--line:#F4C9DC;--muted:#6B5560;}
@@ -505,7 +509,7 @@ def detail_html(pid, p):
     S = []
     # 1) cover — leads with a scroll-stopping hook
     S.append(f"""<div class="slide cover" id="s1">
-  <div class="stop"><span class="pno">{pid:02d}</span><span class="ppart">{html.escape(p['part'])}</span><img class="smasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
+  <div class="stop"><span class="pno">{DISP[pid]:02d}</span><span class="ppart">{html.escape(p['part'])}</span><img class="smasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
   <div class="chook">{html.escape(hook)}</div>
   <div class="csub"><span class="clab">논문</span>{html.escape(p['title'])}</div>
   <div class="ccite"><b>{html.escape(p['authors'])}</b> · {html.escape(p['journal'])}<div class="cpill">{html.escape(p['cites'])}</div></div>
@@ -579,30 +583,24 @@ for pid, p in papers.items():
         f.write(detail_html(pid, p))
 
 def card(card_id):
-    target = dups.get(card_id, card_id)
-    p = papers[target]
-    href = f"pages/paper-{target:02d}.html"
+    p = papers[card_id]
+    href = f"pages/paper-{card_id:02d}.html"
     tags = "".join(f'<span class="tag">{html.escape(t)}</span>' for t in p["tags"][:2])
-    dupbadge = ''
-    titlesuffix = ''
-    if card_id in dups:
-        dupbadge = f'<span class="tag dup">중복 · {target}번과 동일</span>'
-        titlesuffix = ' <span style="color:var(--hot-deep)">(중복)</span>'
     return f"""    <a class="card" href="{href}">
       <div class="card-top">
-        <div class="no">{card_id}</div>
+        <div class="no">{DISP[card_id]}</div>
         <div class="meta">
-          <div class="title">{html.escape(p['title'])}{titlesuffix}</div>
+          <div class="title">{html.escape(p['title'])}</div>
           <div class="cite">{html.escape(p['authors'])} · {html.escape(p['journal'])} · {html.escape(p['cites'])}</div>
-          <div class="badges">{tags}{dupbadge}</div>
+          <div class="badges">{tags}</div>
         </div>
       </div>
       <p class="finding">{p['summary']}</p>
       <span class="more">자세히 보기 →</span>
     </a>"""
 
-cardsA = "\n".join(card(i) for i in partA)
-cardsB = "\n".join(card(i) for i in partB)
+cardsA = "\n".join(card(i) for i in partA if i not in dups)
+cardsB = "\n".join(card(i) for i in partB if i not in dups)
 
 # Hero image: drop a file at assets/hero.<ext> and it replaces the placeholder.
 import glob as _glob
@@ -619,7 +617,7 @@ imgspot = (
 index = f"""<!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>골프 경기력 핵심 연구 20선 — 요약</title>
+<title>골프 경기력 핵심 연구 18선 — 요약</title>
 {favicon_links("")}
 <style>{CSS}{BRAND_CSS}{NAV_CSS}
 .wrap{{max-width:920px;margin:0 auto;padding:56px 24px 96px}}
@@ -659,23 +657,22 @@ index = f"""<!DOCTYPE html>
   {nav("","v1")}
   <header class="hero">
     <span class="kicker">GOLF PERFORMANCE · RESEARCH</span>
-    <h1>골프 경기력을 만든<br><span>핵심 연구 20선</span></h1>
-    <p>비거리·정확성·퍼팅·부상예방까지 — 영향력 있는 논문 20편을 <b>인스타그램 카드</b>로 정리했습니다. 카드를 누르면 <b>스와이프 카드 세트</b>(표지·발견·결론)가 열려요. 더 깊은 근거는 전문가용(V2)에서.</p>
+    <h1>골프 경기력을 만든<br><span>핵심 연구 18선</span></h1>
+    <p>비거리·정확성·퍼팅·부상예방까지 — 영향력 있는 논문 18편을 <b>인스타그램 카드</b>로 정리했습니다. 카드를 누르면 <b>스와이프 카드 세트</b>(표지·발견·결론)가 열려요. 더 깊은 근거는 전문가용(V2)에서.</p>
     {imgspot}
   </header>
   <section class="sec">
-    <div class="sec-head"><span class="sec-num">PART 01</span><h2>생체역학 · 스윙 메커니즘 10선</h2></div>
+    <div class="sec-head"><span class="sec-num">PART 01</span><h2>생체역학 · 스윙 메커니즘</h2></div>
     <p class="sec-sub">인용 영향력 기준 대략 순위 · 수치는 추정치</p>
 {cardsA}
   </section>
   <section class="sec">
-    <div class="sec-head"><span class="sec-num">PART 02</span><h2>경기력 · 데이터 · 종합 10선</h2></div>
+    <div class="sec-head"><span class="sec-num">PART 02</span><h2>경기력 · 데이터 · 종합</h2></div>
     <p class="sec-sub">인용 영향력 기준 대략 순위 · 수치는 명시하지 않거나 추정</p>
 {cardsB}
   </section>
   <div class="footnote">
-    <b>참고 —</b> 인용 횟수는 Google Scholar 등 검색엔진·데이터베이스와 시점에 따라 달라지므로, 위 순서는 <b>인용 영향력 기준 대략적 순위</b>이며 수치는 추정치입니다.
-    두 리스트에 겹치는 논문은 <b>Hume, Keogh &amp; Reid (2005)</b>와 <b>Myers 외 (2008)</b> 2편이며, 14·15번은 각각 1·3번 페이지로 연결됩니다.
+    <b>참고 —</b> 인용 횟수는 Google Scholar 등 검색엔진·데이터베이스와 시점에 따라 달라지므로, 위 순서는 <b>인용 영향력 기준 대략적 순위</b>이며 수치는 추정치입니다. 원자료에서 중복된 2편을 제외한 <b>18편</b>입니다.
   </div>
   {brand_footer("")}
 </div></body></html>"""
