@@ -139,12 +139,12 @@ papers = {
     "significance":"'워밍업이 수행을 올린다'를 실험(RCT)으로 입증. 부상 예방과 수행 향상을 함께 얻는 실용적 근거.",
     "takeaway":"티오프 전 골프 특화 워밍업을 꾸준히 하면 클럽 스피드가 최대 24%까지 오른다."},
 
- 7:{"part":"PART 01 · 생체역학","title":"골프 스윙의 일·파워 분석 (모델링)",
+ 7:{"part":"PART 01 · 생체역학","title":"골프 스윙의 에너지·파워 분석 (모델링)",
     "authors":"Nesbit, S.M. & Serrano, M. (2005)","journal":"J. Sports Science & Medicine, 4(4), 520–533 · 원제 'Work and Power Analysis of the Golf Swing'","cites":"약 150+ 인용",
     "tags":["모델링","에너지","N=4"],
     "summary":"스킬·체형·스윙 스타일이 다른 아마추어 <b>4명</b>을, 클럽과 전신을 각각 컴퓨터 모델로 만들어 다운스윙의 <b>일(work)·에너지·파워</b> 관점에서 분석한 모델링 연구.",
     "findings":[
-      "에너지 접근법으로 클럽을 가속시키는 <b>힘·토크 성분</b>과 각 신체 분절의 <b>일 생성 타이밍</b>을 새롭게 밝혔다.",
+      "에너지 접근법으로 클럽을 가속시키는 <b>힘·토크 성분</b>과 각 신체 분절의 <b>에너지(work) 생성 타이밍</b>을 새롭게 밝혔다.",
       "<b>힘(force)과 가동범위(ROM)가 클럽헤드 속도 생성에 '동등하게' 중요</b>함을 증명 — 어느 하나만으론 부족.",
       "샤프트의 <b>에너지 저장·방출(strain energy)</b>과 스윙 효율(swing efficiency)을 정량화했다.",
       "에너지 기반 분석이 기존 힘/토크 분석보다 다운스윙을 더 포괄적으로 설명한다."],
@@ -513,14 +513,14 @@ def detail_html(pid, p):
   <div class="chook">{html.escape(hook)}</div>
   <div class="csub"><span class="clab">논문</span>{html.escape(p['title'])}</div>
   <div class="ccite"><b>{html.escape(p['authors'])}</b> · {html.escape(p['journal'])}<div class="cpill">{html.escape(p['cites'])}</div></div>
-  <div class="sfoot">{PIG}<span class="hint">1 / {total}</span></div>
+  <div class="sfoot">{PIG}<span class="swipe">밀어서 다음 <b>→</b></span></div>
 </div>""")
     # 2) one finding per slide
     for i, f in enumerate(finds):
         S.append(f"""<div class="slide" id="s{i+2}">
   <div class="stop"><span class="slabel">핵심 발견 {CIRC[i]}</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
   <div class="sbody"><p class="ftext">{f}</p></div>
-  <div class="sfoot">{PIG}<span class="sidx">{i+2} / {total}</span></div>
+  <div class="sfoot">{PIG}<span class="swipe">밀어서 다음 <b>→</b></span></div>
 </div>""")
     # 3) takeaway
     S.append(f"""<div class="slide take" id="s{total}">
@@ -537,25 +537,25 @@ def detail_html(pid, p):
 <style>{CSS}{NAV_CSS}
 body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:22px 0 40px}}
 .carousel{{display:flex;flex-direction:column;align-items:center;gap:20px;width:100%;padding:4px 16px}}
-.slide{{width:min(92vw,440px);aspect-ratio:4/5;background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 22px 56px -30px rgba(230,15,115,.55);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:hidden}}
+.slide{{position:relative;width:min(92vw,440px);aspect-ratio:4/5;background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 22px 56px -30px rgba(230,15,115,.55);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:hidden}}
 .stop{{display:flex;align-items:center;gap:12px;margin-bottom:16px}}
 .pno{{font-size:30px;font-weight:900;color:#fff;background:var(--hot);min-width:56px;height:56px;padding:0 6px;border-radius:15px;display:flex;align-items:center;justify-content:center;letter-spacing:-.02em}}
 .smasc{{width:46px;height:46px;margin-left:auto;filter:drop-shadow(0 5px 10px rgba(230,15,115,.3))}}
 .slabel{{font-size:13px;font-weight:800;letter-spacing:.02em;color:#fff;background:var(--hot);padding:7px 15px;border-radius:999px}}
 .ppart{{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}}
-.chook{{font-size:27px;font-weight:900;letter-spacing:-.02em;line-height:1.3;color:var(--ink);margin:6px 0 16px;padding-left:14px;border-left:5px solid var(--hot)}}
-.csub{{font-size:15.5px;font-weight:800;line-height:1.45;color:var(--muted)}}
+.chook{{font-size:33px;font-weight:900;letter-spacing:-.02em;line-height:1.28;color:var(--ink);margin:6px 0 16px;padding-left:14px;border-left:5px solid var(--hot)}}
+.csub{{font-size:17.5px;font-weight:800;line-height:1.45;color:var(--muted)}}
 .clab{{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.08em;color:#fff;background:var(--ink);padding:3px 9px;border-radius:999px;margin-right:8px;vertical-align:middle}}
 .ppart{{flex:1}}
 .ccite{{font-size:14px;line-height:1.6;color:var(--muted);font-weight:600;margin-top:auto}}
 .ccite b{{color:var(--ink);font-weight:800}}
 .cpill{{display:inline-block;margin-top:9px;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 13px;border-radius:999px}}
 .sbody{{flex:1;display:flex;align-items:center;padding:6px 0}}
-.ftext{{font-size:22px;font-weight:700;line-height:1.55;color:var(--ink)}}
+.ftext{{font-size:27px;font-weight:750;line-height:1.5;color:var(--ink)}}
 .ftext b{{color:var(--hot-deep)}}
 .slide.take{{background:var(--ink);border-color:var(--ink)}}
 .slide.take .slabel{{background:var(--hot)}}
-.ttext{{font-size:26px;font-weight:800;line-height:1.5;color:#fff}}
+.ttext{{font-size:31px;font-weight:800;line-height:1.45;color:#fff}}
 .ttext b{{color:var(--hot)}}
 .sfoot{{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:13px;margin-top:12px}}
 .slide.take .sfoot{{border-top-color:rgba(255,255,255,.18)}}
@@ -564,6 +564,9 @@ body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;pad
 .slide.take .pig{{color:#fff}}
 .hint,.sidx{{font-size:12px;font-weight:800;color:var(--muted)}}
 .more{{font-size:12.5px;font-weight:800;color:var(--hot);text-decoration:none;white-space:nowrap}}
+.swipe{{display:inline-flex;align-items:center;gap:8px;background:var(--hot);color:#fff;font-size:14px;font-weight:900;letter-spacing:.01em;padding:9px 17px;border-radius:999px;box-shadow:0 8px 18px -8px rgba(230,15,115,.75)}}
+.swipe b{{font-size:18px;line-height:1;animation:nudge 1s ease-in-out infinite}}
+@keyframes nudge{{0%,100%{{transform:translateX(0)}}50%{{transform:translateX(5px)}}}}
 .swipehint{{margin-top:14px;font-size:13px;color:var(--muted);font-weight:700;text-align:center}}
 .controls{{width:min(92vw,460px);display:flex;justify-content:space-between;gap:10px;margin:6px auto 0}}
 .controls a{{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none;background:var(--white);border:1px solid var(--line);padding:9px 16px;border-radius:999px}}

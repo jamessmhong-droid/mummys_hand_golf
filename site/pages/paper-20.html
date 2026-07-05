@@ -10,25 +10,25 @@ body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Go
 .sitenav{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:0 auto 16px;padding:0 12px}.sitenav a{font-size:12.5px;font-weight:800;color:var(--muted);text-decoration:none;padding:7px 13px;border-radius:999px}.sitenav a:hover{color:var(--hot-deep);background:var(--bg-soft)}.sitenav a.cur{color:#fff;background:var(--hot)}
 body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:22px 0 40px}
 .carousel{display:flex;flex-direction:column;align-items:center;gap:20px;width:100%;padding:4px 16px}
-.slide{width:min(92vw,440px);aspect-ratio:4/5;background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 22px 56px -30px rgba(230,15,115,.55);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:hidden}
+.slide{position:relative;width:min(92vw,440px);aspect-ratio:4/5;background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 22px 56px -30px rgba(230,15,115,.55);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:hidden}
 .stop{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .pno{font-size:30px;font-weight:900;color:#fff;background:var(--hot);min-width:56px;height:56px;padding:0 6px;border-radius:15px;display:flex;align-items:center;justify-content:center;letter-spacing:-.02em}
 .smasc{width:46px;height:46px;margin-left:auto;filter:drop-shadow(0 5px 10px rgba(230,15,115,.3))}
 .slabel{font-size:13px;font-weight:800;letter-spacing:.02em;color:#fff;background:var(--hot);padding:7px 15px;border-radius:999px}
 .ppart{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
-.chook{font-size:27px;font-weight:900;letter-spacing:-.02em;line-height:1.3;color:var(--ink);margin:6px 0 16px;padding-left:14px;border-left:5px solid var(--hot)}
-.csub{font-size:15.5px;font-weight:800;line-height:1.45;color:var(--muted)}
+.chook{font-size:33px;font-weight:900;letter-spacing:-.02em;line-height:1.28;color:var(--ink);margin:6px 0 16px;padding-left:14px;border-left:5px solid var(--hot)}
+.csub{font-size:17.5px;font-weight:800;line-height:1.45;color:var(--muted)}
 .clab{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.08em;color:#fff;background:var(--ink);padding:3px 9px;border-radius:999px;margin-right:8px;vertical-align:middle}
 .ppart{flex:1}
 .ccite{font-size:14px;line-height:1.6;color:var(--muted);font-weight:600;margin-top:auto}
 .ccite b{color:var(--ink);font-weight:800}
 .cpill{display:inline-block;margin-top:9px;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 13px;border-radius:999px}
 .sbody{flex:1;display:flex;align-items:center;padding:6px 0}
-.ftext{font-size:22px;font-weight:700;line-height:1.55;color:var(--ink)}
+.ftext{font-size:27px;font-weight:750;line-height:1.5;color:var(--ink)}
 .ftext b{color:var(--hot-deep)}
 .slide.take{background:var(--ink);border-color:var(--ink)}
 .slide.take .slabel{background:var(--hot)}
-.ttext{font-size:26px;font-weight:800;line-height:1.5;color:#fff}
+.ttext{font-size:31px;font-weight:800;line-height:1.45;color:#fff}
 .ttext b{color:var(--hot)}
 .sfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:13px;margin-top:12px}
 .slide.take .sfoot{border-top-color:rgba(255,255,255,.18)}
@@ -37,6 +37,9 @@ body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padd
 .slide.take .pig{color:#fff}
 .hint,.sidx{font-size:12px;font-weight:800;color:var(--muted)}
 .more{font-size:12.5px;font-weight:800;color:var(--hot);text-decoration:none;white-space:nowrap}
+.swipe{display:inline-flex;align-items:center;gap:8px;background:var(--hot);color:#fff;font-size:14px;font-weight:900;letter-spacing:.01em;padding:9px 17px;border-radius:999px;box-shadow:0 8px 18px -8px rgba(230,15,115,.75)}
+.swipe b{font-size:18px;line-height:1;animation:nudge 1s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
 .swipehint{margin-top:14px;font-size:13px;color:var(--muted);font-weight:700;text-align:center}
 .controls{width:min(92vw,460px);display:flex;justify-content:space-between;gap:10px;margin:6px auto 0}
 .controls a{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none;background:var(--white);border:1px solid var(--line);padding:9px 16px;border-radius:999px}
@@ -50,32 +53,32 @@ body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padd
   <div class="chook">요통 없이 비거리까지 늘리는 법.</div>
   <div class="csub"><span class="clab">논문</span>트레이닝을 통한 부상 예방·경기력 향상</div>
   <div class="ccite"><b>Meira, E.P. &amp; Brumitt, J. (2010)</b> · Sports Health, 2(4), 337–344 · PMID 23015957<div class="cpill">실용 리뷰</div></div>
-  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="hint">1 / 7</span></div>
+  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="swipe">밀어서 다음 <b>→</b></span></div>
 </div>
 <div class="slide" id="s2">
   <div class="stop"><span class="slabel">핵심 발견 ①</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
   <div class="sbody"><p class="ftext"><b>저요통(low back pain)</b>이 아마추어·프로 공통의 주된 골프 관련 질환 — 요추의 압박·전단·회전·측굴 힘이 원인.</p></div>
-  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="sidx">2 / 7</span></div>
+  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="swipe">밀어서 다음 <b>→</b></span></div>
 </div>
 <div class="slide" id="s3">
   <div class="stop"><span class="slabel">핵심 발견 ②</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
   <div class="sbody"><p class="ftext">부상은 <b>준비운동 부족, 몸통 유연성·근력 저하, 잘못된 스윙, 과사용</b>과 연관.</p></div>
-  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="sidx">3 / 7</span></div>
+  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="swipe">밀어서 다음 <b>→</b></span></div>
 </div>
 <div class="slide" id="s4">
   <div class="stop"><span class="slabel">핵심 발견 ③</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
   <div class="sbody"><p class="ftext">리뷰가 인용한 중재연구들: 클럽헤드 스피드 <b>+1.5~24%</b>, 드라이빙 거리 <b>+4.3%</b> 향상 사례.</p></div>
-  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="sidx">4 / 7</span></div>
+  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="swipe">밀어서 다음 <b>→</b></span></div>
 </div>
 <div class="slide" id="s5">
   <div class="stop"><span class="slabel">핵심 발견 ④</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
   <div class="sbody"><p class="ftext"><b>유연성·근력·파워 훈련 + 스윙 역학 교정</b>을 결합한 프로그램이 부상을 줄이고 수행을 높인다.</p></div>
-  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="sidx">5 / 7</span></div>
+  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="swipe">밀어서 다음 <b>→</b></span></div>
 </div>
 <div class="slide" id="s6">
   <div class="stop"><span class="slabel">핵심 발견 ⑤</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
   <div class="sbody"><p class="ftext">부상 예방과 수행 향상은 <b>상충하지 않고 함께 간다</b>.</p></div>
-  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="sidx">6 / 7</span></div>
+  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="swipe">밀어서 다음 <b>→</b></span></div>
 </div>
 <div class="slide take" id="s7">
   <div class="stop"><span class="slabel">ONE-LINE 결론</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
