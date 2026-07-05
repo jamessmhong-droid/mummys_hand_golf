@@ -466,7 +466,7 @@ def detail_html(pid, p):
   <span class="ppart">{html.escape(p['part'])}</span>
   <h1 class="ctitle">{html.escape(p['title'])}</h1>
   <div class="ccite"><b>{html.escape(p['authors'])}</b><br>{html.escape(p['journal'])}<div class="cpill">{html.escape(p['cites'])}</div></div>
-  <div class="sfoot">{PIG}<span class="hint">스와이프 →</span></div>
+  <div class="sfoot">{PIG}<span class="hint">1 / {total}</span></div>
 </div>""")
     # 2) one finding per slide
     for i, f in enumerate(finds):
@@ -492,10 +492,8 @@ body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;pad
 .topnav{{width:min(92vw,460px);display:flex;justify-content:space-between;gap:10px;margin:0 auto 14px}}
 .topnav a{{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none}}
 .topnav a:hover{{color:var(--ink)}}
-.carousel{{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;width:100%;padding:4px max(16px,calc((100vw - min(88vw,430px))/2)) 16px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}}
-.carousel::-webkit-scrollbar{{height:8px}}
-.carousel::-webkit-scrollbar-thumb{{background:var(--line);border-radius:999px}}
-.slide{{flex:0 0 min(88vw,430px);aspect-ratio:4/5;scroll-snap-align:center;background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 22px 56px -30px rgba(230,15,115,.55);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:hidden}}
+.carousel{{display:flex;flex-direction:column;align-items:center;gap:20px;width:100%;padding:4px 16px}}
+.slide{{width:min(92vw,440px);aspect-ratio:4/5;background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 22px 56px -30px rgba(230,15,115,.55);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:hidden}}
 .stop{{display:flex;align-items:center;gap:12px;margin-bottom:16px}}
 .pno{{font-size:30px;font-weight:900;color:#fff;background:var(--hot);min-width:56px;height:56px;padding:0 6px;border-radius:15px;display:flex;align-items:center;justify-content:center;letter-spacing:-.02em}}
 .smasc{{width:46px;height:46px;margin-left:auto;filter:drop-shadow(0 5px 10px rgba(230,15,115,.3))}}
@@ -529,7 +527,7 @@ body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;pad
 <div class="carousel">
 {slides}
 </div>
-<p class="swipehint">← 좌우로 넘겨보세요 · 총 {total}장 (표지 · 발견 {len(finds)} · 결론) →</p>
+<p class="swipehint">아래로 스크롤 · 총 {total}장 (표지 · 발견 {len(finds)} · 결론) · 인스타 캐러셀 순서 그대로</p>
 <div class="controls"><a href="../golf-research-summary.html">← 목록</a><a href="{v2href}">근거 자세히 보기 →</a></div>
 </body></html>"""
 
