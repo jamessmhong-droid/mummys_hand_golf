@@ -1,4 +1,114 @@
-<!DOCTYPE html>
+# -*- coding: utf-8 -*-
+"""
+연재(Series) 페이지 생성기 — 독립형 + 진짜 날짜잠금.
+
+핵심 개념
+  · 정적 호스팅(GitHub Pages)에서 "진짜로 날짜 전엔 못 보게" 하는 유일한 방법은
+    '날짜 전엔 그 콘텐츠를 서버에 올리지 않는 것'이다.
+  · 이 스크립트는 빌드 시각(KST)을 기준으로 '공개된 회차'의 본문만 페이지에 심는다.
+    잠긴 회차는 예고(훅+공개일)만 들어가고, 실제 V1/V2/V3 콘텐츠는 출력물에 존재하지 않는다.
+  · 매일 도는 GitHub Action이 이 스크립트를 다시 돌려 배포하므로, 공개일이 되면 자동으로 열린다.
+
+임베드 방식
+  · 각 회차는 [V1 카드][V2 근거][V3 딥다이브] 탭으로, 이미 만들어 둔 페이지를 그대로
+    iframe(srcdoc)으로 담는다(스타일 격리, 재작성 없음 = '조리만').
+  · 링크는 모두 닫는다: iframe 안 <a>는 pointer-events 차단, sitenav/back 숨김,
+    sandbox 로 상위 내비게이션·팝업 차단. 연재 페이지 밖으로 못 나간다.
+  · 연재가 모두 끝나면(18회 공개) 자연히 전체가 열린다.
+"""
+import os, re, json, datetime
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+SITE = os.path.join(ROOT, "site")
+OUT  = os.path.join(SITE, "series.html")
+
+# ── 연재 설정 ──────────────────────────────────────────────
+START_KST = datetime.date(2026, 7, 6)   # 1편 공개일 (KST, 월요일)
+CADENCE   = 7                            # 매주
+
+# 회차 = (n, pid, v3파일, 훅, 제목)  · pid → V1: pages/paper-{pid}, V2: v2/pages/paper-{pid}
+EPISODES = [
+ (1, 1,  "biomechanics-distance-accuracy",  "장타는 ‘힘’으로만 치는 게 아니다?", "비거리·정확성의 생체역학"),
+ (2, 2,  "exercise-program-8week",          "집에서 밴드 하나로 비거리가 는다면?", "8주 골프 특화 운동 프로그램"),
+ (3, 3,  "torso-pelvis-rotation",           "골반을 ‘덜’ 돌려야 볼 스피드가 오른다?", "드라이빙의 상체·골반 회전"),
+ (4, 4,  "x-factor-stretch",                "X팩터, 크기보다 중요한 게 따로 있다.", "다운스윙 X-Factor Stretch"),
+ (5, 5,  "hip-shoulder-rotation",           "싱글의 스윙엔 ‘순서’가 있다.", "엉덩이·어깨 회전 시퀀스"),
+ (6, 6,  "warm-up-conditioning",            "티오프 전 5분이 클럽 스피드를 바꾼다.", "골프 워밍업과 수행"),
+ (7, 7,  "work-power-swing",                "힘만 키우면 장타? 절반만 맞다.", "스윙의 에너지·파워 분석"),
+ (8, 8,  "biomechanics-driving-performance","볼 스피드의 73%는 이 4가지로 정해진다.", "생체역학 변수와 드라이빙"),
+ (9, 9,  "movement-variability",            "스윙이 매번 흔들리는 게 나쁜 걸까?", "스윙의 움직임 변동성"),
+ (10,10, "putting-biomechanics",            "퍼팅은 손목이 아니다.", "퍼팅 생체역학 — 골반·몸통"),
+ (11,11, "strokes-gained-deep-dive",        "‘퍼팅이 우승을 만든다’는 거짓말?", "PGA 투어 Strokes Gained"),
+ (12,12, "search-for-the-perfect-swing",    "현대 골프 과학은 이 책에서 시작됐다.", "Search for the Perfect Swing"),
+ (13,13, "muscle-activity-emg",             "스윙의 주인공은 팔이 아니었다.", "스윙 중 근활성(EMG)"),
+ (14,16, "pro-amateur-kinematics",          "프로와 아마의 차이는 ‘힘’이 아니다.", "프로·아마추어 스윙 운동학"),
+ (15,17, "elite-golf-review",               "잘 치는 선수는 대체 뭐가 다를까?", "엘리트 골프: 결과·기술·신체"),
+ (16,18, "strength-flexibility-balance",    "핸디캡을 낮추는 건 스윙이 아니라 몸?", "근력·유연성·균형"),
+ (17,19, "golf-physiology",                 "라운드 후반에 무너지는 진짜 이유.", "골프 경기력과 생리학"),
+ (18,20, "injury-prevention-training",      "요통 없이 비거리까지 늘리는 법.", "트레이닝을 통한 부상 예방"),
+]
+
+# iframe 안에 주입: 내비 숨김 + 모든 링크 차단(밖으로 못 나가게)
+INJECT = ('<base href="{bh}">'
+          '<style>.sitenav,.back,.tt{{display:none!important}}'   # 내비/뒤로/테마토글(리더 안에선 무동작) 숨김
+          'a{{pointer-events:none!important;cursor:default!important}}</style>')
+
+def wrap_doc(raw, basehref):
+    """이미 완성된 문서(<head> 보유)는 head 뒤에 주입, 조각(fragment)이면 문서로 감싼다."""
+    inj = INJECT.format(bh=basehref)
+    if re.search(r"<head[^>]*>", raw, re.I):
+        return re.sub(r"(<head[^>]*>)", r"\1" + inj, raw, count=1, flags=re.I)
+    return ("<!DOCTYPE html><html lang='ko'><head><meta charset='utf-8'>"
+            "<meta name='viewport' content='width=device-width, initial-scale=1'>"
+            + inj + "</head><body>" + raw + "</body></html>")
+
+def read(path):
+    with open(path, encoding="utf-8") as f:
+        return f.read()
+
+def build_srcdoc(pid, v3):
+    v1 = read(os.path.join(SITE, "pages",     f"paper-{pid:02d}.html"))
+    v2 = read(os.path.join(SITE, "v2", "pages", f"paper-{pid:02d}.html"))
+    v3h = read(os.path.join(SITE, "v3", f"{v3}.html"))
+    return {
+        "v1": wrap_doc(v1, "pages/"),
+        "v2": wrap_doc(v2, "v2/pages/"),
+        "v3": wrap_doc(v3h, "v3/"),
+    }
+
+def part_label(pid):
+    return "PART 01 · 생체역학·스윙" if pid <= 10 else "PART 02 · 경기력·데이터"
+
+# ── 공개 회차 계산 (빌드 시각 KST 기준) ─────────────────────
+# 테스트용: SERIES_TODAY=YYYY-MM-DD 로 '오늘'을 강제할 수 있음(프로덕션에선 미설정)
+_override = os.environ.get("SERIES_TODAY")
+if _override:
+    today = datetime.date.fromisoformat(_override)
+else:
+    today = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).date()
+if today < START_KST:
+    unlocked = 0
+else:
+    unlocked = min(len(EPISODES), (today - START_KST).days // CADENCE + 1)
+
+def unlock_date(n):  # n = 1..18
+    return START_KST + datetime.timedelta(days=(n - 1) * CADENCE)
+
+# 공개된 회차의 본문만 담는다(잠긴 회차 콘텐츠는 출력물에 없음 = 진짜 잠금)
+content = {}
+for n, pid, v3, hook, title in EPISODES:
+    if n <= unlocked:
+        content[str(n)] = build_srcdoc(pid, v3)
+
+meta = [{"n": n, "pid": pid, "hook": hook, "title": title, "part": part_label(pid),
+         "date": unlock_date(n).strftime("%-m/%-d"), "open": n <= unlocked}
+        for (n, pid, v3, hook, title) in EPISODES]
+
+# </script> 로 스크립트가 조기 종료되지 않도록 안전 이스케이프
+content_json = json.dumps(content, ensure_ascii=False).replace("</", "<\\/")
+meta_json    = json.dumps(meta, ensure_ascii=False).replace("</", "<\\/")
+
+HTML = """<!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>골프 핵심 연구 18선 — 매주 연재</title>
@@ -99,14 +209,14 @@ body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Go
 </div>
 </div>
 
-<script id="epmeta" type="application/json">[{"n": 1, "pid": 1, "hook": "장타는 ‘힘’으로만 치는 게 아니다?", "title": "비거리·정확성의 생체역학", "part": "PART 01 · 생체역학·스윙", "date": "7/6", "open": false}, {"n": 2, "pid": 2, "hook": "집에서 밴드 하나로 비거리가 는다면?", "title": "8주 골프 특화 운동 프로그램", "part": "PART 01 · 생체역학·스윙", "date": "7/13", "open": false}, {"n": 3, "pid": 3, "hook": "골반을 ‘덜’ 돌려야 볼 스피드가 오른다?", "title": "드라이빙의 상체·골반 회전", "part": "PART 01 · 생체역학·스윙", "date": "7/20", "open": false}, {"n": 4, "pid": 4, "hook": "X팩터, 크기보다 중요한 게 따로 있다.", "title": "다운스윙 X-Factor Stretch", "part": "PART 01 · 생체역학·스윙", "date": "7/27", "open": false}, {"n": 5, "pid": 5, "hook": "싱글의 스윙엔 ‘순서’가 있다.", "title": "엉덩이·어깨 회전 시퀀스", "part": "PART 01 · 생체역학·스윙", "date": "8/3", "open": false}, {"n": 6, "pid": 6, "hook": "티오프 전 5분이 클럽 스피드를 바꾼다.", "title": "골프 워밍업과 수행", "part": "PART 01 · 생체역학·스윙", "date": "8/10", "open": false}, {"n": 7, "pid": 7, "hook": "힘만 키우면 장타? 절반만 맞다.", "title": "스윙의 에너지·파워 분석", "part": "PART 01 · 생체역학·스윙", "date": "8/17", "open": false}, {"n": 8, "pid": 8, "hook": "볼 스피드의 73%는 이 4가지로 정해진다.", "title": "생체역학 변수와 드라이빙", "part": "PART 01 · 생체역학·스윙", "date": "8/24", "open": false}, {"n": 9, "pid": 9, "hook": "스윙이 매번 흔들리는 게 나쁜 걸까?", "title": "스윙의 움직임 변동성", "part": "PART 01 · 생체역학·스윙", "date": "8/31", "open": false}, {"n": 10, "pid": 10, "hook": "퍼팅은 손목이 아니다.", "title": "퍼팅 생체역학 — 골반·몸통", "part": "PART 01 · 생체역학·스윙", "date": "9/7", "open": false}, {"n": 11, "pid": 11, "hook": "‘퍼팅이 우승을 만든다’는 거짓말?", "title": "PGA 투어 Strokes Gained", "part": "PART 02 · 경기력·데이터", "date": "9/14", "open": false}, {"n": 12, "pid": 12, "hook": "현대 골프 과학은 이 책에서 시작됐다.", "title": "Search for the Perfect Swing", "part": "PART 02 · 경기력·데이터", "date": "9/21", "open": false}, {"n": 13, "pid": 13, "hook": "스윙의 주인공은 팔이 아니었다.", "title": "스윙 중 근활성(EMG)", "part": "PART 02 · 경기력·데이터", "date": "9/28", "open": false}, {"n": 14, "pid": 16, "hook": "프로와 아마의 차이는 ‘힘’이 아니다.", "title": "프로·아마추어 스윙 운동학", "part": "PART 02 · 경기력·데이터", "date": "10/5", "open": false}, {"n": 15, "pid": 17, "hook": "잘 치는 선수는 대체 뭐가 다를까?", "title": "엘리트 골프: 결과·기술·신체", "part": "PART 02 · 경기력·데이터", "date": "10/12", "open": false}, {"n": 16, "pid": 18, "hook": "핸디캡을 낮추는 건 스윙이 아니라 몸?", "title": "근력·유연성·균형", "part": "PART 02 · 경기력·데이터", "date": "10/19", "open": false}, {"n": 17, "pid": 19, "hook": "라운드 후반에 무너지는 진짜 이유.", "title": "골프 경기력과 생리학", "part": "PART 02 · 경기력·데이터", "date": "10/26", "open": false}, {"n": 18, "pid": 20, "hook": "요통 없이 비거리까지 늘리는 법.", "title": "트레이닝을 통한 부상 예방", "part": "PART 02 · 경기력·데이터", "date": "11/2", "open": false}]</script>
-<script id="epcontent" type="application/json">{}</script>
+<script id="epmeta" type="application/json">__META__</script>
+<script id="epcontent" type="application/json">__CONTENT__</script>
 <script>
 var META = JSON.parse(document.getElementById('epmeta').textContent);
 var CONTENT = JSON.parse(document.getElementById('epcontent').textContent);
-var UNLOCKED = 0, TOTAL = META.length;
-var START_MS = Date.UTC(2026, 6, 6) - 9*3600*1000; // START 00:00 KST as epoch
-var DAY = 24*3600*1000, CADENCE = 7;
+var UNLOCKED = __UNLOCKED__, TOTAL = META.length;
+var START_MS = Date.UTC(__SY__, __SM__, __SD__) - 9*3600*1000; // START 00:00 KST as epoch
+var DAY = 24*3600*1000, CADENCE = __CADENCE__;
 
 // 진행바
 document.getElementById('pbar').style.width = (UNLOCKED/TOTAL*100) + '%';
@@ -179,4 +289,19 @@ document.querySelectorAll('.ep.open').forEach(function(b){
 // 기본 선택 = 최신 공개 회차
 if(UNLOCKED >= 1){ selectEp(UNLOCKED); }
 </script>
-</body></html>
+</body></html>"""
+
+HTML = (HTML
+        .replace("__META__", meta_json)
+        .replace("__CONTENT__", content_json)
+        .replace("__UNLOCKED__", str(unlocked))
+        .replace("__SY__", str(START_KST.year))
+        .replace("__SM__", str(START_KST.month - 1))   # JS month 0-based
+        .replace("__SD__", str(START_KST.day))
+        .replace("__CADENCE__", str(CADENCE)))
+
+with open(OUT, "w", encoding="utf-8") as f:
+    f.write(HTML)
+
+kb = len(HTML.encode("utf-8")) / 1024
+print(f"series.html written · today(KST)={today} · unlocked={unlocked}/{len(EPISODES)} · {kb:.0f} KB")

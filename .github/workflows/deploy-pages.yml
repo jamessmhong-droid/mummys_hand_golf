@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # 매일 00:05 KST(15:05 UTC 전날) — 그날 공개될 편을 자동으로 열어 재배포
+    - cron: '5 15 * * *'
 
 permissions:
   contents: read
@@ -23,6 +26,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Build weekly series page (date-gated)
+        run: python3 generate_series.py
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
