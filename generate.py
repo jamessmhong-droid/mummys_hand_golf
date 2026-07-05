@@ -450,53 +450,86 @@ def card_watermark(prefix):
             f'aria-label="Instagram {IG_HANDLE}"><img src="{prefix}assets/wm.png" alt="">'
             f'<span>{IG_HANDLE}</span></a>')
 
+PIG = ('<a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" '
+       'rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a>')
+CIRC = "①②③④⑤⑥⑦⑧"
+
 def detail_html(pid, p):
-    # V1 = Instagram card (4:5 poster). Condensed highlights; full evidence lives in V2.
-    finds = "".join(f'<li>{f}</li>' for f in p["findings"][:3])
-    tag = html.escape(p["tags"][0]) if p.get("tags") else "핵심연구 20선"
+    # V1 = Instagram carousel. One idea per 4:5 slide: cover, each finding, takeaway.
+    finds = p["findings"][:8]
     v2href = f"../v2/pages/paper-{pid:02d}.html"
+    total = len(finds) + 2
+    S = []
+    # 1) cover
+    S.append(f"""<div class="slide cover" id="s1">
+  <div class="stop"><span class="pno">{pid:02d}</span><img class="smasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
+  <span class="ppart">{html.escape(p['part'])}</span>
+  <h1 class="ctitle">{html.escape(p['title'])}</h1>
+  <div class="ccite"><b>{html.escape(p['authors'])}</b><br>{html.escape(p['journal'])}<div class="cpill">{html.escape(p['cites'])}</div></div>
+  <div class="sfoot">{PIG}<span class="hint">스와이프 →</span></div>
+</div>""")
+    # 2) one finding per slide
+    for i, f in enumerate(finds):
+        S.append(f"""<div class="slide" id="s{i+2}">
+  <div class="stop"><span class="slabel">핵심 발견 {CIRC[i]}</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
+  <div class="sbody"><p class="ftext">{f}</p></div>
+  <div class="sfoot">{PIG}<span class="sidx">{i+2} / {total}</span></div>
+</div>""")
+    # 3) takeaway
+    S.append(f"""<div class="slide take" id="s{total}">
+  <div class="stop"><span class="slabel">ONE-LINE 결론</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
+  <div class="sbody"><p class="ttext">{p['takeaway']}</p></div>
+  <div class="sfoot">{PIG}<a class="more" href="{v2href}">근거 자세히 → V2</a></div>
+</div>""")
+    slides = "\n".join(S)
     return f"""<!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(p['title'])} — 카드</title>
 {favicon_links("../")}
 <style>{CSS}
-body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:22px 16px 44px}}
-.topnav{{width:min(92vw,468px);display:flex;justify-content:space-between;gap:10px;margin-bottom:15px}}
+body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:22px 0 40px}}
+.topnav{{width:min(92vw,460px);display:flex;justify-content:space-between;gap:10px;margin:0 auto 14px}}
 .topnav a{{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none}}
 .topnav a:hover{{color:var(--ink)}}
-.post{{width:min(92vw,468px);aspect-ratio:4/5;background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 26px 64px -32px rgba(230,15,115,.6);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:hidden}}
-.ptop{{display:flex;align-items:center;gap:13px;margin-bottom:15px}}
-.pno{{font-size:32px;font-weight:900;color:#fff;background:var(--hot);min-width:60px;height:60px;padding:0 6px;border-radius:16px;display:flex;align-items:center;justify-content:center;letter-spacing:-.02em;flex:0 0 auto}}
-.ppart{{font-size:11px;font-weight:800;letter-spacing:.09em;color:var(--muted);text-transform:uppercase;line-height:1.4}}
-.pmasc{{width:48px;height:48px;margin-left:auto;flex:0 0 auto;filter:drop-shadow(0 5px 10px rgba(230,15,115,.3))}}
-.ptitle{{font-size:26px;font-weight:900;letter-spacing:-.02em;line-height:1.24;color:var(--ink);margin-bottom:9px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
-.pcite{{font-size:12.5px;line-height:1.5;color:var(--muted);font-weight:600;margin-bottom:15px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
-.pcite b{{color:var(--hot-deep);font-weight:800}}
-.pfind{{list-style:none;flex:1 1 0;min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:10px;margin:0 0 14px}}
-.pfind li{{position:relative;padding-left:26px;font-size:14.5px;line-height:1.5;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
-.pfind li::before{{content:"";position:absolute;left:3px;top:8px;width:10px;height:10px;background:var(--hot);border-radius:3px}}
-.pfind b{{color:var(--hot-deep)}}
-.ptake{{background:var(--ink);color:#fff;border-radius:14px;padding:14px 16px;font-size:14.5px;font-weight:700;line-height:1.5;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
-.ptake span{{display:block;color:var(--hot);font-size:10px;letter-spacing:.14em;margin-bottom:5px;font-weight:800}}
-.pfoot{{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:13px}}
-.pig{{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:var(--hot-deep);text-decoration:none}}
+.carousel{{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;width:100%;padding:4px max(16px,calc((100vw - min(88vw,430px))/2)) 16px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}}
+.carousel::-webkit-scrollbar{{height:8px}}
+.carousel::-webkit-scrollbar-thumb{{background:var(--line);border-radius:999px}}
+.slide{{flex:0 0 min(88vw,430px);aspect-ratio:4/5;scroll-snap-align:center;background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 22px 56px -30px rgba(230,15,115,.55);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:hidden}}
+.stop{{display:flex;align-items:center;gap:12px;margin-bottom:16px}}
+.pno{{font-size:30px;font-weight:900;color:#fff;background:var(--hot);min-width:56px;height:56px;padding:0 6px;border-radius:15px;display:flex;align-items:center;justify-content:center;letter-spacing:-.02em}}
+.smasc{{width:46px;height:46px;margin-left:auto;filter:drop-shadow(0 5px 10px rgba(230,15,115,.3))}}
+.slabel{{font-size:13px;font-weight:800;letter-spacing:.02em;color:#fff;background:var(--hot);padding:7px 15px;border-radius:999px}}
+.ppart{{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}}
+.ctitle{{font-size:29px;font-weight:900;letter-spacing:-.02em;line-height:1.24;color:var(--ink);margin:2px 0 14px}}
+.ccite{{font-size:14px;line-height:1.6;color:var(--muted);font-weight:600;margin-top:auto}}
+.ccite b{{color:var(--ink);font-weight:800}}
+.cpill{{display:inline-block;margin-top:9px;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 13px;border-radius:999px}}
+.sbody{{flex:1;display:flex;align-items:center;padding:6px 0}}
+.ftext{{font-size:22px;font-weight:700;line-height:1.55;color:var(--ink)}}
+.ftext b{{color:var(--hot-deep)}}
+.slide.take{{background:var(--ink);border-color:var(--ink)}}
+.slide.take .slabel{{background:var(--hot)}}
+.ttext{{font-size:26px;font-weight:800;line-height:1.5;color:#fff}}
+.ttext b{{color:var(--hot)}}
+.sfoot{{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:13px;margin-top:12px}}
+.slide.take .sfoot{{border-top-color:rgba(255,255,255,.18)}}
+.pig{{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:var(--hot-deep);text-decoration:none;white-space:nowrap}}
 .pig img{{width:22px;height:22px}}
-.pfoot .ptag{{font-size:11px;font-weight:800;background:var(--bg-soft);color:var(--hot-deep);padding:4px 11px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}}
-.controls{{width:min(92vw,468px);display:flex;justify-content:space-between;gap:10px;margin-top:18px}}
+.slide.take .pig{{color:#fff}}
+.hint,.sidx{{font-size:12px;font-weight:800;color:var(--muted)}}
+.more{{font-size:12.5px;font-weight:800;color:var(--hot);text-decoration:none;white-space:nowrap}}
+.swipehint{{margin-top:14px;font-size:13px;color:var(--muted);font-weight:700;text-align:center}}
+.controls{{width:min(92vw,460px);display:flex;justify-content:space-between;gap:10px;margin:6px auto 0}}
 .controls a{{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none;background:var(--white);border:1px solid var(--line);padding:9px 16px;border-radius:999px}}
 .controls a:hover{{background:var(--hot);color:#fff;border-color:var(--hot)}}
 </style></head>
 <body>
 <div class="topnav"><a href="../golf-research-summary.html">← 카드 목록</a><a href="{v2href}">전문가용 근거(V2) →</a></div>
-<div class="post" id="card">
-  <div class="ptop"><span class="pno">{pid:02d}</span><span class="ppart">{html.escape(p['part'])}</span><img class="pmasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
-  <h1 class="ptitle">{html.escape(p['title'])}</h1>
-  <div class="pcite"><b>{html.escape(p['authors'])}</b> · {html.escape(p['journal'])} · {html.escape(p['cites'])}</div>
-  <ul class="pfind">{finds}</ul>
-  <div class="ptake"><span>ONE-LINE TAKEAWAY</span>{p['takeaway']}</div>
-  <div class="pfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="ptag">{tag}</span></div>
+<div class="carousel">
+{slides}
 </div>
+<p class="swipehint">← 좌우로 넘겨보세요 · 총 {total}장 (표지 · 발견 {len(finds)} · 결론) →</p>
 <div class="controls"><a href="../golf-research-summary.html">← 목록</a><a href="{v2href}">근거 자세히 보기 →</a></div>
 </body></html>"""
 
@@ -584,7 +617,7 @@ index = f"""<!DOCTYPE html>
   <header class="hero">
     <span class="kicker">GOLF PERFORMANCE · RESEARCH</span>
     <h1>골프 경기력을 만든<br><span>핵심 연구 20선</span></h1>
-    <p>비거리·정확성·퍼팅·부상예방까지 — 영향력 있는 논문 20편을 <b>인스타그램 카드</b> 형식으로 정리했습니다. 카드를 누르면 저장·업로드용 <b>4:5 카드</b>가 열립니다. 더 깊은 근거는 전문가용(V2)에서.</p>
+    <p>비거리·정확성·퍼팅·부상예방까지 — 영향력 있는 논문 20편을 <b>인스타그램 카드</b>로 정리했습니다. 카드를 누르면 <b>스와이프 카드 세트</b>(표지·발견·결론)가 열려요. 더 깊은 근거는 전문가용(V2)에서.</p>
     {imgspot}
   </header>
   <section class="sec">
