@@ -5,6 +5,10 @@ OUT = os.path.dirname(os.path.abspath(__file__))
 PAGES = os.path.join(OUT, "pages")
 os.makedirs(PAGES, exist_ok=True)
 
+# 방문자 카운트(GoatCounter) — 비공개 대시보드: https://mummyshandgolf.goatcounter.com
+GC = ('<script data-goatcounter="https://mummyshandgolf.goatcounter.com/count" '
+      'async src="//gc.zgo.at/count.js"></script>')
+
 # ---------------------------------------------------------------
 # DATA. dup=id -> this card links to that paper's page instead.
 # ---------------------------------------------------------------
@@ -579,6 +583,7 @@ body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;pad
 </div>
 <p class="swipehint">아래로 스크롤 · 총 {total}장 (표지 · 발견 {len(finds)} · 결론) · 인스타 캐러셀 순서 그대로</p>
 <div class="controls"><a href="../golf-research-summary.html">← 목록</a><a href="{v2href}">근거 자세히 보기 →</a></div>
+{GC}
 </body></html>"""
 
 for pid, p in papers.items():
@@ -678,7 +683,7 @@ index = f"""<!DOCTYPE html>
     <b>참고 —</b> 인용 횟수는 Google Scholar 등 검색엔진·데이터베이스와 시점에 따라 달라지므로, 위 순서는 <b>인용 영향력 기준 대략적 순위</b>이며 수치는 추정치입니다. 원자료에서 중복된 2편을 제외한 <b>18편</b>입니다.
   </div>
   {brand_footer("")}
-</div></body></html>"""
+{GC}</div></body></html>"""
 
 with open(os.path.join(OUT, "golf-research-summary.html"), "w", encoding="utf-8") as f:
     f.write(index)

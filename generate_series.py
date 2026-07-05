@@ -289,6 +289,8 @@ document.querySelectorAll('.ep.open').forEach(function(b){
 // 기본 선택 = 최신 공개 회차
 if(UNLOCKED >= 1){ selectEp(UNLOCKED); }
 </script>
+<!-- 방문자 카운트(GoatCounter) — 비공개 대시보드: https://mummyshandgolf.goatcounter.com. 임베드 iframe은 sandbox로 스크립트 차단이라 중복 집계 안 됨. -->
+<script data-goatcounter="https://mummyshandgolf.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body></html>"""
 
 HTML = (HTML
