@@ -23,8 +23,8 @@ SITE = os.path.join(ROOT, "site")
 OUT  = os.path.join(SITE, "series.html")
 
 # ── 연재 설정 ──────────────────────────────────────────────
-START_KST = datetime.date(2026, 7, 6)   # 1편 공개일 (KST, 월요일)
-CADENCE   = 7                            # 매주
+START_KST = datetime.datetime(2026, 7, 6, 20, 0)  # 1편 공개 시각 (KST, 저녁 8시)
+CADENCE   = 7                                      # 매주
 
 # 회차 = (n, pid, v3파일, 훅, 제목)  · pid → V1: pages/paper-{pid}, V2: v2/pages/paper-{pid}
 EPISODES = [
@@ -79,19 +79,19 @@ def build_srcdoc(pid, v3):
 def part_label(pid):
     return "PART 01 · 생체역학·스윙" if pid <= 10 else "PART 02 · 경기력·데이터"
 
-# ── 공개 회차 계산 (빌드 시각 KST 기준) ─────────────────────
-# 테스트용: SERIES_TODAY=YYYY-MM-DD 로 '오늘'을 강제할 수 있음(프로덕션에선 미설정)
+# ── 공개 회차 계산 (빌드 시각 KST 기준, 시각 단위) ───────────
+# 테스트용: SERIES_TODAY='YYYY-MM-DD' 또는 'YYYY-MM-DDTHH:MM' 로 '지금'을 강제 가능(프로덕션 미설정)
 _override = os.environ.get("SERIES_TODAY")
 if _override:
-    today = datetime.date.fromisoformat(_override)
+    now = datetime.datetime.fromisoformat(_override)
 else:
-    today = (datetime.datetime.utcnow() + datetime.timedelta(hours=9)).date()
-if today < START_KST:
+    now = datetime.datetime.utcnow() + datetime.timedelta(hours=9)  # KST 벽시계
+if now < START_KST:
     unlocked = 0
 else:
-    unlocked = min(len(EPISODES), (today - START_KST).days // CADENCE + 1)
+    unlocked = min(len(EPISODES), (now - START_KST).days // CADENCE + 1)
 
-def unlock_date(n):  # n = 1..18
+def unlock_date(n):  # n = 1..18 → 공개 일시(KST)
     return START_KST + datetime.timedelta(days=(n - 1) * CADENCE)
 
 # 공개된 회차의 본문만 담는다(잠긴 회차 콘텐츠는 출력물에 없음 = 진짜 잠금)
@@ -101,7 +101,7 @@ for n, pid, v3, hook, title in EPISODES:
         content[str(n)] = build_srcdoc(pid, v3)
 
 meta = [{"n": n, "pid": pid, "hook": hook, "title": title, "part": part_label(pid),
-         "date": unlock_date(n).strftime("%-m/%-d"), "open": n <= unlocked}
+         "date": unlock_date(n).strftime("%-m/%-d %-H시"), "open": n <= unlocked}
         for (n, pid, v3, hook, title) in EPISODES]
 
 # </script> 로 스크립트가 조기 종료되지 않도록 안전 이스케이프
@@ -205,7 +205,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Go
 <div class="foot">
   <a class="ig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener">
     <img src="assets/wm.png" alt="">@mummys_hand_golf</a>
-  <p class="note">매주 공개 일정은 자동으로 갱신됩니다. 아직 공개되지 않은 편은 이 페이지에 담기지 않아, 미리 볼 수 없습니다. 인용 순서는 대략적 영향력 기준.</p>
+  <p class="note">매주 <b>저녁 8시(KST)</b> 한 편씩 공개됩니다. 아직 공개되지 않은 편은 이 페이지에 담기지 않아, 미리 볼 수 없습니다. 인용 순서는 대략적 영향력 기준.</p>
 </div>
 </div>
 
@@ -215,7 +215,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Go
 var META = JSON.parse(document.getElementById('epmeta').textContent);
 var CONTENT = JSON.parse(document.getElementById('epcontent').textContent);
 var UNLOCKED = __UNLOCKED__, TOTAL = META.length;
-var START_MS = Date.UTC(__SY__, __SM__, __SD__) - 9*3600*1000; // START 00:00 KST as epoch
+var START_MS = Date.UTC(__SY__, __SM__, __SD__, __SH__, __SMIN__) - 9*3600*1000; // START (KST) as epoch
 var DAY = 24*3600*1000, CADENCE = __CADENCE__;
 
 // 진행바
@@ -298,10 +298,12 @@ HTML = (HTML
         .replace("__SY__", str(START_KST.year))
         .replace("__SM__", str(START_KST.month - 1))   # JS month 0-based
         .replace("__SD__", str(START_KST.day))
+        .replace("__SH__", str(START_KST.hour))
+        .replace("__SMIN__", str(START_KST.minute))
         .replace("__CADENCE__", str(CADENCE)))
 
 with open(OUT, "w", encoding="utf-8") as f:
     f.write(HTML)
 
 kb = len(HTML.encode("utf-8")) / 1024
-print(f"series.html written · today(KST)={today} · unlocked={unlocked}/{len(EPISODES)} · {kb:.0f} KB")
+print(f"series.html written · now(KST)={now} · unlocked={unlocked}/{len(EPISODES)} · {kb:.0f} KB")
