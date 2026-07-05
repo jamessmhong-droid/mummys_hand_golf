@@ -7,11 +7,8 @@
 :root{--bg:#FDEEF3;--bg-soft:#FCE4EC;--hot:#FF1E88;--hot-deep:#E60F73;--ink:#0E0E10;--white:#FFFFFF;--line:#F4C9DC;--muted:#6B5560;}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Gothic Neo','Segoe UI',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
-
+.sitenav{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:0 auto 16px;padding:0 12px}.sitenav a{font-size:12.5px;font-weight:800;color:var(--muted);text-decoration:none;padding:7px 13px;border-radius:999px}.sitenav a:hover{color:var(--hot-deep);background:var(--bg-soft)}.sitenav a.cur{color:#fff;background:var(--hot)}
 body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:22px 0 40px}
-.topnav{width:min(92vw,460px);display:flex;justify-content:space-between;gap:10px;margin:0 auto 14px}
-.topnav a{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none}
-.topnav a:hover{color:var(--ink)}
 .carousel{display:flex;flex-direction:column;align-items:center;gap:20px;width:100%;padding:4px 16px}
 .slide{width:min(92vw,440px);aspect-ratio:4/5;background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 22px 56px -30px rgba(230,15,115,.55);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:hidden}
 .stop{display:flex;align-items:center;gap:12px;margin-bottom:16px}
@@ -19,7 +16,10 @@ body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padd
 .smasc{width:46px;height:46px;margin-left:auto;filter:drop-shadow(0 5px 10px rgba(230,15,115,.3))}
 .slabel{font-size:13px;font-weight:800;letter-spacing:.02em;color:#fff;background:var(--hot);padding:7px 15px;border-radius:999px}
 .ppart{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
-.ctitle{font-size:29px;font-weight:900;letter-spacing:-.02em;line-height:1.24;color:var(--ink);margin:2px 0 14px}
+.chook{font-size:27px;font-weight:900;letter-spacing:-.02em;line-height:1.3;color:var(--ink);margin:6px 0 16px;padding-left:14px;border-left:5px solid var(--hot)}
+.csub{font-size:15.5px;font-weight:800;line-height:1.45;color:var(--muted)}
+.clab{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.08em;color:#fff;background:var(--ink);padding:3px 9px;border-radius:999px;margin-right:8px;vertical-align:middle}
+.ppart{flex:1}
 .ccite{font-size:14px;line-height:1.6;color:var(--muted);font-weight:600;margin-top:auto}
 .ccite b{color:var(--ink);font-weight:800}
 .cpill{display:inline-block;margin-top:9px;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 13px;border-radius:999px}
@@ -43,13 +43,13 @@ body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padd
 .controls a:hover{background:var(--hot);color:#fff;border-color:var(--hot)}
 </style></head>
 <body>
-<div class="topnav"><a href="../golf-research-summary.html">← 카드 목록</a><a href="../v2/pages/paper-20.html">전문가용 근거(V2) →</a></div>
+<nav class="sitenav"><a href="../index.html">🏠 홈</a><a href="../golf-research-summary.html" class="cur">V1 카드</a><a href="../v2/golf-research-v2.html">V2 근거</a><a href="../v3/index.html">V3 딥다이브</a></nav>
 <div class="carousel">
 <div class="slide cover" id="s1">
-  <div class="stop"><span class="pno">20</span><img class="smasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
-  <span class="ppart">PART 02 · 경기력·데이터</span>
-  <h1 class="ctitle">트레이닝을 통한 부상 예방·경기력 향상</h1>
-  <div class="ccite"><b>Meira, E.P. &amp; Brumitt, J. (2010)</b><br>Sports Health, 2(4), 337–344 · PMID 23015957<div class="cpill">실용 리뷰</div></div>
+  <div class="stop"><span class="pno">20</span><span class="ppart">PART 02 · 경기력·데이터</span><img class="smasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
+  <div class="chook">요통 없이 비거리까지 늘리는 법.</div>
+  <div class="csub"><span class="clab">논문</span>트레이닝을 통한 부상 예방·경기력 향상</div>
+  <div class="ccite"><b>Meira, E.P. &amp; Brumitt, J. (2010)</b> · Sports Health, 2(4), 337–344 · PMID 23015957<div class="cpill">실용 리뷰</div></div>
   <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="hint">1 / 7</span></div>
 </div>
 <div class="slide" id="s2">

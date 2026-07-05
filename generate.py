@@ -454,18 +454,61 @@ PIG = ('<a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target
        'rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a>')
 CIRC = "①②③④⑤⑥⑦⑧"
 
+# Scroll-stopping hooks for each card's cover (curiosity opener, distinct from the takeaway).
+HOOKS = {
+ 1: "장타는 '힘'으로만 치는 게 아니다?",
+ 2: "집에서 밴드 하나로 비거리가 는다면?",
+ 3: "골반을 '덜' 돌려야 볼 스피드가 오른다?",
+ 4: "X팩터, 크기보다 중요한 게 따로 있다.",
+ 5: "싱글의 스윙엔 '순서'가 있다.",
+ 6: "티오프 전 5분이 클럽 스피드를 바꾼다.",
+ 7: "힘만 키우면 장타? 절반만 맞다.",
+ 8: "볼 스피드의 73%는 이 4가지로 정해진다.",
+ 9: "스윙이 매번 흔들리는 게 나쁜 걸까?",
+ 10: "퍼팅은 손목이 아니다.",
+ 11: "'퍼팅이 우승을 만든다'는 거짓말?",
+ 12: "현대 골프 과학은 이 책에서 시작됐다.",
+ 13: "스윙의 주인공은 팔이 아니었다.",
+ 16: "프로와 아마의 차이는 '힘'이 아니다.",
+ 17: "잘 치는 선수는 대체 뭐가 다를까?",
+ 18: "핸디캡을 낮추는 건 스윙이 아니라 몸?",
+ 19: "라운드 후반에 무너지는 진짜 이유.",
+ 20: "요통 없이 비거리까지 늘리는 법.",
+}
+
+# Site-wide top nav (home / V1 / V2 / V3). prefix reaches the site root from the page.
+NAV_CSS = (
+ ".sitenav{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:0 auto 16px;padding:0 12px}"
+ ".sitenav a{font-size:12.5px;font-weight:800;color:var(--muted);text-decoration:none;padding:7px 13px;"
+ "border-radius:999px}"
+ ".sitenav a:hover{color:var(--hot-deep);background:var(--bg-soft)}"
+ ".sitenav a.cur{color:#fff;background:var(--hot)}"
+)
+
+def nav(prefix, cur):
+    items = [("index.html", "🏠 홈", "home"),
+             ("golf-research-summary.html", "V1 카드", "v1"),
+             ("v2/golf-research-v2.html", "V2 근거", "v2"),
+             ("v3/index.html", "V3 딥다이브", "v3")]
+    out = []
+    for href, label, key in items:
+        c = ' class="cur"' if key == cur else ''
+        out.append(f'<a href="{prefix}{href}"{c}>{label}</a>')
+    return '<nav class="sitenav">' + "".join(out) + '</nav>'
+
 def detail_html(pid, p):
     # V1 = Instagram carousel. One idea per 4:5 slide: cover, each finding, takeaway.
     finds = p["findings"][:8]
     v2href = f"../v2/pages/paper-{pid:02d}.html"
     total = len(finds) + 2
+    hook = HOOKS.get(pid, p["takeaway"])
     S = []
-    # 1) cover
+    # 1) cover — leads with a scroll-stopping hook
     S.append(f"""<div class="slide cover" id="s1">
-  <div class="stop"><span class="pno">{pid:02d}</span><img class="smasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
-  <span class="ppart">{html.escape(p['part'])}</span>
-  <h1 class="ctitle">{html.escape(p['title'])}</h1>
-  <div class="ccite"><b>{html.escape(p['authors'])}</b><br>{html.escape(p['journal'])}<div class="cpill">{html.escape(p['cites'])}</div></div>
+  <div class="stop"><span class="pno">{pid:02d}</span><span class="ppart">{html.escape(p['part'])}</span><img class="smasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
+  <div class="chook">{html.escape(hook)}</div>
+  <div class="csub"><span class="clab">논문</span>{html.escape(p['title'])}</div>
+  <div class="ccite"><b>{html.escape(p['authors'])}</b> · {html.escape(p['journal'])}<div class="cpill">{html.escape(p['cites'])}</div></div>
   <div class="sfoot">{PIG}<span class="hint">1 / {total}</span></div>
 </div>""")
     # 2) one finding per slide
@@ -487,11 +530,8 @@ def detail_html(pid, p):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(p['title'])} — 카드</title>
 {favicon_links("../")}
-<style>{CSS}
+<style>{CSS}{NAV_CSS}
 body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:22px 0 40px}}
-.topnav{{width:min(92vw,460px);display:flex;justify-content:space-between;gap:10px;margin:0 auto 14px}}
-.topnav a{{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none}}
-.topnav a:hover{{color:var(--ink)}}
 .carousel{{display:flex;flex-direction:column;align-items:center;gap:20px;width:100%;padding:4px 16px}}
 .slide{{width:min(92vw,440px);aspect-ratio:4/5;background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 22px 56px -30px rgba(230,15,115,.55);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:hidden}}
 .stop{{display:flex;align-items:center;gap:12px;margin-bottom:16px}}
@@ -499,7 +539,10 @@ body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;pad
 .smasc{{width:46px;height:46px;margin-left:auto;filter:drop-shadow(0 5px 10px rgba(230,15,115,.3))}}
 .slabel{{font-size:13px;font-weight:800;letter-spacing:.02em;color:#fff;background:var(--hot);padding:7px 15px;border-radius:999px}}
 .ppart{{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}}
-.ctitle{{font-size:29px;font-weight:900;letter-spacing:-.02em;line-height:1.24;color:var(--ink);margin:2px 0 14px}}
+.chook{{font-size:27px;font-weight:900;letter-spacing:-.02em;line-height:1.3;color:var(--ink);margin:6px 0 16px;padding-left:14px;border-left:5px solid var(--hot)}}
+.csub{{font-size:15.5px;font-weight:800;line-height:1.45;color:var(--muted)}}
+.clab{{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.08em;color:#fff;background:var(--ink);padding:3px 9px;border-radius:999px;margin-right:8px;vertical-align:middle}}
+.ppart{{flex:1}}
 .ccite{{font-size:14px;line-height:1.6;color:var(--muted);font-weight:600;margin-top:auto}}
 .ccite b{{color:var(--ink);font-weight:800}}
 .cpill{{display:inline-block;margin-top:9px;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 13px;border-radius:999px}}
@@ -523,7 +566,7 @@ body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;pad
 .controls a:hover{{background:var(--hot);color:#fff;border-color:var(--hot)}}
 </style></head>
 <body>
-<div class="topnav"><a href="../golf-research-summary.html">← 카드 목록</a><a href="{v2href}">전문가용 근거(V2) →</a></div>
+{nav("../","v1")}
 <div class="carousel">
 {slides}
 </div>
@@ -578,8 +621,9 @@ index = f"""<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>골프 경기력 핵심 연구 20선 — 요약</title>
 {favicon_links("")}
-<style>{CSS}{BRAND_CSS}
+<style>{CSS}{BRAND_CSS}{NAV_CSS}
 .wrap{{max-width:920px;margin:0 auto;padding:56px 24px 96px}}
+.sitenav{{margin-top:8px;margin-bottom:0}}
 .hero{{text-align:center;padding:40px 0 48px;border-bottom:3px solid var(--hot)}}
 .kicker{{display:inline-block;background:var(--hot);color:#fff;font-size:13px;font-weight:800;letter-spacing:.14em;padding:7px 16px;border-radius:999px;margin-bottom:22px}}
 .hero h1{{font-size:40px;font-weight:900;letter-spacing:-.02em;line-height:1.22}}
@@ -612,6 +656,7 @@ index = f"""<!DOCTYPE html>
 @media(max-width:560px){{.hero h1{{font-size:30px}}.card{{padding:22px 20px}}.wrap{{padding:36px 16px 72px}}}}
 </style></head>
 <body><div class="wrap">
+  {nav("","v1")}
   <header class="hero">
     <span class="kicker">GOLF PERFORMANCE · RESEARCH</span>
     <h1>골프 경기력을 만든<br><span>핵심 연구 20선</span></h1>
