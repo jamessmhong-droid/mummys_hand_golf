@@ -145,6 +145,25 @@ _IG_SVG = ('<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="
            '<rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/>'
            '<circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>')
 
+NAV_CSS = (
+ ".sitenav{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:0 auto 18px;padding:0 12px}"
+ ".sitenav a{font-size:12.5px;font-weight:800;color:var(--muted);text-decoration:none;padding:7px 13px;"
+ "border-radius:999px}"
+ ".sitenav a:hover{color:var(--hot-deep);background:var(--bg-soft)}"
+ ".sitenav a.cur{color:#fff;background:var(--hot)}"
+)
+
+def nav(prefix, cur):
+    items = [("index.html", "🏠 홈", "home"),
+             ("golf-research-summary.html", "V1 카드", "v1"),
+             ("v2/golf-research-v2.html", "V2 근거", "v2"),
+             ("v3/index.html", "V3 딥다이브", "v3")]
+    out = []
+    for href, label, key in items:
+        c = ' class="cur"' if key == cur else ''
+        out.append(f'<a href="{prefix}{href}"{c}>{label}</a>')
+    return '<nav class="sitenav">' + "".join(out) + '</nav>'
+
 def brand_footer(prefix):
     return (f'<div class="brand"><img src="{prefix}assets/mascot.png" alt="마미손 골프 마스코트">'
             f'<a class="brand-ig" href="{IG_URL}" target="_blank" rel="noopener">'
@@ -165,8 +184,9 @@ def detail(pid, p):
     h.append("<meta name='viewport' content='width=device-width, initial-scale=1.0'>")
     h.append(f"<title>{esc(p['title'])} — 전문가용 (V2)</title>")
     h.append(favicon_links("../../"))
-    h.append(f"<style>{DETAIL_CSS}{BRAND_CSS}</style></head><body><div class='wrap'>")
+    h.append(f"<style>{DETAIL_CSS}{BRAND_CSS}{NAV_CSS}</style></head><body><div class='wrap'>")
     h.append(card_watermark("../../"))
+    h.append(nav("../../", "v2"))
     h.append("<a class='back' href='../golf-research-v2.html'>← 근거 자료집(V2)으로 돌아가기</a>")
     h.append(f"<div><span class='part'>{esc(p['part'])} · No.{pid:02d}</span></div>")
     h.append(f"<h1>{esc(p['title'])}</h1>")
@@ -280,7 +300,8 @@ ix.append("<!DOCTYPE html><html lang='ko'><head><meta charset='UTF-8'>")
 ix.append("<meta name='viewport' content='width=device-width, initial-scale=1.0'>")
 ix.append("<title>골프 경기력 핵심 연구 20선 — 전문가용 근거 자료집 (V2)</title>")
 ix.append(favicon_links("../"))
-ix.append(f"<style>{INDEX_CSS}{BRAND_CSS}</style></head><body><div class='wrap'>")
+ix.append(f"<style>{INDEX_CSS}{BRAND_CSS}{NAV_CSS}</style></head><body><div class='wrap'>")
+ix.append(nav("../", "v2"))
 ix.append("<header class='hero'><span class='kicker'>EVIDENCE DOSSIER · 전문가용</span>"
           "<h1>골프 경기력 핵심 연구 20선<br><span>— 근거 자료집</span></h1>"
           "<p>V1(카드용 요약)과 동일한 20편을, <b>연구 설계·표본·핵심 통계·한계</b>까지 담아 전문가용으로 재정리했습니다. "
