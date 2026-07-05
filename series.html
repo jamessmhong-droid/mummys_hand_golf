@@ -158,7 +158,8 @@ for (var i=0;i<TOTAL;i++){
       '<span class="epgo">카드 보기 →</span></a>';
   } else {
     var ud = unlockDate(i);
-    var md = (ud.getMonth()+1)+'/'+ud.getDate();
+    var k = new Date(ud.getTime() + 9*3600*1000); // KST wall-clock (뷰어 시간대 무관)
+    var md = (k.getUTCMonth()+1)+'/'+k.getUTCDate();
     html += '<div class="ep lock"><span class="badge">🔒</span>'+
       '<div class="epno">'+String(e.n).padStart(2,'0')+'</div>'+
       '<div class="ephook">다음에 공개됩니다</div>'+
