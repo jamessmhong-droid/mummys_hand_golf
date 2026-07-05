@@ -1,78 +1,48 @@
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>골프 스윙의 일·파워 분석 (모델링) — 논문 요약</title>
+<title>골프 스윙의 일·파워 분석 (모델링) — 카드</title>
 <link rel="icon" type="image/png" href="../assets/favicon.png"><link rel="apple-touch-icon" href="../assets/mascot.png">
 <style>
 :root{--bg:#FDEEF3;--bg-soft:#FCE4EC;--hot:#FF1E88;--hot-deep:#E60F73;--ink:#0E0E10;--white:#FFFFFF;--line:#F4C9DC;--muted:#6B5560;}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Gothic Neo','Segoe UI',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
 
-.brand{margin-top:56px;padding-top:26px;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:11px;text-align:center}
-.brand>img{width:48px;height:48px;filter:drop-shadow(0 6px 12px rgba(230,15,115,.35))}
-.brand-ig{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--hot-deep);text-decoration:none}
-.brand-ig:hover{color:var(--ink)}
-.cardwm{position:absolute;top:16px;right:16px;z-index:5;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.74);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 6px;text-decoration:none;box-shadow:0 4px 14px -6px rgba(230,15,115,.45)}
-.cardwm img{width:26px;height:26px}
-.cardwm span{font-size:12px;font-weight:800;color:var(--hot-deep);letter-spacing:.01em}
-
-.wrap{max-width:760px;margin:0 auto;padding:32px 22px 88px;position:relative}
-.back{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:var(--hot-deep);text-decoration:none;margin-bottom:26px}
-.back:hover{color:var(--ink)}
-.part{display:inline-block;background:var(--ink);color:var(--white);font-size:12px;font-weight:800;letter-spacing:.1em;padding:5px 13px;border-radius:999px}
-h1{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1.3;margin:18px 0 14px}
-.cite{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:14px;color:var(--muted);margin-bottom:14px}
-.cite b{color:var(--ink)}
-.pill{display:inline-block;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px;margin-top:6px}
-.reflinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:13px;padding-top:13px;border-top:1px dashed var(--line)}
-.reflab{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
-.reflink{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;text-decoration:none;background:var(--white);color:var(--hot-deep);border:1.5px solid var(--hot);padding:5px 12px;border-radius:999px;transition:background .15s ease,color .15s ease}
-.reflink:hover{background:var(--hot);color:#fff}
-.reflink .ext{font-weight:700;opacity:.8}
-.badges{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 30px}
-.tag{font-size:12px;font-weight:700;background:var(--bg-soft);color:var(--hot-deep);padding:5px 12px;border-radius:999px;border:1px solid var(--line)}
-.lead{font-size:17px;line-height:1.75;background:var(--white);border-left:5px solid var(--hot);border-radius:0 14px 14px 0;padding:18px 22px;margin-bottom:34px}
-h2{font-size:15px;font-weight:900;letter-spacing:.02em;color:var(--hot-deep);text-transform:uppercase;margin:0 0 14px;display:flex;align-items:center;gap:9px}
-h2::before{content:"";width:10px;height:10px;background:var(--hot);border-radius:3px;display:inline-block}
-section{margin-bottom:34px}
-.findings{list-style:none;counter-reset:f}
-.findings li{counter-increment:f;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:15px 16px 15px 52px;margin-bottom:11px;font-size:15px;position:relative}
-.findings li::before{content:counter(f);position:absolute;left:14px;top:14px;width:26px;height:26px;background:var(--hot);color:#fff;font-weight:900;font-size:13px;border-radius:8px;display:flex;align-items:center;justify-content:center}
-.findings b{color:var(--hot-deep)}
-.box{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15px}
-.take{background:var(--ink);color:#fff;border-radius:16px;padding:20px 22px;font-size:16px;font-weight:700;line-height:1.6}
-.take span{color:var(--hot);display:block;font-size:12px;letter-spacing:.14em;margin-bottom:8px;font-weight:800}
-h3{font-size:14px;font-weight:900;color:var(--ink);margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--hot)}
-.prog{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.progcol{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 16px}
-.progcol ul{list-style:none;margin:0;padding:0}
-.progcol li{font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line);line-height:1.45}
-.progcol li:last-child{border-bottom:none}
-.progcol .b{display:inline-block;font-size:10px;font-weight:800;background:var(--hot);color:#fff;padding:1px 7px;border-radius:999px;margin-left:4px;vertical-align:middle}
-.note{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6}
-.note b{color:var(--ink)}
-.dtab{width:100%;border-collapse:collapse;background:var(--white);border-radius:14px;overflow:hidden;border:1px solid var(--line);font-size:13.5px}
-.dtab th{background:var(--ink);color:#fff;padding:11px 10px;text-align:center;font-weight:800;font-size:12.5px;line-height:1.3}
-.dtab td{padding:10px 10px;text-align:center;border-bottom:1px solid var(--line)}
-.dtab td:first-child{text-align:left;font-weight:700}
-.dtab tbody tr:last-child td{border-bottom:none}
-.dtab tbody tr:nth-child(even){background:var(--bg-soft)}
-@media(max-width:640px){.prog{grid-template-columns:1fr}.dtab{font-size:12px}.dtab th,.dtab td{padding:8px 6px}}
-@media(max-width:520px){h1{font-size:24px}.wrap{padding:24px 15px 64px}}
+body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:22px 16px 44px}
+.topnav{width:min(92vw,468px);display:flex;justify-content:space-between;gap:10px;margin-bottom:15px}
+.topnav a{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none}
+.topnav a:hover{color:var(--ink)}
+.post{width:min(92vw,468px);aspect-ratio:4/5;background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 26px 64px -32px rgba(230,15,115,.6);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:hidden}
+.ptop{display:flex;align-items:center;gap:13px;margin-bottom:15px}
+.pno{font-size:32px;font-weight:900;color:#fff;background:var(--hot);min-width:60px;height:60px;padding:0 6px;border-radius:16px;display:flex;align-items:center;justify-content:center;letter-spacing:-.02em;flex:0 0 auto}
+.ppart{font-size:11px;font-weight:800;letter-spacing:.09em;color:var(--muted);text-transform:uppercase;line-height:1.4}
+.pmasc{width:48px;height:48px;margin-left:auto;flex:0 0 auto;filter:drop-shadow(0 5px 10px rgba(230,15,115,.3))}
+.ptitle{font-size:26px;font-weight:900;letter-spacing:-.02em;line-height:1.24;color:var(--ink);margin-bottom:9px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.pcite{font-size:12.5px;line-height:1.5;color:var(--muted);font-weight:600;margin-bottom:15px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pcite b{color:var(--hot-deep);font-weight:800}
+.pfind{list-style:none;flex:1 1 0;min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:10px;margin:0 0 14px}
+.pfind li{position:relative;padding-left:26px;font-size:14.5px;line-height:1.5;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pfind li::before{content:"";position:absolute;left:3px;top:8px;width:10px;height:10px;background:var(--hot);border-radius:3px}
+.pfind b{color:var(--hot-deep)}
+.ptake{background:var(--ink);color:#fff;border-radius:14px;padding:14px 16px;font-size:14.5px;font-weight:700;line-height:1.5;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.ptake span{display:block;color:var(--hot);font-size:10px;letter-spacing:.14em;margin-bottom:5px;font-weight:800}
+.pfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:13px}
+.pig{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:var(--hot-deep);text-decoration:none}
+.pig img{width:22px;height:22px}
+.pfoot .ptag{font-size:11px;font-weight:800;background:var(--bg-soft);color:var(--hot-deep);padding:4px 11px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.controls{width:min(92vw,468px);display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+.controls a{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none;background:var(--white);border:1px solid var(--line);padding:9px 16px;border-radius:999px}
+.controls a:hover{background:var(--hot);color:#fff;border-color:var(--hot)}
 </style></head>
-<body><div class="wrap">
-<a class="cardwm" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener" aria-label="Instagram @mummys_hand_golf"><img src="../assets/wm.png" alt=""><span>@mummys_hand_golf</span></a>
-<a class="back" href="../golf-research-summary.html">← 전체 20선으로 돌아가기</a>
-<div><span class="part">PART 01 · 생체역학</span></div>
-<h1>골프 스윙의 일·파워 분석 (모델링)</h1>
-<div class="cite"><b>Nesbit, S.M. &amp; Serrano, M. (2005)</b><br>J. Sports Science &amp; Medicine, 4(4), 520–533 · 원제 &#x27;Work and Power Analysis of the Golf Swing&#x27;<div class="pill">약 150+ 인용</div><div class="reflinks"><span class="reflab">원문</span><a class="reflink" href="https://pubmed.ncbi.nlm.nih.gov/24627666/" target="_blank" rel="noopener">PMID 24627666 <span class="ext">↗</span></a></div></div>
-<div class="badges"><span class="tag">모델링</span><span class="tag">에너지</span><span class="tag">N=4</span></div>
-<p class="lead">스킬·체형·스윙 스타일이 다른 아마추어 <b>4명</b>을, 클럽과 전신을 각각 컴퓨터 모델로 만들어 다운스윙의 <b>일(work)·에너지·파워</b> 관점에서 분석한 모델링 연구.</p>
-<section><h2>핵심 발견</h2><ol class="findings"><li>에너지 접근법으로 클럽을 가속시키는 <b>힘·토크 성분</b>과 각 신체 분절의 <b>일 생성 타이밍</b>을 새롭게 밝혔다.</li><li><b>힘(force)과 가동범위(ROM)가 클럽헤드 속도 생성에 '동등하게' 중요</b>함을 증명 — 어느 하나만으론 부족.</li><li>샤프트의 <b>에너지 저장·방출(strain energy)</b>과 스윙 효율(swing efficiency)을 정량화했다.</li><li>에너지 기반 분석이 기존 힘/토크 분석보다 다운스윙을 더 포괄적으로 설명한다.</li></ol></section>
-<section><h2>연구 방법</h2><div class="box">두 컴퓨터 모델 사용 — (1) 클럽 상세 모델로 내부 에너지 전달, (2) 전신 모델로 관절 내부 일(work) 산출. 운동에너지·변형에너지·파워를 표준 역학으로 계산.</div></section>
-
-<section><h2>의의</h2><div class="box">실험으로 못 보는 내부 일·에너지 전달을 계산으로 열어, 장비·기술 최적화 연구의 토대가 됐다.</div></section>
-<div class="take"><span>ONE-LINE TAKEAWAY</span>클럽 스피드는 '힘'과 '가동범위'가 함께 만든다 — 둘 중 하나만으론 부족하다.</div>
-<div class="foot" style="margin-top:40px;text-align:center"><a href="../golf-research-summary.html" style="color:var(--hot-deep);font-weight:700;text-decoration:none;font-size:14px">← 목록으로</a></div>
-<div class="brand"><img src="../assets/mascot.png" alt="마미손 골프 마스코트"><a class="brand-ig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>@mummys_hand_golf</a></div>
-</div></body></html>
+<body>
+<div class="topnav"><a href="../golf-research-summary.html">← 카드 목록</a><a href="../v2/pages/paper-07.html">전문가용 근거(V2) →</a></div>
+<div class="post" id="card">
+  <div class="ptop"><span class="pno">07</span><span class="ppart">PART 01 · 생체역학</span><img class="pmasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
+  <h1 class="ptitle">골프 스윙의 일·파워 분석 (모델링)</h1>
+  <div class="pcite"><b>Nesbit, S.M. &amp; Serrano, M. (2005)</b> · J. Sports Science &amp; Medicine, 4(4), 520–533 · 원제 &#x27;Work and Power Analysis of the Golf Swing&#x27; · 약 150+ 인용</div>
+  <ul class="pfind"><li>에너지 접근법으로 클럽을 가속시키는 <b>힘·토크 성분</b>과 각 신체 분절의 <b>일 생성 타이밍</b>을 새롭게 밝혔다.</li><li><b>힘(force)과 가동범위(ROM)가 클럽헤드 속도 생성에 '동등하게' 중요</b>함을 증명 — 어느 하나만으론 부족.</li><li>샤프트의 <b>에너지 저장·방출(strain energy)</b>과 스윙 효율(swing efficiency)을 정량화했다.</li></ul>
+  <div class="ptake"><span>ONE-LINE TAKEAWAY</span>클럽 스피드는 '힘'과 '가동범위'가 함께 만든다 — 둘 중 하나만으론 부족하다.</div>
+  <div class="pfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="ptag">모델링</span></div>
+</div>
+<div class="controls"><a href="../golf-research-summary.html">← 목록</a><a href="../v2/pages/paper-07.html">근거 자세히 보기 →</a></div>
+</body></html>

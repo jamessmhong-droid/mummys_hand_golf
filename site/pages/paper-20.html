@@ -1,78 +1,48 @@
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>트레이닝을 통한 부상 예방·경기력 향상 — 논문 요약</title>
+<title>트레이닝을 통한 부상 예방·경기력 향상 — 카드</title>
 <link rel="icon" type="image/png" href="../assets/favicon.png"><link rel="apple-touch-icon" href="../assets/mascot.png">
 <style>
 :root{--bg:#FDEEF3;--bg-soft:#FCE4EC;--hot:#FF1E88;--hot-deep:#E60F73;--ink:#0E0E10;--white:#FFFFFF;--line:#F4C9DC;--muted:#6B5560;}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Gothic Neo','Segoe UI',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;}
 
-.brand{margin-top:56px;padding-top:26px;border-top:1px solid var(--line);display:flex;flex-direction:column;align-items:center;gap:11px;text-align:center}
-.brand>img{width:48px;height:48px;filter:drop-shadow(0 6px 12px rgba(230,15,115,.35))}
-.brand-ig{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--hot-deep);text-decoration:none}
-.brand-ig:hover{color:var(--ink)}
-.cardwm{position:absolute;top:16px;right:16px;z-index:5;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.74);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 6px;text-decoration:none;box-shadow:0 4px 14px -6px rgba(230,15,115,.45)}
-.cardwm img{width:26px;height:26px}
-.cardwm span{font-size:12px;font-weight:800;color:var(--hot-deep);letter-spacing:.01em}
-
-.wrap{max-width:760px;margin:0 auto;padding:32px 22px 88px;position:relative}
-.back{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:var(--hot-deep);text-decoration:none;margin-bottom:26px}
-.back:hover{color:var(--ink)}
-.part{display:inline-block;background:var(--ink);color:var(--white);font-size:12px;font-weight:800;letter-spacing:.1em;padding:5px 13px;border-radius:999px}
-h1{font-size:30px;font-weight:900;letter-spacing:-.02em;line-height:1.3;margin:18px 0 14px}
-.cite{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:14px;color:var(--muted);margin-bottom:14px}
-.cite b{color:var(--ink)}
-.pill{display:inline-block;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 12px;border-radius:999px;margin-top:6px}
-.reflinks{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:13px;padding-top:13px;border-top:1px dashed var(--line)}
-.reflab{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
-.reflink{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;text-decoration:none;background:var(--white);color:var(--hot-deep);border:1.5px solid var(--hot);padding:5px 12px;border-radius:999px;transition:background .15s ease,color .15s ease}
-.reflink:hover{background:var(--hot);color:#fff}
-.reflink .ext{font-weight:700;opacity:.8}
-.badges{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0 30px}
-.tag{font-size:12px;font-weight:700;background:var(--bg-soft);color:var(--hot-deep);padding:5px 12px;border-radius:999px;border:1px solid var(--line)}
-.lead{font-size:17px;line-height:1.75;background:var(--white);border-left:5px solid var(--hot);border-radius:0 14px 14px 0;padding:18px 22px;margin-bottom:34px}
-h2{font-size:15px;font-weight:900;letter-spacing:.02em;color:var(--hot-deep);text-transform:uppercase;margin:0 0 14px;display:flex;align-items:center;gap:9px}
-h2::before{content:"";width:10px;height:10px;background:var(--hot);border-radius:3px;display:inline-block}
-section{margin-bottom:34px}
-.findings{list-style:none;counter-reset:f}
-.findings li{counter-increment:f;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:15px 16px 15px 52px;margin-bottom:11px;font-size:15px;position:relative}
-.findings li::before{content:counter(f);position:absolute;left:14px;top:14px;width:26px;height:26px;background:var(--hot);color:#fff;font-weight:900;font-size:13px;border-radius:8px;display:flex;align-items:center;justify-content:center}
-.findings b{color:var(--hot-deep)}
-.box{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15px}
-.take{background:var(--ink);color:#fff;border-radius:16px;padding:20px 22px;font-size:16px;font-weight:700;line-height:1.6}
-.take span{color:var(--hot);display:block;font-size:12px;letter-spacing:.14em;margin-bottom:8px;font-weight:800}
-h3{font-size:14px;font-weight:900;color:var(--ink);margin:0 0 10px;padding-bottom:8px;border-bottom:2px solid var(--hot)}
-.prog{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.progcol{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:16px 16px}
-.progcol ul{list-style:none;margin:0;padding:0}
-.progcol li{font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line);line-height:1.45}
-.progcol li:last-child{border-bottom:none}
-.progcol .b{display:inline-block;font-size:10px;font-weight:800;background:var(--hot);color:#fff;padding:1px 7px;border-radius:999px;margin-left:4px;vertical-align:middle}
-.note{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.6}
-.note b{color:var(--ink)}
-.dtab{width:100%;border-collapse:collapse;background:var(--white);border-radius:14px;overflow:hidden;border:1px solid var(--line);font-size:13.5px}
-.dtab th{background:var(--ink);color:#fff;padding:11px 10px;text-align:center;font-weight:800;font-size:12.5px;line-height:1.3}
-.dtab td{padding:10px 10px;text-align:center;border-bottom:1px solid var(--line)}
-.dtab td:first-child{text-align:left;font-weight:700}
-.dtab tbody tr:last-child td{border-bottom:none}
-.dtab tbody tr:nth-child(even){background:var(--bg-soft)}
-@media(max-width:640px){.prog{grid-template-columns:1fr}.dtab{font-size:12px}.dtab th,.dtab td{padding:8px 6px}}
-@media(max-width:520px){h1{font-size:24px}.wrap{padding:24px 15px 64px}}
+body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:22px 16px 44px}
+.topnav{width:min(92vw,468px);display:flex;justify-content:space-between;gap:10px;margin-bottom:15px}
+.topnav a{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none}
+.topnav a:hover{color:var(--ink)}
+.post{width:min(92vw,468px);aspect-ratio:4/5;background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 26px 64px -32px rgba(230,15,115,.6);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:hidden}
+.ptop{display:flex;align-items:center;gap:13px;margin-bottom:15px}
+.pno{font-size:32px;font-weight:900;color:#fff;background:var(--hot);min-width:60px;height:60px;padding:0 6px;border-radius:16px;display:flex;align-items:center;justify-content:center;letter-spacing:-.02em;flex:0 0 auto}
+.ppart{font-size:11px;font-weight:800;letter-spacing:.09em;color:var(--muted);text-transform:uppercase;line-height:1.4}
+.pmasc{width:48px;height:48px;margin-left:auto;flex:0 0 auto;filter:drop-shadow(0 5px 10px rgba(230,15,115,.3))}
+.ptitle{font-size:26px;font-weight:900;letter-spacing:-.02em;line-height:1.24;color:var(--ink);margin-bottom:9px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.pcite{font-size:12.5px;line-height:1.5;color:var(--muted);font-weight:600;margin-bottom:15px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pcite b{color:var(--hot-deep);font-weight:800}
+.pfind{list-style:none;flex:1 1 0;min-height:0;overflow:hidden;display:flex;flex-direction:column;gap:10px;margin:0 0 14px}
+.pfind li{position:relative;padding-left:26px;font-size:14.5px;line-height:1.5;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pfind li::before{content:"";position:absolute;left:3px;top:8px;width:10px;height:10px;background:var(--hot);border-radius:3px}
+.pfind b{color:var(--hot-deep)}
+.ptake{background:var(--ink);color:#fff;border-radius:14px;padding:14px 16px;font-size:14.5px;font-weight:700;line-height:1.5;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.ptake span{display:block;color:var(--hot);font-size:10px;letter-spacing:.14em;margin-bottom:5px;font-weight:800}
+.pfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:13px}
+.pig{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:var(--hot-deep);text-decoration:none}
+.pig img{width:22px;height:22px}
+.pfoot .ptag{font-size:11px;font-weight:800;background:var(--bg-soft);color:var(--hot-deep);padding:4px 11px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.controls{width:min(92vw,468px);display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+.controls a{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none;background:var(--white);border:1px solid var(--line);padding:9px 16px;border-radius:999px}
+.controls a:hover{background:var(--hot);color:#fff;border-color:var(--hot)}
 </style></head>
-<body><div class="wrap">
-<a class="cardwm" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener" aria-label="Instagram @mummys_hand_golf"><img src="../assets/wm.png" alt=""><span>@mummys_hand_golf</span></a>
-<a class="back" href="../golf-research-summary.html">← 전체 20선으로 돌아가기</a>
-<div><span class="part">PART 02 · 경기력·데이터</span></div>
-<h1>트레이닝을 통한 부상 예방·경기력 향상</h1>
-<div class="cite"><b>Meira, E.P. &amp; Brumitt, J. (2010)</b><br>Sports Health, 2(4), 337–344 · PMID 23015957<div class="pill">실용 리뷰</div><div class="reflinks"><span class="reflab">원문</span><a class="reflink" href="https://pubmed.ncbi.nlm.nih.gov/23015957/" target="_blank" rel="noopener">PMID 23015957 <span class="ext">↗</span></a></div></div>
-<div class="badges"><span class="tag">부상예방</span><span class="tag">요통</span><span class="tag">트레이닝</span></div>
-<p class="lead">트레이닝이 골프 부상 예방과 경기력 향상을 동시에 달성할 수 있음을 정리한 임상 지향 리뷰. 부상 원인과 훈련 효과를 함께 다룬다.</p>
-<section><h2>핵심 발견</h2><ol class="findings"><li><b>저요통(low back pain)</b>이 아마추어·프로 공통의 주된 골프 관련 질환 — 요추의 압박·전단·회전·측굴 힘이 원인.</li><li>부상은 <b>준비운동 부족, 몸통 유연성·근력 저하, 잘못된 스윙, 과사용</b>과 연관.</li><li>리뷰가 인용한 중재연구들: 클럽헤드 스피드 <b>+1.5~24%</b>, 드라이빙 거리 <b>+4.3%</b> 향상 사례.</li><li><b>유연성·근력·파워 훈련 + 스윙 역학 교정</b>을 결합한 프로그램이 부상을 줄이고 수행을 높인다.</li><li>부상 예방과 수행 향상은 <b>상충하지 않고 함께 간다</b>.</li></ol></section>
-<section><h2>연구 방법</h2><div class="box">MEDLINE·CINAHL·SPORTDiscus(~2009.11) 검색 기반 문헌 리뷰. 골프 부상·스윙 역학·훈련 루틴·프로그램 설계 연구를 종합(자체 데이터 없음).</div></section>
-
-<section><h2>의의</h2><div class="box">임상가·코치가 바로 적용할 수 있는 '부상 예방 = 수행 향상' 프레임을 제시했다.</div></section>
-<div class="take"><span>ONE-LINE TAKEAWAY</span>코어·유연성 중심 트레이닝 + 스윙 교정은 요통을 막고 비거리도 늘린다.</div>
-<div class="foot" style="margin-top:40px;text-align:center"><a href="../golf-research-summary.html" style="color:var(--hot-deep);font-weight:700;text-decoration:none;font-size:14px">← 목록으로</a></div>
-<div class="brand"><img src="../assets/mascot.png" alt="마미손 골프 마스코트"><a class="brand-ig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>@mummys_hand_golf</a></div>
-</div></body></html>
+<body>
+<div class="topnav"><a href="../golf-research-summary.html">← 카드 목록</a><a href="../v2/pages/paper-20.html">전문가용 근거(V2) →</a></div>
+<div class="post" id="card">
+  <div class="ptop"><span class="pno">20</span><span class="ppart">PART 02 · 경기력·데이터</span><img class="pmasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
+  <h1 class="ptitle">트레이닝을 통한 부상 예방·경기력 향상</h1>
+  <div class="pcite"><b>Meira, E.P. &amp; Brumitt, J. (2010)</b> · Sports Health, 2(4), 337–344 · PMID 23015957 · 실용 리뷰</div>
+  <ul class="pfind"><li><b>저요통(low back pain)</b>이 아마추어·프로 공통의 주된 골프 관련 질환 — 요추의 압박·전단·회전·측굴 힘이 원인.</li><li>부상은 <b>준비운동 부족, 몸통 유연성·근력 저하, 잘못된 스윙, 과사용</b>과 연관.</li><li>리뷰가 인용한 중재연구들: 클럽헤드 스피드 <b>+1.5~24%</b>, 드라이빙 거리 <b>+4.3%</b> 향상 사례.</li></ul>
+  <div class="ptake"><span>ONE-LINE TAKEAWAY</span>코어·유연성 중심 트레이닝 + 스윙 교정은 요통을 막고 비거리도 늘린다.</div>
+  <div class="pfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="ptag">부상예방</span></div>
+</div>
+<div class="controls"><a href="../golf-research-summary.html">← 목록</a><a href="../v2/pages/paper-20.html">근거 자세히 보기 →</a></div>
+</body></html>
