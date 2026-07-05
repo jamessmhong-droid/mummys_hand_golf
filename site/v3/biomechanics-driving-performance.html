@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Chu(2010) 생체역학-드라이빙 딥다이브.">
 <title>생체역학 변수와 드라이빙 — Chu et al. (2010)</title>
-</head>
-<body>
+<meta name="hz:slide-selector" content=".sg-doc">
 <style>
 /* ============ TOKENS ============ */
 :root{
-  --bg:#FBF1F4; --bg2:#F6E7EC; --surface:#FFFFFF; --surface2:#FFF7FA;
-  --ink:#1A0C12; --ink2:#4A2E3A; --muted:#7B5B69; --faint:#A98A97;
-  --line:#EFD3DE; --line2:#F6E2EA;
-  --hot:#FF1E88; --hot-deep:#D80F70; --hot-soft:#FFE3F0;
+  --bg:#FDEEF3; --bg2:#FCE4EC; --surface:#FFFFFF; --surface2:#FFF2F7;
+  --ink:#0E0E10; --ink2:#4A2E3A; --muted:#6B5560; --faint:#A98A97;
+  --line:#F4C9DC; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#E60F73; --hot-soft:#FFE3F0;
   /* data */
   --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
   --gain:#0E9E86; --loss:#E24A38;
@@ -38,10 +31,10 @@
   }
 }
 :root[data-theme="light"]{
-  --bg:#FBF1F4; --bg2:#F6E7EC; --surface:#FFFFFF; --surface2:#FFF7FA;
-  --ink:#1A0C12; --ink2:#4A2E3A; --muted:#7B5B69; --faint:#A98A97;
-  --line:#EFD3DE; --line2:#F6E2EA;
-  --hot:#FF1E88; --hot-deep:#D80F70; --hot-soft:#FFE3F0;
+  --bg:#FDEEF3; --bg2:#FCE4EC; --surface:#FFFFFF; --surface2:#FFF2F7;
+  --ink:#0E0E10; --ink2:#4A2E3A; --muted:#6B5560; --faint:#A98A97;
+  --line:#F4C9DC; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#E60F73; --hot-soft:#FFE3F0;
   --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
   --gain:#0E9E86; --loss:#E24A38; --grid:#F0DCE4; --axis:#C9AEBB;
   --shadow:0 10px 34px -20px rgba(180,20,95,.45);
@@ -80,12 +73,12 @@ strong{color:var(--ink);font-weight:750}
 .mono{font-family:var(--mono)}
 
 /* ============ HERO ============ */
-.hero{padding:64px 0 40px;border-bottom:1px solid var(--line)}
+.hero{padding:24px 0 40px;border-bottom:1px solid var(--line)}
 .hero .eyebrow{margin-bottom:22px}
 .hero h1{margin-bottom:20px}
-.hero .lede{font-size:clamp(17px,2.4vw,20px);color:var(--ink2);max-width:60ch;line-height:1.6}
+.hero .lede{font-size:clamp(17px,2.4vw,20px);color:var(--ink2);max-width:62ch;line-height:1.65;margin-top:20px;background:var(--surface);border-left:5px solid var(--hot);border-radius:0 14px 14px 0;padding:18px 22px;box-shadow:var(--shadow)}
 .hero .lede b{color:var(--ink);font-weight:750}
-.cite-line{font-family:var(--mono);font-size:13px;color:var(--muted);margin-top:26px;line-height:1.7}
+.cite-line{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:20px;line-height:1.7}
 .cite-line b{color:var(--ink)}
 .doi{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-family:var(--mono);
   font-size:12.5px;font-weight:600;text-decoration:none;color:var(--hot-deep);
@@ -267,8 +260,14 @@ table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
 @media(max-width:640px){.era{grid-template-columns:1fr;gap:8px}}
 @media(max-width:480px){.defs{grid-template-columns:1fr}}
 
+.topbar{max-width:960px;margin:0 auto;padding:22px 20px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.topbar-r{display:flex;align-items:center;gap:10px}
+.back{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--hot-deep);text-decoration:none}
+.back:hover{color:var(--ink)}
+.ig{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--hot-deep);text-decoration:none;background:var(--surface);border:1px solid var(--line);padding:7px 13px;border-radius:999px;box-shadow:var(--shadow)}
+.ig:hover{color:var(--ink)}
 /* theme toggle */
-.tt{position:fixed;top:16px;right:16px;z-index:50;width:42px;height:42px;border-radius:50%;
+.tt{width:40px;height:40px;border-radius:50%;flex:none;
   background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);cursor:pointer;
   display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:18px;
   transition:transform .15s}
@@ -288,7 +287,13 @@ table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style>
 
-<button class="tt" id="tt" aria-label="라이트/다크 모드 전환" title="테마 전환">◐</button>
+<div class="topbar">
+  <a class="back" href="index.html">← V3 딥다이브 목록</a>
+  <div class="topbar-r">
+    <a class="ig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>@mummys_hand_golf</a>
+    <button class="tt" id="tt" aria-label="라이트/다크 모드 전환" title="테마 전환">◐</button>
+  </div>
+</div>
 
 <div class="sg-doc">
 <style>
@@ -390,5 +395,3 @@ function cur(){var t=root.getAttribute('data-theme');if(t)return t;return (windo
 btn.textContent=cur()==='dark'?'☀':'◐';
 btn.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';root.setAttribute('data-theme',n);btn.textContent=n==='dark'?'☀':'◐';});})();
 </script>
-</body>
-</html>
