@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="V4 · 최신 연구 트랙 — 2013년 이후 골프 경기력 연구를 딥다이브로 잇는 사이드 트랙.">
+<title>V4 · 최신 연구 트랙 — 2013년 이후 골프 과학</title>
+<style>
+:root{
+  --bg:#FDEEF3;--bg2:#FCE4EC;--surface:#FFFFFF;--surface2:#FFF2F7;
+  --ink:#0E0E10;--ink2:#4A2E3A;--muted:#6B5560;--faint:#A98A97;
+  --line:#F4C9DC;--hot:#FF1E88;--hot-deep:#E60F73;--hot-soft:#FFE3F0;
+  --long:#D10E6E;--short:#0E8C7A;--putt:#4A57C4;--appr:#B87400;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);--shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+  --radius:16px;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,"JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Pretendard","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#140A10;--bg2:#1B0F16;--surface:#20131A;--surface2:#291923;
+  --ink:#FCEDF3;--ink2:#E4C6D2;--muted:#BE99A9;--faint:#8A6675;
+  --line:#3A2530;--hot:#FF4DA0;--hot-deep:#FF2E90;--hot-soft:#3A1526;
+  --long:#E7418E;--short:#1EBBA0;--putt:#8A94F0;--appr:#E0A33A;
+  --shadow:0 14px 40px -22px rgba(0,0,0,.7);--shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+}}
+:root[data-theme="light"]{
+  --bg:#FDEEF3;--bg2:#FCE4EC;--surface:#FFFFFF;--surface2:#FFF2F7;
+  --ink:#0E0E10;--ink2:#4A2E3A;--muted:#6B5560;--faint:#A98A97;
+  --line:#F4C9DC;--hot:#FF1E88;--hot-deep:#E60F73;--hot-soft:#FFE3F0;
+  --long:#D10E6E;--short:#0E8C7A;--putt:#4A57C4;--appr:#B87400;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);--shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+}
+:root[data-theme="dark"]{
+  --bg:#140A10;--bg2:#1B0F16;--surface:#20131A;--surface2:#291923;
+  --ink:#FCEDF3;--ink2:#E4C6D2;--muted:#BE99A9;--faint:#8A6675;
+  --line:#3A2530;--hot:#FF4DA0;--hot-deep:#FF2E90;--hot-soft:#3A1526;
+  --long:#E7418E;--short:#1EBBA0;--putt:#8A94F0;--appr:#E0A33A;
+  --shadow:0 14px 40px -22px rgba(0,0,0,.7);--shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(120% 55% at 100% -10%,var(--bg2) 0%,transparent 60%);}
+::selection{background:var(--hot);color:#fff}
+.wrap{max-width:860px;margin:0 auto;padding:0 20px 110px}
+
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--hot-deep);display:inline-flex;align-items:center;gap:9px}
+.eyebrow::before{content:"";width:9px;height:9px;background:var(--hot);border-radius:2px;box-shadow:0 0 0 4px var(--hot-soft)}
+.back{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12.5px;font-weight:600;
+  color:var(--muted);text-decoration:none;padding:28px 0 0}
+.back:hover{color:var(--hot-deep)}
+.sitenav{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:22px auto 0;padding:0 12px;max-width:960px}.sitenav a{font-size:12.5px;font-weight:800;color:var(--muted);text-decoration:none;padding:7px 13px;border-radius:999px}.sitenav a:hover{color:var(--hot-deep);background:var(--bg2)}.sitenav a.cur{color:#fff;background:var(--hot)}
+
+.hero{padding:20px 0 34px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{margin-bottom:18px}
+h1{font-size:clamp(30px,5.4vw,50px);font-weight:900;letter-spacing:-.03em;line-height:1.08;text-wrap:balance;margin:0 0 16px}
+h1 span{color:var(--hot-deep)}
+.hero p{font-size:clamp(15.5px,2vw,18px);color:var(--ink2);max-width:62ch}
+.hero p b{color:var(--ink);font-weight:750}
+.vbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.vpill{font-family:var(--mono);font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+.vpill b{color:var(--hot-deep);font-weight:700}
+.vpill.cur{background:var(--ink);color:#fff;border-color:var(--ink)}
+:root[data-theme="dark"] .vpill.cur{background:#0C0509}
+@media(prefers-color-scheme:dark){.vpill.cur{background:#0C0509}}
+.vpill.cur b{color:var(--hot)}
+
+.secline{display:flex;align-items:baseline;gap:12px;margin:40px 0 16px}
+.secline .n{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--hot-deep);
+  text-transform:uppercase;white-space:nowrap}
+.secline h2{font-size:18px;font-weight:850;letter-spacing:-.01em;color:var(--ink)}
+.secline .rule{flex:1;height:1px;background:var(--line)}
+.secline .count{font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+
+/* featured */
+.feat{display:block;text-decoration:none;color:inherit;background:var(--surface);border:1px solid var(--line);
+  border-radius:var(--radius);padding:26px 28px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden;
+  transition:transform .16s ease,box-shadow .16s ease}
+.feat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;
+  background:linear-gradient(var(--long),var(--appr),var(--short),var(--putt))}
+.feat:hover{transform:translateY(-4px);box-shadow:0 30px 66px -30px rgba(180,20,95,.6)}
+.feat .ftop{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.feat .no{font-family:var(--mono);font-weight:800;font-size:13px;color:#fff;background:var(--hot);
+  padding:3px 10px;border-radius:7px}
+.feat .live{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--short);
+  display:inline-flex;align-items:center;gap:6px}
+.feat .live::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--short);box-shadow:0 0 0 3px color-mix(in srgb,var(--short) 25%,transparent)}
+.feat .part{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.05em}
+.feat h3{font-size:clamp(20px,3vw,26px);font-weight:850;letter-spacing:-.02em;line-height:1.25;margin-bottom:8px}
+.feat .cite{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-bottom:12px}
+.feat .desc{font-size:15px;color:var(--ink2);margin-bottom:16px;max-width:60ch}
+.feat .chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:18px}
+.feat .chip{font-family:var(--mono);font-size:11.5px;font-weight:600;padding:5px 11px;border-radius:8px;
+  background:var(--surface2);border:1px solid var(--line);color:var(--ink2)}
+.feat .chip b{color:var(--hot-deep)}
+.feat .go{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:14px;color:var(--hot-deep)}
+.feat:hover .go{gap:12px}
+
+/* roadmap rows */
+.rows{display:flex;flex-direction:column;gap:10px}
+.row{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:14px;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;
+  box-shadow:var(--shadow);opacity:.82}
+.row .rn{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--faint);text-align:center}
+.row .rt{font-size:14.5px;font-weight:700;color:var(--ink2);line-height:1.35}
+.row .rc{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin-top:2px}
+.row .soon{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--muted);
+  background:var(--surface2);border:1px solid var(--line);padding:5px 10px;border-radius:999px;white-space:nowrap}
+
+.foot{margin-top:52px;padding-top:24px;border-top:1px solid var(--line);text-align:center}
+.foot p{font-size:12.5px;color:var(--muted);line-height:1.7}
+.foot .big{font-family:var(--mono);font-weight:800;color:var(--ink);font-size:14px;letter-spacing:.02em;margin-bottom:6px}
+
+.tt{position:fixed;top:16px;right:16px;z-index:50;width:42px;height:42px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:18px;transition:transform .15s}
+.tt:hover{transform:scale(1.08)}
+.tt:focus-visible{outline:2px solid var(--hot);outline-offset:3px}
+
+@media(max-width:560px){
+  .row{grid-template-columns:36px 1fr;gap:10px}
+  .row .soon{grid-column:2;justify-self:start;margin-top:4px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<button class="tt" id="tt" aria-label="라이트/다크 모드 전환" title="테마 전환">◐</button>
+
+<div class="wrap">
+  <nav class="sitenav"><a href="../index.html">🏠 홈</a><a href="../golf-research-summary.html">V1 카드</a><a href="../v2/golf-research-v2.html">V2 근거</a><a href="../v3/index.html">V3 딥다이브</a><a href="index.html" class="cur">V4 최신</a></nav>
+
+  <header class="hero">
+    <span class="eyebrow">Version 4 · 최신 연구 트랙</span>
+    <h1>고전 다음의<br><span>골프 과학</span></h1>
+    <p><b>V4는 2013년 이후의 최신 연구를 잇는 사이드 트랙이다.</b> V1~V3 컬렉션(대부분 ~2012년)이 다진 토대 위에, 메타분석·힘판·시지각 등 <b>요즘 근거</b>로 기존 논문을 갱신하거나 새 렌즈를 더한다. 본편 업로드 사이사이 순차 공개.</p>
+    <div class="vbar">
+      <a class="vpill" href="../golf-research-summary.html" style="text-decoration:none"><b>V1</b> 카드용 요약</a>
+      <a class="vpill" href="../v2/golf-research-v2.html" style="text-decoration:none"><b>V2</b> 근거 자료집</a>
+      <a class="vpill" href="../v3/index.html" style="text-decoration:none"><b>V3</b> 딥다이브</a>
+      <span class="vpill cur"><b>V4</b> 최신 연구 · 현재</span>
+    </div>
+  </header>
+
+  <div class="secline">
+    <span class="n">최신 연구</span>
+    <span class="rule"></span>
+    <span class="count">3편 공개 · 계속 추가</span>
+  </div>
+
+  <a class="feat" href="physical-drivers.html">
+    <div class="ftop"><span class="no">V4·A</span><span class="live">LIVE</span><span class="part">2024 · 신체 능력</span></div>
+    <h3>무엇이 클럽 스피드를 만드는가 — 유연성의 몰락</h3>
+    <div class="cite">Brennan et al. (2024) · Sports Medicine · 체계적 리뷰+메타분석</div>
+    <p class="desc">여러 신체 능력을 종합하니 점프 임펄스(하체 폭발 파워)가 클럽스피드 최강 예측(zr≈0.82). 유연성·균형은 통계적으로 무의미. #18·#2·#19의 ‘유연성’ 통념을 갱신.</p>
+    <div class="chips"><span class="chip"><b>zr .82</b> 점프 임펄스</span><span class="chip">유연성 n.s.</span><span class="chip">↔ #18 · #2</span></div>
+    <span class="go">딥다이브 열기 →</span>
+  </a>
+
+  <a class="feat" href="ground-forces.html" style="margin-top:14px">
+    <div class="ftop"><span class="no">V4·B</span><span class="live">LIVE</span><span class="part">2025 · 지면반력</span></div>
+    <h3>스피드는 지면에서 시작된다 — 힘판이 말하는 스윙</h3>
+    <div class="cite">GRF·COP 체계적 리뷰 (2025) · Sports Medicine</div>
+    <p class="desc">리드풋(앞발) 수직 지면반력이 볼스피드 분산의 ~85%(거리 ~74%)를 설명. 실력은 힘의 크기보다 타이밍 — 트레일→리드 조기 전환, 임팩트 직전 정점. #7 Nesbit의 지면판.</p>
+    <div class="chips"><span class="chip"><b>R² .85</b> 볼스피드</span><span class="chip">크기보다 타이밍</span><span class="chip">↔ #7 · 운동사슬</span></div>
+    <span class="go">딥다이브 열기 →</span>
+  </a>
+
+  <a class="feat" href="quiet-eye.html" style="margin-top:14px">
+    <div class="ftop"><span class="no" style="background:var(--putt)">V4·QE</span><span class="live">LIVE</span><span class="part">심리·시지각 · 퍼팅</span></div>
+    <h3>잘 넣는 눈은 조용하다 — 콰이엇 아이</h3>
+    <div class="cite">Vickers (1992) · Vine, Moore & Wilson (2011) · Frontiers in Psychology</div>
+    <p class="desc">스트로크 직전 목표에 머무는 ‘마지막 긴 응시(콰이엇 아이)’. 고수일수록·넣은 퍼트일수록 길다. 훈련(≥2초 응시+임팩트 후 200~300ms 유지)으로 늘고, 압박에도 무너지지 않는다.</p>
+    <div class="chips"><span class="chip"><b>≥2s</b> 응시</span><span class="chip">압박에 강함</span><span class="chip">↔ #10 · #11</span></div>
+    <span class="go">딥다이브 열기 →</span>
+  </a>
+
+  <div class="secline">
+    <span class="n">트랙 소개</span>
+    <span class="rule"></span>
+    <span class="count">2013 → 현재</span>
+  </div>
+  <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px 26px;box-shadow:var(--shadow)">
+    <div style="font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--hot-deep);font-weight:700">V4 · LATEST RESEARCH TRACK</div>
+    <p style="margin-top:10px;font-size:15px;color:var(--ink2);line-height:1.75">본 컬렉션(V1~V3) 18편은 골프 과학의 <strong>고전·기반 연구</strong>로, 대부분 2012년 이전입니다. V4는 그 이후 나온 <strong>메타분석·힘판(GRF)·웨어러블·시지각</strong> 연구를 딥다이브로 더해, 기존 결론을 <strong>갱신</strong>하거나 <strong>새 관점</strong>을 잇습니다.</p>
+  </div>
+
+  <div class="foot">
+    <p class="big">V4 · LATEST RESEARCH · DEEP DIVE INDEX</p>
+    <p>2013년 이후 골프 경기력 최신 연구 · 사이드 트랙 · 순차 공개</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('tt');
+  function cur(){var t=root.getAttribute('data-theme');if(t)return t;
+    return (window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';}
+  btn.textContent=cur()==='dark'?'☀':'◐';
+  btn.addEventListener('click',function(){
+    var n=cur()==='dark'?'light':'dark';root.setAttribute('data-theme',n);
+    btn.textContent=n==='dark'?'☀':'◐';
+  });
+})();
+</script>
+<script data-goatcounter="https://mummyshandgolf.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
