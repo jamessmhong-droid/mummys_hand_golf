@@ -255,11 +255,23 @@ if(UNLOCKED >= 1){ reader.hidden = false; }
 
 // 카운트다운
 var cEl = document.getElementById('countdown'), now = Date.now();
+function kstHourWord(h){ return h>=18 ? '저녁 '+(h-12)+'시' : (h>=12 ? (h===12?'오후 12시':'오후 '+(h-12)+'시') : '오전 '+(h===0?12:h)+'시'); }
 if(UNLOCKED < TOTAL){
   var nextMs = START_MS + UNLOCKED*CADENCE*DAY; // 다음 회차(0-based=UNLOCKED) 공개시각
-  var d = Math.ceil((nextMs - now)/DAY);
-  if(UNLOCKED===0){ cEl.innerHTML = '첫 편(EP.1) 공개까지 <b>D-'+Math.max(0,d)+'</b>'; }
-  else { cEl.innerHTML = '다음 편(EP.'+(UNLOCKED+1)+')까지 <b>D-'+Math.max(0,d)+'</b>'; }
+  var ms = nextMs - now;
+  var label = (UNLOCKED===0) ? '첫 편(EP.1)' : '다음 편(EP.'+(UNLOCKED+1)+')';
+  if(ms <= 0){ cEl.innerHTML = label+' <b>공개 중…</b> 새로고침!'; }
+  else if(ms < DAY){
+    // 24시간 이내 — '오늘/내일 저녁 8시 공개 · N시간 뒤'
+    var kNow = new Date(now + 9*3600*1000), kNext = new Date(nextMs + 9*3600*1000);
+    var sameDay = kNow.getUTCFullYear()===kNext.getUTCFullYear() && kNow.getUTCMonth()===kNext.getUTCMonth() && kNow.getUTCDate()===kNext.getUTCDate();
+    var when = (sameDay?'오늘 ':'내일 ') + kstHourWord(kNext.getUTCHours()) + ' 공개';
+    var hrs = Math.floor(ms/3600000), mins = Math.ceil((ms%3600000)/60000);
+    var rem = hrs>=1 ? (hrs+'시간 뒤') : (mins+'분 뒤');
+    cEl.innerHTML = label+' <b>'+when+'</b> · '+rem;
+  } else {
+    cEl.innerHTML = label+' 공개까지 <b>D-'+Math.ceil(ms/DAY)+'</b>';
+  }
 } else {
   cEl.innerHTML = '🎉 18편 완결 — 전체가 공개됐습니다.';
 }
