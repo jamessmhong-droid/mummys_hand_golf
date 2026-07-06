@@ -344,9 +344,27 @@ table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
       <li><b>몸통 기울기</b> — 전방·측방 기울기(자세)가 관여.</li>
       <li><b>체중 이동</b> — 지면반력 기반의 체중 전환이 기여.</li>
     </ol>
+    <div class="tbl-wrap mt24">
+      <table class="dt">
+        <thead><tr><th>볼 스피드 예측변수</th><th>표준화계수 β</th><th>역할</th></tr></thead>
+        <tbody>
+          <tr><td><b>상체 회전 속도</b><br>가속 시점</td><td><b>β = 0.43</b></td><td>단일 <b>최대</b> 기여</td></tr>
+          <tr><td><b>X-Factor</b><br>상체–골반 분리</td><td>β = −0.25</td><td>분리가 클수록 유리</td></tr>
+          <tr><td><b>몸통 기울기</b><br>전방·측면(임팩트)</td><td>유의 예측</td><td>임팩트 자세</td></tr>
+          <tr><td><b>체중 이동</b></td><td>유의 예측</td><td>지면반력 기반 전환</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="csub mt16">단계적 다중회귀. 상체·골반 <b>각각의 회전량</b>보다 둘의 <b>분리(X-Factor)</b>가 유의했다 — 회전량보다 ‘분리’에 집중.</p>
+
     <div class="callout mt24">
       <div class="lab">How much?</div>
-      <p>이 변수들로 짠 국면별 모델이 볼 스피드의 <span class="hot">44–74%</span>를 설명했다 — 나머지 <strong>26–56%</strong>는 장비·근력·타점(중심 타격)·기술 뉘앙스 등 모델 밖 요인. 스윙 역학은 <strong>거리의 큰 절반</strong>이지 전부는 아니다.</p>
+      <p>이 변수들로 짠 국면별 모델이 볼 스피드의 <span class="hot">44–74%</span>를 설명했다(임팩트 40ms 전 구간이 <b>73.5%</b>로 최고). 나머지 <strong>26–56%</strong>는 장비·근력·타점(중심 타격)·기술 뉘앙스 등 모델 밖 요인. 스윙 역학은 <strong>거리의 큰 절반</strong>이지 전부는 아니다.</p>
+    </div>
+
+    <div class="callout mt16">
+      <div class="lab">얼마나 강한 연관인가</div>
+      <p>볼 스피드는 <b>클럽헤드 속도와 r=0.94</b>(거의 같은 것), <b>핸디캡과 r=−0.71</b>(빠를수록 잘 침)로 강하게 연관 — 볼 스피드는 실력·거리의 타당한 대리지표.</p>
     </div>
   </section>
 
