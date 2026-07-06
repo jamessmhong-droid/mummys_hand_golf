@@ -53,7 +53,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Go
 .ep .epgo{font-size:11.5px;font-weight:800;color:var(--hot-deep);margin-top:10px;display:inline-block}
 .ep.lock{background:var(--bg-soft);border-style:dashed;cursor:default}
 .ep.lock .epno{color:var(--line)}
-.ep.lock .ephook{color:var(--muted)}
+.ep.lock .ephook{color:var(--muted);opacity:.6;filter:blur(.6px)}
 .ep .lockrow{font-size:11.5px;font-weight:800;color:var(--muted);margin-top:10px}
 .ep .badge{position:absolute;top:12px;right:12px;font-size:16px}
 
@@ -67,7 +67,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Go
 
 <header class="hero">
   <img class="logo" src="assets/mascot.png" alt="마미손 골프 마스코트">
-  <span class="kicker">WEEKLY SERIES · 매주 1편</span>
+  <span class="kicker">WEEKLY SERIES · 매주 저녁 8시 공개</span>
   <h1>골프를 바꾼 <span>핵심 연구 18선</span><br>매주 한 편씩</h1>
   <p>골프는 18홀, 그래서 핵심 연구도 18선. 매주 한 편씩 <b>카드·근거·딥다이브</b>를 이 페이지 안에서 그대로 읽습니다. 공개된 편만 열립니다.</p>
   <div class="prog"><div class="progbar"><span id="pbar" style="width:0%"></span></div><div class="proglabel" id="plabel">— / 18 공개</div></div>
@@ -164,7 +164,7 @@ for(var i=0;i<TOTAL;i++){
       '<span class="epgo">이 편 열기 →</span></button>';
   } else {
     html += '<div class="ep lock"><span class="badge">🔒</span>'+
-      '<div class="epno">'+no+'</div><div class="ephook">공개 예정</div>'+
+      '<div class="epno">'+no+'</div><div class="ephook">'+m.hook+'</div>'+
       '<div class="lockrow">'+m.date+' 공개</div></div>';
   }
 }
