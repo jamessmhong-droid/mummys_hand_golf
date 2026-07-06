@@ -146,7 +146,7 @@ papers = {
  7:{"part":"PART 01 · 생체역학","title":"골프 스윙의 에너지·파워 분석 (모델링)",
     "authors":"Nesbit, S.M. & Serrano, M. (2005)","journal":"J. Sports Science & Medicine, 4(4), 520–533 · 원제 'Work and Power Analysis of the Golf Swing'","cites":"약 150+ 인용",
     "tags":["모델링","에너지","N=4"],
-    "summary":"스킬·체형·스윙 스타일이 다른 아마추어 <b>4명</b>을, 클럽과 전신을 각각 컴퓨터 모델로 만들어 다운스윙의 <b>일(work)·에너지·파워</b> 관점에서 분석한 모델링 연구.",
+    "summary":"스킬·체형·스윙 스타일이 다른 아마추어 <b>4명</b>을, 클럽과 전신을 각각 컴퓨터 모델로 만들어 다운스윙의 <b>에너지·파워</b> 관점에서 분석한 모델링 연구.",
     "findings":[
       "에너지 접근법으로 클럽을 가속시키는 <b>힘·토크 성분</b>과 각 신체 분절의 <b>에너지(work) 생성 타이밍</b>을 새롭게 밝혔다.",
       "<b>힘(force)과 가동범위(ROM)가 클럽헤드 속도 생성에 '동등하게' 중요</b>함을 증명 — 어느 하나만으론 부족.",
@@ -532,6 +532,20 @@ def detail_html(pid, p):
   <div class="sbody"><p class="ttext">{p['takeaway']}</p></div>
   <div class="sfoot">{PIG}<a class="more" href="{v2href}">근거 자세히 → V2</a></div>
 </div>""")
+    # 4) CTA — save/follow/like/comment + weekly full-version notice
+    S.append(f"""<div class="slide cta" id="s{total+1}">
+  <div class="stop"><span class="slabel">SAVE · FOLLOW</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
+  <div class="sbody" style="flex-direction:column;align-items:stretch;justify-content:center">
+    <div class="cta-h">이 시리즈,<br><b>매주</b> 이어집니다</div>
+    <div class="cta-open"><b>🌐 풀버전 딥다이브</b><span>매주 월요일 저녁 8시 · 웹사이트 오픈</span></div>
+    <div class="cta-list">
+      <div class="cta-item"><span class="cta-emoji">🔖</span><span class="cta-txt">저장<span>연습 전에 다시 꺼내 보기</span></span></div>
+      <div class="cta-item"><span class="cta-emoji">➕</span><span class="cta-txt">팔로우<span>매주 새 편 놓치지 않기</span></span></div>
+      <div class="cta-item"><span class="cta-emoji">❤️</span><span class="cta-txt">좋아요 · 댓글 💬<span>궁금한 점·다음에 볼 주제 남기기</span></span></div>
+    </div>
+  </div>
+  <div class="sfoot">{PIG}<span class="hint">EP.{DISP[pid]} / 18</span></div>
+</div>""")
     slides = "\n".join(S)
     return f"""<!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8">
@@ -575,13 +589,24 @@ body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;pad
 .controls{{width:min(92vw,460px);display:flex;justify-content:space-between;gap:10px;margin:6px auto 0}}
 .controls a{{font-size:13px;font-weight:800;color:var(--hot-deep);text-decoration:none;background:var(--white);border:1px solid var(--line);padding:9px 16px;border-radius:999px}}
 .controls a:hover{{background:var(--hot);color:#fff;border-color:var(--hot)}}
+.slide.cta{{background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border-color:var(--line)}}
+.cta-h{{font-size:28px;font-weight:900;line-height:1.26;color:var(--ink);margin:2px 0 12px}}
+.cta-h b{{color:var(--hot-deep)}}
+.cta-open{{background:linear-gradient(120deg,var(--hot) 0%,var(--hot-deep) 100%);border-radius:14px;padding:12px 16px;margin-bottom:14px;box-shadow:0 12px 22px -12px rgba(230,15,115,.55)}}
+.cta-open b{{display:block;font-size:16.5px;font-weight:900;color:#fff;line-height:1.3}}
+.cta-open span{{display:block;font-size:13px;font-weight:700;color:rgba(255,255,255,.95);margin-top:3px}}
+.cta-list{{display:flex;flex-direction:column;gap:9px;width:100%}}
+.cta-item{{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px 15px}}
+.cta-emoji{{font-size:21px;line-height:1;flex-shrink:0}}
+.cta-txt{{font-size:15.5px;font-weight:800;color:var(--ink);line-height:1.25}}
+.cta-txt span{{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-top:2px}}
 </style></head>
 <body>
 {nav("../","v1")}
 <div class="carousel">
 {slides}
 </div>
-<p class="swipehint">아래로 스크롤 · 총 {total}장 (표지 · 발견 {len(finds)} · 결론) · 인스타 캐러셀 순서 그대로</p>
+<p class="swipehint">아래로 스크롤 · 총 {total+1}장 (표지 · 발견 {len(finds)} · 결론 · 팔로우) · 인스타 캐러셀 순서 그대로</p>
 <div class="controls"><a href="../golf-research-summary.html">← 목록</a><a href="{v2href}">근거 자세히 보기 →</a></div>
 {GC}
 </body></html>"""
