@@ -171,7 +171,11 @@ body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Go
 .ig{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:800;color:var(--hot-deep);text-decoration:none}
 .ig img{width:24px;height:24px}
 .note{margin-top:18px;font-size:12px;color:var(--muted);text-align:center;line-height:1.7;max-width:540px;margin-left:auto;margin-right:auto}
-@media(max-width:620px){.grid{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:26px}.rhead h2{font-size:22px}.framewrap iframe{height:68vh}}
+@media(max-width:620px){.grid{grid-template-columns:repeat(2,1fr)}.hero h1{font-size:26px}.rhead h2{font-size:22px}
+/* 모바일: 리더를 화면 가득(풀블리드)으로 — 임베드 페이지가 좌우 여백에 눌리지 않게 */
+.reader{margin-left:-20px;margin-right:-20px;border-radius:0;border-left:none;border-right:none}
+.rhead{padding:20px 16px 18px}.tabs{padding:12px 10px 0}.framewrap{padding:0 0 14px}
+.framewrap iframe{height:72vh;border-left:none;border-right:none;border-radius:0}}
 </style></head>
 <body><div class="wrap">
 
