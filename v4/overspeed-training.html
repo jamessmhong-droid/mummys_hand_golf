@@ -1,0 +1,438 @@
+<title>가벼운 채로 더 빠르게 — 오버스피드 스피드 트레이닝 (Bliss et al. 2021) · V4</title>
+<meta name="hz:slide-selector" content=".sg-doc">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#FDEEF3; --bg2:#FCE4EC; --surface:#FFFFFF; --surface2:#FFF2F7;
+  --ink:#0E0E10; --ink2:#4A2E3A; --muted:#6B5560; --faint:#A98A97;
+  --line:#F4C9DC; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#E60F73; --hot-soft:#FFE3F0;
+  /* data */
+  --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
+  --gain:#0E9E86; --loss:#E24A38;
+  --grid:#F0DCE4; --axis:#C9AEBB;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);
+  --shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+  --radius:16px;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,"JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Pretendard","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#140A10; --bg2:#1B0F16; --surface:#20131A; --surface2:#291923;
+    --ink:#FCEDF3; --ink2:#E4C6D2; --muted:#BE99A9; --faint:#8A6675;
+    --line:#3A2530; --line2:#301E28;
+    --hot:#FF4DA0; --hot-deep:#FF2E90; --hot-soft:#3A1526;
+    --long:#E7418E; --short:#1EBBA0; --putt:#8A94F0; --appr:#E0A33A;
+    --gain:#22C3A5; --loss:#FF6D57;
+    --grid:#2E1E28; --axis:#5A3F4C;
+    --shadow:0 14px 40px -22px rgba(0,0,0,.7);
+    --shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="light"]{
+  --bg:#FDEEF3; --bg2:#FCE4EC; --surface:#FFFFFF; --surface2:#FFF2F7;
+  --ink:#0E0E10; --ink2:#4A2E3A; --muted:#6B5560; --faint:#A98A97;
+  --line:#F4C9DC; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#E60F73; --hot-soft:#FFE3F0;
+  --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
+  --gain:#0E9E86; --loss:#E24A38; --grid:#F0DCE4; --axis:#C9AEBB;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);
+  --shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+}
+:root[data-theme="dark"]{
+  --bg:#140A10; --bg2:#1B0F16; --surface:#20131A; --surface2:#291923;
+  --ink:#FCEDF3; --ink2:#E4C6D2; --muted:#BE99A9; --faint:#8A6675;
+  --line:#3A2530; --line2:#301E28;
+  --hot:#FF4DA0; --hot-deep:#FF2E90; --hot-soft:#3A1526;
+  --long:#E7418E; --short:#1EBBA0; --putt:#8A94F0; --appr:#E0A33A;
+  --gain:#22C3A5; --loss:#FF6D57; --grid:#2E1E28; --axis:#5A3F4C;
+  --shadow:0 14px 40px -22px rgba(0,0,0,.7);
+  --shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.72;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  background-image:radial-gradient(120% 60% at 100% -10%,var(--bg2) 0%,transparent 60%);}
+.sg-doc{max-width:960px;margin:0 auto;padding:0 20px 120px;}
+::selection{background:var(--hot);color:#fff}
+
+/* ============ TYPE ============ */
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--hot-deep);display:inline-flex;align-items:center;gap:9px}
+.eyebrow::before{content:"";width:9px;height:9px;background:var(--hot);border-radius:2px;box-shadow:0 0 0 4px var(--hot-soft)}
+h1{font-size:clamp(34px,6.2vw,60px);font-weight:900;letter-spacing:-.03em;line-height:1.06;
+  text-wrap:balance;margin:0}
+h2{font-size:clamp(22px,3.4vw,30px);font-weight:850;letter-spacing:-.02em;line-height:1.2;text-wrap:balance}
+h3{font-size:18px;font-weight:800;letter-spacing:-.01em;line-height:1.35}
+p{font-size:16.5px;color:var(--ink2);text-wrap:pretty}
+strong{color:var(--ink);font-weight:750}
+.hot{color:var(--hot-deep)}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono)}
+
+/* ============ HERO ============ */
+.hero{padding:24px 0 40px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{margin-bottom:22px}
+.hero h1{margin-bottom:20px}
+.hero .lede{font-size:clamp(17px,2.4vw,20px);color:var(--ink2);max-width:62ch;line-height:1.65;margin-top:20px;background:var(--surface);border-left:5px solid var(--hot);border-radius:0 14px 14px 0;padding:18px 22px;box-shadow:var(--shadow)}
+.hero .lede b{color:var(--ink);font-weight:750}
+.cite-line{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:20px;line-height:1.7}
+.cite-line b{color:var(--ink)}
+.doi{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-family:var(--mono);
+  font-size:12.5px;font-weight:600;text-decoration:none;color:var(--hot-deep);
+  background:var(--surface);border:1.5px solid var(--hot);padding:6px 13px;border-radius:999px;
+  transition:background .15s,color .15s}
+.doi:hover{background:var(--hot);color:#fff}
+
+/* thesis card */
+.thesis{margin-top:38px;display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px 28px;box-shadow:var(--shadow)}
+.thesis .big{font-family:var(--mono);font-weight:800;font-size:clamp(52px,11vw,86px);
+  line-height:.9;color:var(--hot-deep);letter-spacing:-.04em}
+.thesis .big small{display:block;font-size:14px;letter-spacing:.05em;color:var(--muted);margin-top:10px;font-weight:600}
+.thesis .txt{font-size:16.5px;color:var(--ink2)}
+.thesis .txt b{color:var(--ink)}
+
+/* ============ STAT BAND ============ */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:34px 0 8px}
+.stat{background:var(--surface);padding:20px 16px;text-align:center}
+.stat .v{font-family:var(--mono);font-size:clamp(22px,3.4vw,29px);font-weight:800;color:var(--ink);
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.stat .v .u{font-size:.55em;color:var(--hot-deep);margin-left:1px}
+.stat .k{font-size:12px;color:var(--muted);margin-top:9px;line-height:1.3}
+
+/* ============ SECTIONS ============ */
+section{padding:52px 0;border-bottom:1px solid var(--line)}
+section > .eyebrow{margin-bottom:16px}
+section > h2{margin-bottom:14px}
+.sec-intro{font-size:16.5px;color:var(--ink2);max-width:66ch;margin-bottom:8px}
+.stack{display:flex;flex-direction:column;gap:22px}
+.mt24{margin-top:24px}.mt16{margin-top:16px}
+
+/* card */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px 26px;box-shadow:var(--shadow)}
+.card.tint{background:var(--surface2)}
+.card h3{margin-bottom:10px}
+.card p{font-size:15.5px}
+
+/* formula */
+.formula{background:var(--ink);color:#fff;border-radius:var(--radius);padding:26px 26px;box-shadow:var(--shadow-lg)}
+:root[data-theme="dark"] .formula{background:#0C0509;border:1px solid var(--line)}
+@media(prefers-color-scheme:dark){.formula{background:#0C0509;border:1px solid var(--line)}}
+.formula .lab{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--hot);font-weight:600}
+.formula .eq{font-family:var(--mono);font-size:clamp(14px,2.6vw,19px);font-weight:600;margin-top:16px;line-height:1.9;
+  letter-spacing:-.01em;overflow-x:auto;white-space:nowrap;padding-bottom:6px}
+.formula .eq b{color:#fff}
+.formula .eq .a{color:#7BE0CF}.formula .eq .b{color:#FFB4D8}.formula .eq .c{color:#FFD98A}
+.formula .note{font-size:14px;color:#E9C6D4;margin-top:16px;line-height:1.65}
+.formula .note b{color:#fff}
+
+/* shot field diagram */
+.field{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 22px 16px;box-shadow:var(--shadow);overflow-x:auto}
+.field .cap{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.field svg{display:block;width:100%;min-width:560px;height:auto}
+
+/* worked example calculators */
+.calc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.calc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px;box-shadow:var(--shadow)}
+.calc .t{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:4px;line-height:1.35}
+.calc .d{font-size:12.5px;color:var(--muted);margin-bottom:14px;min-height:34px}
+.calc .row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12.5px;
+  padding:5px 0;border-bottom:1px dashed var(--line);color:var(--ink2)}
+.calc .row span:last-child{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.calc .res{margin-top:14px;display:flex;align-items:baseline;justify-content:space-between;
+  background:var(--surface2);border-radius:10px;padding:11px 14px}
+.calc .res .lab{font-size:11px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.calc .res .val{font-family:var(--mono);font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
+.calc .res .val.pos{color:var(--gain)}
+
+/* charts */
+.chart-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px 18px;box-shadow:var(--shadow)}
+.chart-wrap .ctitle{font-size:15px;font-weight:800;color:var(--ink)}
+.chart-wrap .csub{font-size:13px;color:var(--muted);margin-top:2px;margin-bottom:16px}
+.chart-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px}
+.legend .li{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink2);font-weight:600}
+.legend .sw{width:11px;height:11px;border-radius:3px;flex:none}
+.axl{font-family:var(--mono);font-size:10.5px;fill:var(--axis)}
+.axtitle{font-family:var(--mono);font-size:10.5px;fill:var(--muted);letter-spacing:.08em}
+
+/* horizontal stacked bar */
+.hbar{display:flex;height:44px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.hbar .seg{display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--mono);
+  font-size:12.5px;font-weight:700;white-space:nowrap;position:relative}
+.hbar .seg + .seg{box-shadow:inset 2px 0 0 var(--surface)}
+.barrow{display:grid;grid-template-columns:96px 1fr 58px;align-items:center;gap:12px;margin:9px 0}
+.barrow .nm{font-size:13.5px;font-weight:700;color:var(--ink);text-align:right}
+.barrow .track{background:var(--bg2);border-radius:7px;height:26px;overflow:hidden;position:relative}
+.barrow .fill{height:100%;border-radius:7px 0 0 7px;display:block}
+.barrow .vv{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* data table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+table.dt{width:100%;border-collapse:collapse;background:var(--surface);font-size:14px;min-width:480px}
+table.dt th{background:var(--ink);color:#fff;padding:11px 12px;text-align:center;font-weight:700;
+  font-family:var(--mono);font-size:12px;letter-spacing:.03em}
+:root[data-theme="dark"] table.dt th{background:#0C0509}
+@media(prefers-color-scheme:dark){table.dt th{background:#0C0509}}
+table.dt td{padding:10px 12px;text-align:center;border-bottom:1px solid var(--line);
+  font-variant-numeric:tabular-nums;color:var(--ink2)}
+table.dt td:first-child{text-align:left;font-weight:700;color:var(--ink);font-family:var(--mono);font-size:13px}
+table.dt tbody tr:last-child td{border-bottom:none}
+table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
+
+/* callout / take / limit */
+.callout{border-left:4px solid var(--hot);background:var(--surface);border-radius:0 14px 14px 0;
+  padding:18px 22px;box-shadow:var(--shadow)}
+.callout .lab{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--hot-deep);font-weight:600;margin-bottom:7px}
+.callout p{font-size:16px}
+.take{background:var(--ink);color:#fff;border-radius:var(--radius);padding:24px 26px;box-shadow:var(--shadow-lg)}
+:root[data-theme="dark"] .take{background:#0C0509;border:1px solid var(--line)}
+@media(prefers-color-scheme:dark){.take{background:#0C0509;border:1px solid var(--line)}}
+.take .lab{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--hot);font-weight:600;margin-bottom:10px}
+.take p{font-size:18px;font-weight:650;color:#fff;line-height:1.55}
+.take p b{color:var(--hot)}
+.limit{border-left:4px solid var(--ink2);background:var(--surface);border-radius:0 14px 14px 0;padding:16px 20px}
+:root[data-theme="dark"] .limit{border-left-color:var(--muted)}
+@media(prefers-color-scheme:dark){.limit{border-left-color:var(--muted)}}
+.limit .lab{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);font-weight:700;margin-bottom:5px}
+.limit p{font-size:14.5px}
+
+/* two-col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mini{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.mini .h{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.mini .h .dot{width:9px;height:9px;border-radius:50%;flex:none}
+.mini p{font-size:14px;color:var(--ink2)}
+.mini ul{margin:6px 0 0;padding-left:18px}
+.mini li{font-size:13.5px;color:var(--ink2);margin:4px 0}
+
+/* method chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{font-family:var(--mono);font-size:12px;font-weight:600;background:var(--surface2);
+  color:var(--hot-deep);border:1px solid var(--line);padding:6px 12px;border-radius:8px}
+
+/* timeline */
+.tl{list-style:none;position:relative;padding-left:26px;margin-top:6px}
+.tl::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:var(--line)}
+.tl li{position:relative;padding:0 0 20px 8px}
+.tl li::before{content:"";position:absolute;left:-24px;top:4px;width:12px;height:12px;border-radius:50%;
+  background:var(--hot);box-shadow:0 0 0 4px var(--hot-soft)}
+.tl .yr{font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--hot-deep)}
+.tl .ti{font-size:15px;font-weight:750;color:var(--ink);margin:2px 0 3px}
+.tl p{font-size:14px}
+
+/* sources */
+.src{font-size:13.5px;color:var(--muted);line-height:1.85}
+.src a{color:var(--hot-deep);text-decoration:none;border-bottom:1px solid var(--line)}
+.src a:hover{border-bottom-color:var(--hot)}
+.src .n{font-family:var(--mono);color:var(--faint);margin-right:6px}
+
+.footer{padding:40px 0 0;text-align:center}
+.footer p{font-size:13px;color:var(--muted)}
+.footer .big{font-family:var(--mono);font-weight:800;color:var(--ink);font-size:15px;letter-spacing:.02em;margin-bottom:6px}
+
+/* 4-category framework */
+.defs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:8px}
+.defs .mini .h .dot{width:11px;height:11px}
+.defs .mini .tag{font-family:var(--mono);font-size:10.5px;font-weight:700;color:var(--muted);
+  letter-spacing:.06em;display:block;margin-top:8px}
+.eras{display:flex;flex-direction:column;gap:16px;margin-top:8px}
+.era{display:grid;grid-template-columns:154px 1fr;gap:16px;align-items:center}
+.era .elab b{display:block;font-family:var(--mono);font-weight:800;color:var(--ink);font-size:13.5px}
+.era .elab span{font-size:11.5px;color:var(--muted);line-height:1.4;display:block;margin-top:2px}
+.mapb{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.mapb .row{display:flex;gap:5px}
+.mapb .cell{flex:none;display:flex;align-items:center;justify-content:center;height:38px;border-radius:9px;
+  color:#fff;font-family:var(--mono);font-size:11.5px;font-weight:700;white-space:nowrap;padding:0 6px;text-align:center;line-height:1.15}
+.mapb .tags{display:flex;gap:5px}
+.mapb .tags span{flex:none;font-family:var(--mono);font-size:10px;color:var(--muted);text-align:center}
+.mapb .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+@media(max-width:820px){.defs{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.era{grid-template-columns:1fr;gap:8px}}
+@media(max-width:480px){.defs{grid-template-columns:1fr}}
+
+.topbar{max-width:960px;margin:0 auto;padding:22px 20px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.topbar-r{display:flex;align-items:center;gap:10px}
+.back{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--hot-deep);text-decoration:none}
+.back:hover{color:var(--ink)}
+.ig{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--hot-deep);text-decoration:none;background:var(--surface);border:1px solid var(--line);padding:7px 13px;border-radius:999px;box-shadow:var(--shadow)}
+.ig:hover{color:var(--ink)}
+/* theme toggle */
+.tt{width:40px;height:40px;border-radius:50%;flex:none;
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:18px;
+  transition:transform .15s}
+.tt:hover{transform:scale(1.08)}
+.tt:focus-visible{outline:2px solid var(--hot);outline-offset:3px}
+
+.disc{font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:10px;line-height:1.6}
+
+@media(max-width:720px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats .stat:last-child{grid-column:1 / -1}
+  .thesis{grid-template-columns:1fr;gap:14px;text-align:left}
+  .calc-grid{grid-template-columns:1fr}
+  .two{grid-template-columns:1fr}
+  .barrow{grid-template-columns:76px 1fr 46px;gap:8px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+.sitenav{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:14px auto 0;padding:0 12px;max-width:960px}.sitenav a{font-size:12.5px;font-weight:800;color:var(--muted);text-decoration:none;padding:7px 13px;border-radius:999px}.sitenav a:hover{color:var(--hot-deep);background:var(--bg2)}.sitenav a.cur{color:#fff;background:var(--hot)}</style>
+
+<div class="topbar">
+  <a class="back" href="index.html">← V4 · 최신 연구 목록</a>
+  <div class="topbar-r">
+    <a class="ig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>@mummys_hand_golf</a>
+    <button class="tt" id="tt" aria-label="라이트/다크 모드 전환" title="테마 전환">◐</button>
+  </div>
+</div>
+
+<nav class="sitenav"><a href="../index.html">🏠 홈</a><a href="../golf-research-summary.html">V1 카드</a><a href="../v2/golf-research-v2.html">V2 근거</a><a href="../v3/index.html">V3 딥다이브</a><a href="index.html" class="cur">V4 최신</a></nav>
+<div class="sg-doc">
+<style>
+.findings{list-style:none;counter-reset:f;margin:0;padding:0}
+.findings li{counter-increment:f;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px 16px 15px 52px;margin-bottom:11px;font-size:15px;line-height:1.6;position:relative;box-shadow:var(--shadow)}
+.findings li::before{content:counter(f);position:absolute;left:14px;top:14px;width:26px;height:26px;background:var(--hot);color:#fff;font-weight:900;font-size:13px;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.findings b{color:var(--hot-deep)}
+.acrow{display:grid;grid-template-columns:130px 1fr 78px;align-items:center;gap:11px;margin-bottom:10px}
+.acrow .nm{font-size:13px;font-weight:750;color:var(--ink2);text-align:right;line-height:1.22}
+.acrow .track{position:relative;height:27px;background:var(--surface2);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.acrow .fill{position:absolute;left:0;top:0;bottom:0;border-radius:7px 8px 8px 7px}
+.acrow .vv{font-family:var(--mono);font-size:11.5px;font-weight:800;color:var(--ink2)}
+.seq{display:flex;align-items:stretch;gap:0;margin-top:6px;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.seq .st{flex:1;padding:13px 12px;text-align:center;background:var(--surface)}
+.seq .st + .st{border-left:1px solid var(--line)}
+.seq .ph{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.seq .ft{font-size:13.5px;font-weight:800;color:var(--ink);line-height:1.3}
+.seq .ar{align-self:center;color:var(--hot);font-weight:900;padding:0 2px}
+</style>
+
+  <header class="hero">
+    <span class="eyebrow">Deep Dive · V4 · 최신 연구 · Speed Training</span>
+    <h1>가벼운 채로<br>더 빠르게</h1>
+    <p class="lede">‘오버스피드’ — 드라이버보다 <b>가벼운 클럽</b>을 최대로 휘둘러 몸에 <b>더 빠른 템포</b>를 가르친다. 근력이 아니라 <b>신경근 적응</b>이다. 2021년 연구에선 오버스피드 워밍업이 클럽 스피드·캐리를 <b>즉시 유의하게</b> 올렸다 — 다만 <b>폭발적 맨몸 워밍업과 차이가 없었다</b>. #6 워밍업 이야기의 최신판.</p>
+    <div class="cite-line">
+      <b>Bliss, A., Livingstone, H. &amp; Tallent, J. (2021)</b> “Field-based and overspeed potentiated warm-ups increase clubhead speed and drive carry distance in skilled collegiate golfers”<br>
+      <i>Journal of Sport and Exercise Science</i>, 5(2), 107–113 · 스킬 골퍼 13명(핸디 1.0±2.1)
+    </div>
+    <a class="doi" href="https://repository.essex.ac.uk/34861/" target="_blank" rel="noopener">원문 리포지터리 보기 ↗</a>
+
+    <div class="thesis">
+      <div class="big">↑<small>· 오버스피드 워밍업 → 클럽 스피드·캐리 (즉시·유의)</small></div>
+      <div class="txt">오버스피드(스피드 스틱) 워밍업은 전통 워밍업보다 <b>클럽 스피드(p=.003)</b>·<b>캐리(p=.030)</b>를 유의하게 높였다. 그런데 <b>폭발적 맨몸 워밍업</b>도 똑같이 올렸고 — 둘 사이 <b>차이는 없었다</b>. 장기적으론 4~6주에 <b>~5%</b> 늘지만 초반 이후 <b>정체</b>가 흔하다.</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="v num">p=.003</div><div class="k">오버스피드 → CHS↑ (vs 전통)</div></div>
+      <div class="stat"><div class="v num">p=.030</div><div class="k">오버스피드 → 캐리↑</div></div>
+      <div class="stat"><div class="v num">=</div><div class="k">맨몸 폭발과 차이 없음</div></div>
+      <div class="stat"><div class="v num">~5<span class="u">%</span></div><div class="k">만성 · 4~6주(대략)</div></div>
+      <div class="stat"><div class="v num">신경</div><div class="k">근력 아닌 신경근 적응</div></div>
+    </div>
+    <p class="disc">※ 1차 근거는 <b>급성(워밍업) 교차 연구</b>(N=13, 스킬 골퍼). ~5%·정체는 오버스피드 훈련 문헌(예: SuperSpeed 계열, 2014~)의 대략치. ‘오버스피드’ = 드라이버보다 가벼운 도구로 최대 스피드 스윙.</p>
+  </header>
+
+  <section>
+    <span class="eyebrow">01 — 한 줄 요약</span>
+    <h2>‘더 빠르게’를 몸에 가르친다</h2>
+    <p class="sec-intro mt16">스피드 트레이닝은 두 층위로 본다 — <strong>즉효(워밍업)</strong>와 <strong>지속(훈련)</strong>. 가벼운 도구로 평소보다 빠르게 휘두르면, <strong>신경계</strong>가 그 속도를 ‘허용’하도록 재설정된다. 근육이 굵어져서가 아니라 <strong>더 빨리 발화</strong>하는 법을 배우는 것. 이 연구는 그 <strong>즉효</strong>를, 스킬 골퍼에게서 실측했다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 — 오버스피드 원리</span>
+    <h2>가볍게, 최대로, 반복</h2>
+    <div class="two mt16">
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--long)"></span>언더로드(가볍게)</div><p>드라이버보다 <strong>가벼운 도구</strong>를 최대로 휘둘러 <strong>평소보다 빠른</strong> 스윙을 경험시킨다.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--appr)"></span>오버로드(무겁게)</div><p>약간 <strong>무거운 도구</strong>도 섞어 힘·안정성을 함께. (세트 구성은 도구별로 다양)</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--putt)"></span>신경근 적응</div><p>초반 향상은 <strong>근력이 아니라 신경</strong> — 발화 타이밍·협응이 빨라진다.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--short)"></span>워밍업 vs 훈련</div><p>한 번의 <strong>워밍업(즉효)</strong>과 몇 주 <strong>훈련(지속)</strong>은 효과의 층위가 다르다.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 — 즉효 (워밍업)</span>
+    <h2>워밍업 하나로 스피드가 붙는다</h2>
+    <p class="sec-intro mt16">Bliss 연구는 같은 골퍼에게 <strong>세 가지 워밍업</strong>을 비교했다 — 전통(대조), <strong>폭발적 맨몸(BWP)</strong>, <strong>오버스피드 스틱(SSP)</strong>. 결과: <strong>맨몸·오버스피드 모두</strong> 전통보다 클럽 스피드·캐리를 유의하게 높였다. 그런데 <strong>둘 사이엔 차이가 없었다</strong>.</p>
+    <div class="mt24">
+      <div class="acrow"><span class="nm">전통 워밍업</span><div class="track"><span class="fill" style="width:66%;background:var(--faint)"></span></div><span class="vv">기준</span></div>
+      <div class="acrow"><span class="nm">폭발적 맨몸</span><div class="track"><span class="fill" style="width:84%;background:var(--gain)"></span></div><span class="vv">p=.004</span></div>
+      <div class="acrow"><span class="nm">오버스피드 스틱</span><div class="track"><span class="fill" style="width:84%;background:var(--gain)"></span></div><span class="vv">p=.003</span></div>
+    </div>
+    <p class="disc">막대는 클럽 스피드 <strong>방향 개념도</strong>(정확한 % 아님). p값은 vs 전통. 캐리도 같은 패턴(맨몸 p=.034, 오버스피드 p=.030). <strong>핵심 — 오버스피드가 맨몸보다 더 낫진 않았다.</strong></p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 — 지속 (훈련)</span>
+    <h2>몇 주 하면? 초반엔 늘고, 곧 정체</h2>
+    <p class="sec-intro mt16">오버스피드를 <strong>몇 주간 훈련</strong>하면 클럽 스피드가 대략 <strong>4~6주에 ~5%</strong> 는다고 보고된다(도구 문헌). 다만 흔한 패턴은 — <strong>초반(≈3주)에 빠르게 오르고</strong>, 이후 <strong>추가 향상이 둔해진다</strong>. 신경 적응이 먼저 소진되기 때문. 이후 더 늘리려면 <strong>근력·파워(→ V4·A)</strong> 가 받쳐줘야 한다.</p>
+    <div class="seq mt24" role="img" aria-label="오버스피드 훈련 경과: 0주 기준 → 3주 빠른 향상 → 6주 정체">
+      <div class="st"><div class="ph">Week 0</div><div class="ft">기준</div></div>
+      <div class="ar">→</div>
+      <div class="st"><div class="ph">~Week 3</div><div class="ft"><span class="hot">빠른 향상</span><br>신경 적응</div></div>
+      <div class="ar">→</div>
+      <div class="st"><div class="ph">Week 6</div><div class="ft">정체 경향<br><span class="hot">~5% 부근</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">05 — 그래서 어떻게</span>
+    <h2>효과는 있다, 마법은 아니다</h2>
+    <div class="two mt16">
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--long)"></span>라운드 전</div><p><strong>폭발적 맨몸 또는 오버스피드</strong> 워밍업으로 스피드·캐리를 즉시 끌어올려라. 둘 중 편한 쪽.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--appr)"></span>몇 주 프로그램</div><p>초반 ~5% 향상은 현실적. 단 <strong>정체</strong>를 예상하고, 근력·파워를 함께.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--putt)"></span>과신 금지</div><p>‘오버스피드가 맨몸보다 낫다’는 근거는 (적어도 급성에선) <strong>약하다</strong>.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--short)"></span>부상·기술</div><p>최대 스피드 반복은 <strong>부하</strong>가 크다. 점진적으로, 스윙 붕괴 없이.</p></div>
+    </div>
+    <a class="card" href="../v3/warm-up-conditioning.html" style="display:block;text-decoration:none;color:inherit;border-left:4px solid var(--hot);margin-top:14px">
+      <div style="font-weight:800;color:var(--ink)">↝ #6 · 골프 워밍업과 수행 (Fradkin 2004)</div>
+      <p style="margin-top:6px;font-size:14px">‘워밍업이 헤드 스피드를 올린다’는 고전 → 어떤 워밍업이(맨몸·오버스피드) 얼마나. <span class="hot" style="font-weight:800">함께 보기 →</span></p>
+    </a>
+  </section>
+
+  <section>
+    <span class="eyebrow">06 — 한계 · 유의점</span>
+    <h2>무엇을 조심해서 읽을까</h2>
+    <div class="stack mt16">
+      <div class="limit"><div class="lab">작은 표본·급성</div><p>1차 근거는 <strong>스킬 골퍼 13명</strong>의 <strong>급성(1회 워밍업)</strong> 효과. 장기 무작위 대조는 별개다.</p></div>
+      <div class="limit"><div class="lab">‘~5%’는 대략치</div><p>만성 향상 폭·정체는 <strong>도구 회사·연구별</strong> 편차가 크다. 개인차도 크다.</p></div>
+      <div class="limit"><div class="lab">스피드 ≠ 스코어</div><p>클럽 스피드·캐리가 올라도 <strong>정확성·스코어</strong>는 별개(→ #11 Broadie).</p></div>
+      <div class="limit"><div class="lab">상업적 편향</div><p>오버스피드 도구 연구엔 <strong>이해관계</strong>가 얽힌 경우가 있다. 독립 연구를 우선.</p></div>
+    </div>
+  </section>
+
+  <section style="border-bottom:none">
+    <span class="eyebrow">07 — 인용 · 출처</span>
+    <h2>원문과 참고자료</h2>
+    <div class="card mt16">
+      <p style="font-size:15px;line-height:1.7"><strong>Bliss, A., Livingstone, H. &amp; Tallent, J. (2021).</strong> Field-based and overspeed potentiated warm-ups increase clubhead speed and drive carry distance in skilled collegiate golfers. <i>Journal of Sport and Exercise Science</i>, 5(2), 107–113.</p>
+      <a class="doi" style="margin-top:14px" href="https://repository.essex.ac.uk/34861/" target="_blank" rel="noopener">Essex 리포지터리(전문) ↗</a>
+    </div>
+    <div class="mt24 src">
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">더 읽기 · 연결</div>
+      <p><span class="n">[1]</span> Fradkin et al. (2004) 워밍업과 수행 — 컬렉션 #6</p>
+      <p><span class="n">[2]</span> Brennan et al. (2024) 파워↔스피드 — V4·A (정체 이후 근력·파워의 역할)</p>
+      <p><span class="n">[3]</span> 오버스피드 훈련 개관 · SuperSpeed 계열(2014~) — 만성 ~5%·신경근 적응</p>
+    </div>
+    <p class="disc">p값은 원문 보고값, ~5%·정체·주차는 오버스피드 훈련 문헌의 대략 서술입니다. 정확한 값·조건은 원문 확인 권장. 이 페이지는 <b>V4(최신 연구)</b> 트랙입니다.</p>
+  </section>
+
+  <div class="footer">
+    <p class="big">OVERSPEED &amp; SPEED TRAINING · V4 DEEP DIVE</p>
+    <p>Bliss, Livingstone &amp; Tallent (2021) · 골프 스피드 트레이닝 최신 연구 심층 정리</p>
+  </div>
+</div>
+<script>
+(function(){var root=document.documentElement,btn=document.getElementById('tt');
+if(!btn)return;
+function cur(){var t=root.getAttribute('data-theme');if(t)return t;return (window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';}
+btn.textContent=cur()==='dark'?'☀':'◐';
+btn.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';root.setAttribute('data-theme',n);btn.textContent=n==='dark'?'☀':'◐';});})();
+</script>
