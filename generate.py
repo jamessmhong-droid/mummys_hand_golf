@@ -497,7 +497,8 @@ def nav(prefix, cur):
     items = [("index.html", "🏠 홈", "home"),
              ("golf-research-summary.html", "V1 카드", "v1"),
              ("v2/golf-research-v2.html", "V2 근거", "v2"),
-             ("v3/index.html", "V3 딥다이브", "v3")]
+             ("v3/index.html", "V3 딥다이브", "v3"),
+             ("v4/index.html", "V4 최신", "v4")]
     out = []
     for href, label, key in items:
         c = ' class="cur"' if key == cur else ''
