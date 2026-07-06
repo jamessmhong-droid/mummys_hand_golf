@@ -556,7 +556,7 @@ def detail_html(pid, p):
 <style>{CSS}{NAV_CSS}
 body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:22px 0 40px}}
 .carousel{{display:flex;flex-direction:column;align-items:center;gap:20px;width:100%;padding:4px 16px}}
-.slide{{position:relative;width:min(92vw,440px);aspect-ratio:4/5;background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 22px 56px -30px rgba(230,15,115,.55);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:hidden}}
+.slide{{position:relative;width:min(92vw,440px);min-height:min(115vw,550px);background:linear-gradient(165deg,#fff 0%,#FFF2F7 100%);border:1px solid var(--line);border-radius:26px;box-shadow:0 22px 56px -30px rgba(230,15,115,.55);padding:30px 30px 24px;display:flex;flex-direction:column;overflow:visible}}
 .stop{{display:flex;align-items:center;gap:12px;margin-bottom:16px}}
 .pno{{font-size:30px;font-weight:900;color:#fff;background:var(--hot);min-width:56px;height:56px;padding:0 6px;border-radius:15px;display:flex;align-items:center;justify-content:center;letter-spacing:-.02em}}
 .smasc{{width:46px;height:46px;margin-left:auto;filter:drop-shadow(0 5px 10px rgba(230,15,115,.3))}}
@@ -568,7 +568,7 @@ body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;pad
 .ppart{{flex:1}}
 .ccite{{font-size:14px;line-height:1.6;color:var(--muted);font-weight:600;margin-top:auto}}
 .ccite b{{color:var(--ink);font-weight:800}}
-.cpill{{display:inline-block;margin-top:9px;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 13px;border-radius:999px}}
+.cpill{{display:table;margin-top:11px;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 13px;border-radius:999px}}
 .sbody{{flex:1;display:flex;align-items:center;padding:6px 0}}
 .ftext{{font-size:27px;font-weight:750;line-height:1.5;color:var(--ink)}}
 .ftext b{{color:var(--hot-deep)}}
@@ -576,14 +576,14 @@ body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;pad
 .slide.take .slabel{{background:var(--hot)}}
 .ttext{{font-size:31px;font-weight:800;line-height:1.45;color:#fff}}
 .ttext b{{color:var(--hot)}}
-.sfoot{{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:13px;margin-top:12px}}
+.sfoot{{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;row-gap:10px;border-top:1px solid var(--line);padding-top:13px;margin-top:12px}}
 .slide.take .sfoot{{border-top-color:rgba(255,255,255,.18)}}
 .pig{{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:var(--hot-deep);text-decoration:none;white-space:nowrap}}
 .pig img{{width:22px;height:22px}}
 .slide.take .pig{{color:#fff}}
 .hint,.sidx{{font-size:12px;font-weight:800;color:var(--muted)}}
 .more{{font-size:12.5px;font-weight:800;color:var(--hot);text-decoration:none;white-space:nowrap}}
-.swipe{{display:inline-flex;align-items:center;gap:8px;background:var(--hot);color:#fff;font-size:14px;font-weight:900;letter-spacing:.01em;padding:9px 17px;border-radius:999px;box-shadow:0 8px 18px -8px rgba(230,15,115,.75)}}
+.swipe{{display:inline-flex;align-items:center;gap:8px;background:var(--hot);color:#fff;font-size:14px;font-weight:900;letter-spacing:.01em;padding:9px 17px;border-radius:999px;box-shadow:0 8px 18px -8px rgba(230,15,115,.75);white-space:nowrap;flex-shrink:0;margin-left:auto}}
 .swipe b{{font-size:18px;line-height:1;animation:nudge 1s ease-in-out infinite}}
 @keyframes nudge{{0%,100%{{transform:translateX(0)}}50%{{transform:translateX(5px)}}}}
 .swipehint{{margin-top:14px;font-size:13px;color:var(--muted);font-weight:700;text-align:center}}
