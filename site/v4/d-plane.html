@@ -1,0 +1,409 @@
+<title>공은 페이스가 가리키는 곳으로 출발한다 — D-플레인·볼플라이트 법칙 (2013) · V4</title>
+<meta name="hz:slide-selector" content=".sg-doc">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#FDEEF3; --bg2:#FCE4EC; --surface:#FFFFFF; --surface2:#FFF2F7;
+  --ink:#0E0E10; --ink2:#4A2E3A; --muted:#6B5560; --faint:#A98A97;
+  --line:#F4C9DC; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#E60F73; --hot-soft:#FFE3F0;
+  /* data */
+  --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
+  --gain:#0E9E86; --loss:#E24A38;
+  --grid:#F0DCE4; --axis:#C9AEBB;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);
+  --shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+  --radius:16px;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,"JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Pretendard","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#140A10; --bg2:#1B0F16; --surface:#20131A; --surface2:#291923;
+    --ink:#FCEDF3; --ink2:#E4C6D2; --muted:#BE99A9; --faint:#8A6675;
+    --line:#3A2530; --line2:#301E28;
+    --hot:#FF4DA0; --hot-deep:#FF2E90; --hot-soft:#3A1526;
+    --long:#E7418E; --short:#1EBBA0; --putt:#8A94F0; --appr:#E0A33A;
+    --gain:#22C3A5; --loss:#FF6D57;
+    --grid:#2E1E28; --axis:#5A3F4C;
+    --shadow:0 14px 40px -22px rgba(0,0,0,.7);
+    --shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="light"]{
+  --bg:#FDEEF3; --bg2:#FCE4EC; --surface:#FFFFFF; --surface2:#FFF2F7;
+  --ink:#0E0E10; --ink2:#4A2E3A; --muted:#6B5560; --faint:#A98A97;
+  --line:#F4C9DC; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#E60F73; --hot-soft:#FFE3F0;
+  --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
+  --gain:#0E9E86; --loss:#E24A38; --grid:#F0DCE4; --axis:#C9AEBB;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);
+  --shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+}
+:root[data-theme="dark"]{
+  --bg:#140A10; --bg2:#1B0F16; --surface:#20131A; --surface2:#291923;
+  --ink:#FCEDF3; --ink2:#E4C6D2; --muted:#BE99A9; --faint:#8A6675;
+  --line:#3A2530; --line2:#301E28;
+  --hot:#FF4DA0; --hot-deep:#FF2E90; --hot-soft:#3A1526;
+  --long:#E7418E; --short:#1EBBA0; --putt:#8A94F0; --appr:#E0A33A;
+  --gain:#22C3A5; --loss:#FF6D57; --grid:#2E1E28; --axis:#5A3F4C;
+  --shadow:0 14px 40px -22px rgba(0,0,0,.7);
+  --shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.72;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  background-image:radial-gradient(120% 60% at 100% -10%,var(--bg2) 0%,transparent 60%);}
+.sg-doc{max-width:960px;margin:0 auto;padding:0 20px 120px;}
+::selection{background:var(--hot);color:#fff}
+
+/* ============ TYPE ============ */
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--hot-deep);display:inline-flex;align-items:center;gap:9px}
+.eyebrow::before{content:"";width:9px;height:9px;background:var(--hot);border-radius:2px;box-shadow:0 0 0 4px var(--hot-soft)}
+h1{font-size:clamp(34px,6.2vw,60px);font-weight:900;letter-spacing:-.03em;line-height:1.06;
+  text-wrap:balance;margin:0}
+h2{font-size:clamp(22px,3.4vw,30px);font-weight:850;letter-spacing:-.02em;line-height:1.2;text-wrap:balance}
+h3{font-size:18px;font-weight:800;letter-spacing:-.01em;line-height:1.35}
+p{font-size:16.5px;color:var(--ink2);text-wrap:pretty}
+strong{color:var(--ink);font-weight:750}
+.hot{color:var(--hot-deep)}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono)}
+
+/* ============ HERO ============ */
+.hero{padding:24px 0 40px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{margin-bottom:22px}
+.hero h1{margin-bottom:20px}
+.hero .lede{font-size:clamp(17px,2.4vw,20px);color:var(--ink2);max-width:62ch;line-height:1.65;margin-top:20px;background:var(--surface);border-left:5px solid var(--hot);border-radius:0 14px 14px 0;padding:18px 22px;box-shadow:var(--shadow)}
+.hero .lede b{color:var(--ink);font-weight:750}
+.cite-line{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:20px;line-height:1.7}
+.cite-line b{color:var(--ink)}
+.doi{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-family:var(--mono);
+  font-size:12.5px;font-weight:600;text-decoration:none;color:var(--hot-deep);
+  background:var(--surface);border:1.5px solid var(--hot);padding:6px 13px;border-radius:999px;
+  transition:background .15s,color .15s}
+.doi:hover{background:var(--hot);color:#fff}
+
+/* thesis card */
+.thesis{margin-top:38px;display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px 28px;box-shadow:var(--shadow)}
+.thesis .big{font-family:var(--mono);font-weight:800;font-size:clamp(52px,11vw,86px);
+  line-height:.9;color:var(--hot-deep);letter-spacing:-.04em}
+.thesis .big small{display:block;font-size:14px;letter-spacing:.05em;color:var(--muted);margin-top:10px;font-weight:600}
+.thesis .txt{font-size:16.5px;color:var(--ink2)}
+.thesis .txt b{color:var(--ink)}
+
+/* ============ STAT BAND ============ */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:34px 0 8px}
+.stat{background:var(--surface);padding:20px 16px;text-align:center}
+.stat .v{font-family:var(--mono);font-size:clamp(22px,3.4vw,29px);font-weight:800;color:var(--ink);
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.stat .v .u{font-size:.55em;color:var(--hot-deep);margin-left:1px}
+.stat .k{font-size:12px;color:var(--muted);margin-top:9px;line-height:1.3}
+
+/* ============ SECTIONS ============ */
+section{padding:52px 0;border-bottom:1px solid var(--line)}
+section > .eyebrow{margin-bottom:16px}
+section > h2{margin-bottom:14px}
+.sec-intro{font-size:16.5px;color:var(--ink2);max-width:66ch;margin-bottom:8px}
+.stack{display:flex;flex-direction:column;gap:22px}
+.mt24{margin-top:24px}.mt16{margin-top:16px}
+
+/* card */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px 26px;box-shadow:var(--shadow)}
+.card.tint{background:var(--surface2)}
+.card h3{margin-bottom:10px}
+.card p{font-size:15.5px}
+
+/* formula */
+.formula{background:var(--ink);color:#fff;border-radius:var(--radius);padding:26px 26px;box-shadow:var(--shadow-lg)}
+:root[data-theme="dark"] .formula{background:#0C0509;border:1px solid var(--line)}
+@media(prefers-color-scheme:dark){.formula{background:#0C0509;border:1px solid var(--line)}}
+.formula .lab{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--hot);font-weight:600}
+.formula .eq{font-family:var(--mono);font-size:clamp(14px,2.6vw,19px);font-weight:600;margin-top:16px;line-height:1.9;
+  letter-spacing:-.01em;overflow-x:auto;white-space:nowrap;padding-bottom:6px}
+.formula .eq b{color:#fff}
+.formula .eq .a{color:#7BE0CF}.formula .eq .b{color:#FFB4D8}.formula .eq .c{color:#FFD98A}
+.formula .note{font-size:14px;color:#E9C6D4;margin-top:16px;line-height:1.65}
+.formula .note b{color:#fff}
+
+/* face/path field diagram */
+.field{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 22px 16px;box-shadow:var(--shadow);overflow-x:auto}
+.field .cap{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.field svg{display:block;width:100%;min-width:560px;height:auto}
+
+/* charts */
+.chart-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px 18px;box-shadow:var(--shadow)}
+.chart-wrap .ctitle{font-size:15px;font-weight:800;color:var(--ink)}
+.chart-wrap .csub{font-size:13px;color:var(--muted);margin-top:2px;margin-bottom:16px}
+.chart-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px}
+.legend .li{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink2);font-weight:600}
+.legend .sw{width:11px;height:11px;border-radius:3px;flex:none}
+.axl{font-family:var(--mono);font-size:10.5px;fill:var(--axis)}
+.axtitle{font-family:var(--mono);font-size:10.5px;fill:var(--muted);letter-spacing:.08em}
+
+/* horizontal stacked bar */
+.hbar{display:flex;height:44px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.hbar .seg{display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--mono);
+  font-size:12.5px;font-weight:700;white-space:nowrap;position:relative}
+.hbar .seg + .seg{box-shadow:inset 2px 0 0 var(--surface)}
+.barrow{display:grid;grid-template-columns:96px 1fr 58px;align-items:center;gap:12px;margin:9px 0}
+.barrow .nm{font-size:13.5px;font-weight:700;color:var(--ink);text-align:right}
+.barrow .track{background:var(--bg2);border-radius:7px;height:26px;overflow:hidden;position:relative}
+.barrow .fill{height:100%;border-radius:7px 0 0 7px;display:block}
+.barrow .vv{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* data table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+table.dt{width:100%;border-collapse:collapse;background:var(--surface);font-size:14px;min-width:480px}
+table.dt th{background:var(--ink);color:#fff;padding:11px 12px;text-align:center;font-weight:700;
+  font-family:var(--mono);font-size:12px;letter-spacing:.03em}
+:root[data-theme="dark"] table.dt th{background:#0C0509}
+@media(prefers-color-scheme:dark){table.dt th{background:#0C0509}}
+table.dt td{padding:10px 12px;text-align:center;border-bottom:1px solid var(--line);
+  font-variant-numeric:tabular-nums;color:var(--ink2)}
+table.dt td:first-child{text-align:left;font-weight:700;color:var(--ink);font-family:var(--mono);font-size:13px}
+table.dt tbody tr:last-child td{border-bottom:none}
+table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
+
+/* callout / take / limit */
+.callout{border-left:4px solid var(--hot);background:var(--surface);border-radius:0 14px 14px 0;
+  padding:18px 22px;box-shadow:var(--shadow)}
+.callout .lab{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--hot-deep);font-weight:600;margin-bottom:7px}
+.callout p{font-size:16px}
+.take{background:var(--ink);color:#fff;border-radius:var(--radius);padding:24px 26px;box-shadow:var(--shadow-lg)}
+:root[data-theme="dark"] .take{background:#0C0509;border:1px solid var(--line)}
+@media(prefers-color-scheme:dark){.take{background:#0C0509;border:1px solid var(--line)}}
+.take .lab{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--hot);font-weight:600;margin-bottom:10px}
+.take p{font-size:18px;font-weight:650;color:#fff;line-height:1.55}
+.take p b{color:var(--hot)}
+.limit{border-left:4px solid var(--ink2);background:var(--surface);border-radius:0 14px 14px 0;padding:16px 20px}
+:root[data-theme="dark"] .limit{border-left-color:var(--muted)}
+@media(prefers-color-scheme:dark){.limit{border-left-color:var(--muted)}}
+.limit .lab{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);font-weight:700;margin-bottom:5px}
+.limit p{font-size:14.5px}
+
+/* two-col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mini{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.mini .h{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.mini .h .dot{width:9px;height:9px;border-radius:50%;flex:none}
+.mini p{font-size:14px;color:var(--ink2)}
+.mini ul{margin:6px 0 0;padding-left:18px}
+.mini li{font-size:13.5px;color:var(--ink2);margin:4px 0}
+
+/* method chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{font-family:var(--mono);font-size:12px;font-weight:600;background:var(--surface2);
+  color:var(--hot-deep);border:1px solid var(--line);padding:6px 12px;border-radius:8px}
+
+/* sources */
+.src{font-size:13.5px;color:var(--muted);line-height:1.85}
+.src a{color:var(--hot-deep);text-decoration:none;border-bottom:1px solid var(--line)}
+.src a:hover{border-bottom-color:var(--hot)}
+.src .n{font-family:var(--mono);color:var(--faint);margin-right:6px}
+
+.footer{padding:40px 0 0;text-align:center}
+.footer p{font-size:13px;color:var(--muted)}
+.footer .big{font-family:var(--mono);font-weight:800;color:var(--ink);font-size:15px;letter-spacing:.02em;margin-bottom:6px}
+
+.topbar{max-width:960px;margin:0 auto;padding:22px 20px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.topbar-r{display:flex;align-items:center;gap:10px}
+.back{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--hot-deep);text-decoration:none}
+.back:hover{color:var(--ink)}
+.ig{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--hot-deep);text-decoration:none;background:var(--surface);border:1px solid var(--line);padding:7px 13px;border-radius:999px;box-shadow:var(--shadow)}
+.ig:hover{color:var(--ink)}
+/* theme toggle */
+.tt{width:40px;height:40px;border-radius:50%;flex:none;
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:18px;
+  transition:transform .15s}
+.tt:hover{transform:scale(1.08)}
+.tt:focus-visible{outline:2px solid var(--hot);outline-offset:3px}
+
+.disc{font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:10px;line-height:1.6}
+
+@media(max-width:720px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats .stat:last-child{grid-column:1 / -1}
+  .thesis{grid-template-columns:1fr;gap:14px;text-align:left}
+  .two{grid-template-columns:1fr}
+  .barrow{grid-template-columns:76px 1fr 46px;gap:8px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+.sitenav{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:14px auto 0;padding:0 12px;max-width:960px}.sitenav a{font-size:12.5px;font-weight:800;color:var(--muted);text-decoration:none;padding:7px 13px;border-radius:999px}.sitenav a:hover{color:var(--hot-deep);background:var(--bg2)}.sitenav a.cur{color:#fff;background:var(--hot)}</style>
+
+<div class="topbar">
+  <a class="back" href="index.html">← V4 · 최신 연구 목록</a>
+  <div class="topbar-r">
+    <a class="ig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>@mummys_hand_golf</a>
+    <button class="tt" id="tt" aria-label="라이트/다크 모드 전환" title="테마 전환">◐</button>
+  </div>
+</div>
+
+<nav class="sitenav"><a href="../index.html">🏠 홈</a><a href="../golf-research-summary.html">V1 카드</a><a href="../v2/golf-research-v2.html">V2 근거</a><a href="../v3/index.html">V3 딥다이브</a><a href="index.html" class="cur">V4 최신</a></nav>
+<div class="sg-doc">
+<style>
+.r2row{display:grid;grid-template-columns:170px 1fr 78px;align-items:center;gap:11px;margin-bottom:10px}
+.r2row .nm{font-size:13px;font-weight:750;color:var(--ink2);text-align:right;line-height:1.22}
+.r2row .track{position:relative;height:27px;background:var(--surface2);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.r2row .fill{position:absolute;left:0;top:0;bottom:0;border-radius:7px 8px 8px 7px}
+.r2row .vv{font-family:var(--mono);font-size:12.5px;font-weight:800;color:var(--hot-deep)}
+@media(max-width:560px){.r2row{grid-template-columns:120px 1fr 62px;gap:8px}}
+</style>
+
+  <header class="hero">
+    <span class="eyebrow">Deep Dive · V4 · 최신 연구 · D-Plane / Ball Flight</span>
+    <h1>공은 페이스가<br>가리키는 곳으로<br><span class="hot">출발한다</span></h1>
+    <p class="lede">오랫동안 배운 ‘볼플라이트 법칙’은 <b>반대로</b> 알려져 있었다. 런치 모니터가 진실을 보여준 뒤로, 원리는 하나로 압축된다 — <b>시작 방향은 페이스</b>, <b>휘어짐은 페이스와 패스의 차이</b>. 2013년 피어리뷰 연구는 임팩트 순간의 <b>클럽헤드 움직임만으로 초기 볼플라이트의 71~82%</b>가 설명된다고 못 박았다. 이 한 장이 <b>페이스–패스</b>(#1)를 물리로 다시 쓴다.</p>
+    <div class="cite-line">
+      <b>The influence of club-head kinematics on early ball flight characteristics in the golf drive (2013)</b><br>
+      Sweeney, Mills, Alderson &amp; Elliott · <i>Sports Biomechanics</i> 12(3):247–258 · 남성 골퍼 21명 · 400Hz 광학 모션캡처
+    </div>
+    <a class="doi" href="https://pubmed.ncbi.nlm.nih.gov/24245050/" target="_blank" rel="noopener">PubMed에서 보기 ↗</a>
+
+    <div class="thesis">
+      <div class="big">85<span style="font-size:.5em">%</span><small>· 드라이버 시작 방향을 정하는 건 ‘페이스’</small></div>
+      <div class="txt">드라이버 <b>센터 임팩트</b>에서 공의 <b>출발 방향</b>은 약 <b>85%가 클럽페이스</b> 방향, 나머지 ~15%만 클럽 패스로 정해진다. 오래된 통념(‘패스 방향으로 출발해 페이스로 휜다’)은 <b>거꾸로</b>였다.</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="v num">~85<span class="u">%</span></div><div class="k">시작 방향 → 페이스 (드라이버·센터)</div></div>
+      <div class="stat"><div class="v num">.71–.82</div><div class="k">adj. r² · 클럽헤드→초기 볼플라이트</div></div>
+      <div class="stat"><div class="v num">2</div><div class="k">D-플레인 벡터(3D 패스·페이스 노멀)</div></div>
+      <div class="stat"><div class="v num">21</div><div class="k">피험자(자기 드라이버)</div></div>
+      <div class="stat"><div class="v num">2013</div><div class="k">발표(Sports Biomechanics)</div></div>
+    </div>
+    <p class="disc">※ <b>페이스</b>=임팩트 순간 클럽면이 향한 방향, <b>패스</b>=클럽헤드가 지나간 궤도 방향. ~85/15는 런치 모니터(트랙맨 등)로 널리 재현된 경험값이며 클럽·타점에 따라 달라진다. r²는 위 피어리뷰 연구의 회귀 설명력.</p>
+  </header>
+
+  <section>
+    <span class="eyebrow">01 — 한 줄 요약</span>
+    <h2>‘어디로 출발하고, 왜 휘는가’</h2>
+    <p class="sec-intro mt16">공의 <strong>시작 방향</strong>과 <strong>휘어짐</strong>은 임팩트 순간 두 가지로 거의 다 정해진다 — <strong>페이스가 어디를 보는가</strong>, 그리고 <strong>페이스가 패스에 대해 얼마나 열리고 닫혔는가</strong>. 이 관계를 3차원으로 묶은 모델이 <strong>D-플레인</strong>이고, 2013년 연구는 임팩트 클럽헤드 값만으로 초기 볼플라이트의 <strong>대부분(adj. r² .71–.82)</strong>이 설명됨을 실측으로 보였다. 결론 한 줄 — <strong>스윙이 아니라 임팩트가 공을 말한다.</strong></p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 — 옛 법칙 vs 새 법칙</span>
+    <h2>우리는 반대로 배웠다</h2>
+    <p class="sec-intro mt16">런치 모니터 이전의 ‘옛 볼플라이트 법칙’은 <strong>시작=패스, 휘어짐=페이스</strong>라고 가르쳤다. 실측은 정확히 <strong>뒤집혔다</strong>.</p>
+    <div class="two mt16">
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--loss)"></span>옛 법칙 (틀림)</div><p>“공은 <strong>클럽 패스 방향</strong>으로 출발해, 페이스 때문에 휜다.” → 그래서 슬라이스를 고치려 <strong>궤도만</strong> 만졌다.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--gain)"></span>새 법칙 (실측)</div><p>“공은 <strong>페이스 방향</strong>으로 출발하고, <strong>페이스−패스 상대각</strong>만큼 그 반대로 휜다.” 시작과 커브의 주인이 <strong>바뀌었다</strong>.</p></div>
+    </div>
+    <div class="callout mt24">
+      <div class="lab">왜 중요한가</div>
+      <p>슬라이스(우로 휘는 공)가 자꾸 <strong>왼쪽으로 출발</strong>한다면, 그건 페이스가 목표 왼쪽을 보는데 패스는 그보다 더 왼쪽(아웃-인)이라는 뜻. <strong>‘궤도’가 아니라 ‘페이스’를 먼저</strong> 봐야 하는 이유다.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 — D-플레인이란</span>
+    <h2>두 화살표가 만드는 평면</h2>
+    <p class="sec-intro mt16">D-플레인(D-Plane)은 임팩트 순간 <strong>두 벡터</strong>로 정의된다: ① 클럽헤드가 <strong>실제로 움직인 3차원 방향</strong>(좌우 패스 + 위아래 어택 앵글), ② 클럽 <strong>페이스가 향한 방향(면의 법선)</strong>. 이 둘이 이루는 평면에 <strong>수직으로 공의 스핀축</strong>이 선다. 스핀축이 기울면 공은 그 축을 따라 휜다.</p>
+    <div class="formula mt24">
+      <div class="lab">Ball Flight — 세 줄 요약</div>
+      <div class="eq"><span class="a">시작 방향</span> ≈ 페이스가 향한 곳 <b>(드라이버 ~85%)</b></div>
+      <div class="eq"><span class="b">휘는 방향</span> = 페이스 − 패스 <b>(상대각의 반대쪽으로 커브)</b></div>
+      <div class="eq"><span class="c">백스핀·발사각</span> = 다이내믹 로프트 × 어택 앵글의 조합</div>
+      <div class="note"><b>핵심:</b> 페이스가 <b>목표</b>에 대해 어디를 보는지가 <b>시작</b>을, 페이스가 <b>패스</b>에 대해 얼마나 열렸는지가 <b>커브</b>를 정한다. 두 각을 분리해서 봐야 한다.</div>
+    </div>
+    <div class="two mt24">
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--long)"></span>드로우 (왼쪽으로 감기는 공)</div><p>페이스가 <strong>패스보다 닫힘</strong>(오른손잡이 기준 왼쪽). 목표 오른쪽으로 출발해 왼쪽으로 감긴다.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--appr)"></span>페이드 (오른쪽으로 나가는 공)</div><p>페이스가 <strong>패스보다 열림</strong>(오른쪽). 목표 왼쪽으로 출발해 오른쪽으로 빠진다.</p></div>
+    </div>
+    <p class="disc">※ 방향 표기는 오른손잡이 기준. ‘닫힘/열림’은 <strong>패스 대비</strong>(목표 대비가 아님)라는 점이 D-플레인의 요점이다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 — 85 / 15</span>
+    <h2>시작 방향은 페이스가 정한다</h2>
+    <p class="sec-intro mt16">드라이버 센터 타격에서 <strong>출발 방향</strong>에 대한 페이스와 패스의 지분은 대략 이렇게 갈린다(런치 모니터 경험값):</p>
+    <div class="mt24">
+      <div class="hbar" role="img" aria-label="드라이버 시작 방향: 페이스 약 85퍼센트, 패스 약 15퍼센트">
+        <div class="seg" style="width:85%;background:var(--long)">페이스 ~85%</div>
+        <div class="seg" style="width:15%;background:var(--putt)">패스 ~15%</div>
+      </div>
+      <div class="legend">
+        <span class="li"><span class="sw" style="background:var(--long)"></span>페이스 방향 (시작을 지배)</span>
+        <span class="li"><span class="sw" style="background:var(--putt)"></span>클럽 패스 (소수 지분)</span>
+      </div>
+    </div>
+    <p class="disc mt16">지분은 클럽에 따라 달라진다 — 로프트가 큰 <strong>웨지·아이언</strong>일수록 패스의 몫이 조금 더 커진다(기어·마찰 영향). 하지만 <strong>드라이버는 페이스가 압도적</strong>이다. 타점이 스위트스팟을 벗어나면(기어 이펙트) 비율은 또 바뀐다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">05 — 실측 근거</span>
+    <h2>임팩트 값만으로 71~82%</h2>
+    <p class="sec-intro mt16">Sweeney 등(2013)은 남성 골퍼 21명이 <strong>자기 드라이버</strong>로 친 스윙을 400Hz 광학 시스템으로 잡아, 임팩트 순간 <strong>클럽헤드 4요소</strong>(속도·방향(페이스)·패스·타점)로 초기 볼플라이트 5지표를 얼마나 설명하는지 회귀로 물었다. 개인 클럽으로 일반화해도 설명력은 높았다.</p>
+    <div class="mt24">
+      <div class="r2row"><span class="nm">초기 볼플라이트 종합</span><div class="track"><span class="fill" style="width:82%;background:var(--long)"></span></div><span class="vv">adj.r² .71–.82</span></div>
+    </div>
+    <div class="tbl-wrap mt24">
+      <table class="dt">
+        <thead><tr><th>초기 볼플라이트 지표</th><th>주로 정하는 임팩트 요소</th></tr></thead>
+        <tbody>
+          <tr><td>발사 속도</td><td>클럽헤드 속도 · 타점(스매시)</td></tr>
+          <tr><td>발사각(위)</td><td>다이내믹 로프트 · 어택 앵글</td></tr>
+          <tr><td>사이드 앵글(시작 좌우)</td><td>페이스 방향 (지배)</td></tr>
+          <tr><td>백스핀</td><td>로프트 · 어택 앵글</td></tr>
+          <tr><td>사이드 스핀(커브)</td><td>페이스 − 패스 상대각</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="disc mt16">표의 ‘주로 정하는 요소’는 D-플레인 원리와 연구가 검증한 방향성을 요약한 것. 정확한 계수·정의는 원문 확인 권장.</p>
+    <div class="take mt24">
+      <div class="lab">TAKEAWAY</div>
+      <p>스윙 전체가 아니라 <b>임팩트 0.0005초</b>가 공을 정한다. 시작은 <b>페이스</b>, 커브는 <b>페이스−패스</b> — 이 둘만 분리해 보면 내 미스가 어디서 오는지 즉시 읽힌다.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">06 — 한계 · 유의점</span>
+    <h2>무엇을 조심해서 읽을까</h2>
+    <div class="stack mt16">
+      <div class="limit"><div class="lab">‘초기’ 볼플라이트</div><p>연구가 잡은 건 임팩트 <strong>직후</strong>의 발사 조건. 바람·양력 등 <strong>비행 후반</strong>의 궤적 변화는 별개다.</p></div>
+      <div class="limit"><div class="lab">센터 타격 가정</div><p>~85/15는 <strong>스위트스팟</strong> 기준. 타점이 벗어나면 <strong>기어 이펙트</strong>로 시작·스핀이 달라진다.</p></div>
+      <div class="limit"><div class="lab">클럽마다 다름</div><p>로프트가 큰 클럽일수록 패스 지분↑. 드라이버 값은 아이언·웨지에 그대로 옮기면 안 된다.</p></div>
+      <div class="limit"><div class="lab">상관·회귀</div><p>설명력(r²)이 높다고 인과·완결은 아니다. 표본 21명, 개인 클럽이라는 조건도 함께 읽어야.</p></div>
+    </div>
+  </section>
+
+  <section style="border-bottom:none">
+    <span class="eyebrow">07 — 인용 · 출처</span>
+    <h2>원문과 참고자료</h2>
+    <div class="card mt16">
+      <p style="font-size:15px;line-height:1.7"><strong>Sweeney, M., Mills, P., Alderson, J., &amp; Elliott, B. (2013). The influence of club-head kinematics on early ball flight characteristics in the golf drive.</strong> <i>Sports Biomechanics</i>, 12(3), 247–258.</p>
+      <a class="doi" style="margin-top:14px" href="https://pubmed.ncbi.nlm.nih.gov/24245050/" target="_blank" rel="noopener">PubMed에서 열람 ↗</a>
+    </div>
+    <div class="mt24 src">
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">더 읽기 · 연결</div>
+      <p><span class="n">[1]</span> Jorgensen, T. P. <i>The Physics of Golf</i> (2nd ed., 1999) — D-플레인·스핀축 물리의 원전.</p>
+      <p><span class="n">[2]</span> 컬렉션 #1 · 생체역학 거리·정확성 — <b>페이스–패스</b>가 정확성을 가르는 그 지점의 물리판(版).</p>
+      <p><span class="n">[3]</span> 런치 모니터(트랙맨) 볼플라이트 자료 — ~85/15 시작 방향 지분의 경험적 재현.</p>
+    </div>
+    <p class="disc">~85/15와 표의 방향성은 D-플레인 원리 및 런치 모니터 경험값으로, 정확한 수치는 클럽·타점·측정에 따라 달라진다. 이 페이지는 <b>V4(최신 연구)</b> 트랙입니다.</p>
+  </section>
+
+  <div class="footer">
+    <p class="big">D-PLANE &amp; BALL FLIGHT LAWS · V4 DEEP DIVE</p>
+    <p>Sweeney et al. (2013), Sports Biomechanics · 골프 볼플라이트 원리 심층 정리</p>
+  </div>
+</div>
+<script>
+(function(){var root=document.documentElement,btn=document.getElementById('tt');
+if(!btn)return;
+function cur(){var t=root.getAttribute('data-theme');if(t)return t;return (window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';}
+btn.textContent=cur()==='dark'?'☀':'◐';
+btn.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';root.setAttribute('data-theme',n);btn.textContent=n==='dark'?'☀':'◐';});})();
+</script>
+<script data-goatcounter="https://mummyshandgolf.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
