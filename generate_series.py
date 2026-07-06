@@ -218,6 +218,16 @@ var UNLOCKED = __UNLOCKED__, TOTAL = META.length;
 var START_MS = Date.UTC(__SY__, __SM__, __SD__, __SH__, __SMIN__) - 9*3600*1000; // START (KST) as epoch
 var DAY = 24*3600*1000, CADENCE = __CADENCE__;
 
+// 스테일 캐시 자동 복구: 공개 시각을 지났는데 이 페이지(캐시본)가 아직 안 열렸으면
+// 한 번만 캐시 우회(_cb) 새로고침해서 최신 배포본을 가져온다. (_cb 있으면 반복 안 함)
+(function(){
+  if (UNLOCKED >= TOTAL) return;
+  var nextOpen = START_MS + UNLOCKED*CADENCE*DAY;
+  if (Date.now() >= nextOpen && location.search.indexOf('_cb=') === -1) {
+    location.replace(location.pathname + location.search + (location.search?'&':'?') + '_cb=' + Date.now());
+  }
+})();
+
 // 진행바
 document.getElementById('pbar').style.width = (UNLOCKED/TOTAL*100) + '%';
 document.getElementById('plabel').textContent = UNLOCKED + ' / ' + TOTAL + ' 공개';
