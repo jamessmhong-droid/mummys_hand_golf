@@ -345,6 +345,29 @@ table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
       <li><b>손목 코킹</b> — 헤드 스피드의 강력한 단일 기여(리뷰: 분산의 ~60.3%), <b>리드암 ~30° 아래</b>에서 풀기.</li>
       <li><b>지면반력·체중이동</b> — 백스윙엔 뒷발, 다운스윙엔 앞발로. 큰 드라이브엔 큰 지면반력.</li>
     </ol>
+
+    <div class="chart-wrap mt24">
+      <div class="ctitle">운동 사슬 = 순차 가속 (Summation of Speed)</div>
+      <div class="csub">골반에서 시작한 속도가 몸통·팔을 거치며 <b>더해져</b> 클럽헤드에서 최대가 된다. 각 분절은 정점에 도달한 뒤 <b>감속</b>하며 다음 분절로 에너지를 넘긴다(proximal→distal). 막대는 구간별 최고 속도의 <b>개념적 상대치</b>(일반 생체역학).</div>
+      <div style="margin-top:12px">
+        <div class="barrow"><span class="nm">골반</span><div class="track"><span class="fill" style="width:24%;background:var(--putt)"></span></div><span class="vv">시작</span></div>
+        <div class="barrow"><span class="nm">몸통</span><div class="track"><span class="fill" style="width:46%;background:var(--appr)"></span></div><span class="vv">↗</span></div>
+        <div class="barrow"><span class="nm">리드암</span><div class="track"><span class="fill" style="width:70%;background:var(--short)"></span></div><span class="vv">↗↗</span></div>
+        <div class="barrow"><span class="nm">클럽헤드</span><div class="track"><span class="fill" style="width:100%;background:var(--long)"></span></div><span class="vv">최대</span></div>
+      </div>
+    </div>
+
+    <div class="tbl-wrap mt16">
+      <table class="dt">
+        <thead><tr><th>거리 결정요인</th><th>역할</th><th>기여(리뷰)</th></tr></thead>
+        <tbody>
+          <tr><td><b>손목 코킹</b><br>릴리스 타이밍</td><td>헤드 스피드의 <b>단일 최대</b> 기여. 리드암이 수평보다 <b>~30° 아래</b>일 때 풀기.</td><td><b>분산의 ~60.3%</b><br>리뷰 보고값</td></tr>
+          <tr><td><b>운동 사슬</b></td><td>골반→몸통→팔→클럽 순차 가속. 파워 전달의 뼈대.</td><td>정성 · 근간</td></tr>
+          <tr><td><b>X-Factor</b></td><td>다운스윙 초반 상체–골반 분리가 클수록 파워↑.</td><td>정성 · 주요</td></tr>
+          <tr><td><b>지면반력</b><br>체중이동</td><td>앞발 지면반력이 클수록 큰 드라이브. 뒷발→앞발 전환.</td><td>정성 · 기반</td></tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <section>
@@ -355,6 +378,24 @@ table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
       <div class="mini"><div class="h"><span class="dot" style="background:var(--short)"></span>일관성이 정확성</div><p>파워보다 <strong>재현성(반복성)</strong>. 같은 동작을 반복할수록 결과가 모인다.</p></div>
       <div class="mini"><div class="h"><span class="dot" style="background:var(--appr)"></span>칩·퍼트</div><p><strong>낮은 그립·짧고 느린 백스윙</strong>, 어깨·손목의 일관된 타이밍이 성공률을 높인다.</p></div>
       <div class="mini"><div class="h"><span class="dot" style="background:var(--putt)"></span>상충</div><p>거리(폭발)와 정확성(절제)은 <strong>서로 다른 우선순위</strong> — 하나를 키우면 다른 게 위태롭다.</p></div>
+    </div>
+
+    <div class="tbl-wrap mt24">
+      <table class="dt">
+        <thead><tr><th>임팩트 요인</th><th>무엇을 지배</th><th>메모</th></tr></thead>
+        <tbody>
+          <tr><td><b>페이스 각</b><br>임팩트 순간</td><td>초기 <b>발사 방향</b>의 주 결정</td><td>방향 오차의 최대 원인</td></tr>
+          <tr><td><b>클럽 경로</b><br>스윙 패스</td><td>커브(드로/페이드)의 <b>방향</b></td><td>페이스–경로 상대각이 스핀축</td></tr>
+          <tr><td><b>타점</b><br>정타 여부</td><td>스피드·스핀·방향에 <b>동시</b> 영향</td><td>기어효과 · 스매시팩터</td></tr>
+          <tr><td><b>입사각</b><br>어택 앵글</td><td>발사각·스핀·거리</td><td>드라이버 상향 / 아이언 하향</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="csub mt16">※ 방향은 주로 <b>페이스 각</b>, 커브는 <b>페이스–경로 상대각</b>이 지배 — 현대 볼플라이트(D-plane) 정리. 이 리뷰는 임팩트 요인과 일관성의 중요성을 종합한다.</p>
+
+    <div class="callout mt16">
+      <div class="lab">왜 거리와 정확성이 상충하나</div>
+      <p>스피드를 끌어올리는 방법(가동범위·상체–골반 분리·긴 스윙아크)은 대부분 <b>재현성을 낮춘다</b>. 그래서 최대 거리 세팅과 최대 정확성 세팅은 서로 다른 지점에 있고, 실전은 그 사이 <b>타협점</b>을 찾는 일이다.</p>
     </div>
   </section>
 
