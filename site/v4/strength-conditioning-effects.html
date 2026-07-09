@@ -1,0 +1,396 @@
+<title>헬스가 거리를 늘린다 — S&C 개입 효과 (2020) · V4</title>
+<meta name="hz:slide-selector" content=".sg-doc">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#FDEEF3; --bg2:#FCE4EC; --surface:#FFFFFF; --surface2:#FFF2F7;
+  --ink:#0E0E10; --ink2:#4A2E3A; --muted:#6B5560; --faint:#A98A97;
+  --line:#F4C9DC; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#E60F73; --hot-soft:#FFE3F0;
+  /* data */
+  --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
+  --gain:#0E9E86; --loss:#E24A38;
+  --grid:#F0DCE4; --axis:#C9AEBB;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);
+  --shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+  --radius:16px;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,"JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Pretendard","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#140A10; --bg2:#1B0F16; --surface:#20131A; --surface2:#291923;
+    --ink:#FCEDF3; --ink2:#E4C6D2; --muted:#BE99A9; --faint:#8A6675;
+    --line:#3A2530; --line2:#301E28;
+    --hot:#FF4DA0; --hot-deep:#FF2E90; --hot-soft:#3A1526;
+    --long:#E7418E; --short:#1EBBA0; --putt:#8A94F0; --appr:#E0A33A;
+    --gain:#22C3A5; --loss:#FF6D57;
+    --grid:#2E1E28; --axis:#5A3F4C;
+    --shadow:0 14px 40px -22px rgba(0,0,0,.7);
+    --shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="light"]{
+  --bg:#FDEEF3; --bg2:#FCE4EC; --surface:#FFFFFF; --surface2:#FFF2F7;
+  --ink:#0E0E10; --ink2:#4A2E3A; --muted:#6B5560; --faint:#A98A97;
+  --line:#F4C9DC; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#E60F73; --hot-soft:#FFE3F0;
+  --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
+  --gain:#0E9E86; --loss:#E24A38; --grid:#F0DCE4; --axis:#C9AEBB;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);
+  --shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+}
+:root[data-theme="dark"]{
+  --bg:#140A10; --bg2:#1B0F16; --surface:#20131A; --surface2:#291923;
+  --ink:#FCEDF3; --ink2:#E4C6D2; --muted:#BE99A9; --faint:#8A6675;
+  --line:#3A2530; --line2:#301E28;
+  --hot:#FF4DA0; --hot-deep:#FF2E90; --hot-soft:#3A1526;
+  --long:#E7418E; --short:#1EBBA0; --putt:#8A94F0; --appr:#E0A33A;
+  --gain:#22C3A5; --loss:#FF6D57; --grid:#2E1E28; --axis:#5A3F4C;
+  --shadow:0 14px 40px -22px rgba(0,0,0,.7);
+  --shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.72;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  background-image:radial-gradient(120% 60% at 100% -10%,var(--bg2) 0%,transparent 60%);}
+.sg-doc{max-width:960px;margin:0 auto;padding:0 20px 120px;}
+::selection{background:var(--hot);color:#fff}
+
+/* ============ TYPE ============ */
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--hot-deep);display:inline-flex;align-items:center;gap:9px}
+.eyebrow::before{content:"";width:9px;height:9px;background:var(--hot);border-radius:2px;box-shadow:0 0 0 4px var(--hot-soft)}
+h1{font-size:clamp(34px,6.2vw,60px);font-weight:900;letter-spacing:-.03em;line-height:1.06;
+  text-wrap:balance;margin:0}
+h2{font-size:clamp(22px,3.4vw,30px);font-weight:850;letter-spacing:-.02em;line-height:1.2;text-wrap:balance}
+h3{font-size:18px;font-weight:800;letter-spacing:-.01em;line-height:1.35}
+p{font-size:16.5px;color:var(--ink2);text-wrap:pretty}
+strong{color:var(--ink);font-weight:750}
+.hot{color:var(--hot-deep)}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono)}
+
+/* ============ HERO ============ */
+.hero{padding:24px 0 40px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{margin-bottom:22px}
+.hero h1{margin-bottom:20px}
+.hero .lede{font-size:clamp(17px,2.4vw,20px);color:var(--ink2);max-width:62ch;line-height:1.65;margin-top:20px;background:var(--surface);border-left:5px solid var(--hot);border-radius:0 14px 14px 0;padding:18px 22px;box-shadow:var(--shadow)}
+.hero .lede b{color:var(--ink);font-weight:750}
+.cite-line{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:20px;line-height:1.7}
+.cite-line b{color:var(--ink)}
+.doi{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-family:var(--mono);
+  font-size:12.5px;font-weight:600;text-decoration:none;color:var(--hot-deep);
+  background:var(--surface);border:1.5px solid var(--hot);padding:6px 13px;border-radius:999px;
+  transition:background .15s,color .15s}
+.doi:hover{background:var(--hot);color:#fff}
+
+/* thesis card */
+.thesis{margin-top:38px;display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px 28px;box-shadow:var(--shadow)}
+.thesis .big{font-family:var(--mono);font-weight:800;font-size:clamp(52px,11vw,86px);
+  line-height:.9;color:var(--hot-deep);letter-spacing:-.04em}
+.thesis .big small{display:block;font-size:14px;letter-spacing:.05em;color:var(--muted);margin-top:10px;font-weight:600}
+.thesis .txt{font-size:16.5px;color:var(--ink2)}
+.thesis .txt b{color:var(--ink)}
+
+/* ============ STAT BAND ============ */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:34px 0 8px}
+.stat{background:var(--surface);padding:20px 16px;text-align:center}
+.stat .v{font-family:var(--mono);font-size:clamp(22px,3.4vw,29px);font-weight:800;color:var(--ink);
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.stat .v .u{font-size:.55em;color:var(--hot-deep);margin-left:1px}
+.stat .k{font-size:12px;color:var(--muted);margin-top:9px;line-height:1.3}
+
+/* ============ SECTIONS ============ */
+section{padding:52px 0;border-bottom:1px solid var(--line)}
+section > .eyebrow{margin-bottom:16px}
+section > h2{margin-bottom:14px}
+.sec-intro{font-size:16.5px;color:var(--ink2);max-width:66ch;margin-bottom:8px}
+.stack{display:flex;flex-direction:column;gap:22px}
+.mt24{margin-top:24px}.mt16{margin-top:16px}
+
+/* card */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px 26px;box-shadow:var(--shadow)}
+.card.tint{background:var(--surface2)}
+.card h3{margin-bottom:10px}
+.card p{font-size:15.5px}
+
+/* formula */
+.formula{background:var(--ink);color:#fff;border-radius:var(--radius);padding:26px 26px;box-shadow:var(--shadow-lg)}
+:root[data-theme="dark"] .formula{background:#0C0509;border:1px solid var(--line)}
+@media(prefers-color-scheme:dark){.formula{background:#0C0509;border:1px solid var(--line)}}
+.formula .lab{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--hot);font-weight:600}
+.formula .eq{font-family:var(--mono);font-size:clamp(14px,2.6vw,19px);font-weight:600;margin-top:16px;line-height:1.9;
+  letter-spacing:-.01em;overflow-x:auto;white-space:nowrap;padding-bottom:6px}
+.formula .eq b{color:#fff}
+.formula .eq .a{color:#7BE0CF}.formula .eq .b{color:#FFB4D8}.formula .eq .c{color:#FFD98A}
+.formula .note{font-size:14px;color:#E9C6D4;margin-top:16px;line-height:1.65}
+.formula .note b{color:#fff}
+
+/* face/path field diagram */
+.field{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 22px 16px;box-shadow:var(--shadow);overflow-x:auto}
+.field .cap{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.field svg{display:block;width:100%;min-width:560px;height:auto}
+
+/* charts */
+.chart-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px 18px;box-shadow:var(--shadow)}
+.chart-wrap .ctitle{font-size:15px;font-weight:800;color:var(--ink)}
+.chart-wrap .csub{font-size:13px;color:var(--muted);margin-top:2px;margin-bottom:16px}
+.chart-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px}
+.legend .li{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink2);font-weight:600}
+.legend .sw{width:11px;height:11px;border-radius:3px;flex:none}
+.axl{font-family:var(--mono);font-size:10.5px;fill:var(--axis)}
+.axtitle{font-family:var(--mono);font-size:10.5px;fill:var(--muted);letter-spacing:.08em}
+
+/* horizontal stacked bar */
+.hbar{display:flex;height:44px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.hbar .seg{display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--mono);
+  font-size:12.5px;font-weight:700;white-space:nowrap;position:relative}
+.hbar .seg + .seg{box-shadow:inset 2px 0 0 var(--surface)}
+.barrow{display:grid;grid-template-columns:96px 1fr 58px;align-items:center;gap:12px;margin:9px 0}
+.barrow .nm{font-size:13.5px;font-weight:700;color:var(--ink);text-align:right}
+.barrow .track{background:var(--bg2);border-radius:7px;height:26px;overflow:hidden;position:relative}
+.barrow .fill{height:100%;border-radius:7px 0 0 7px;display:block}
+.barrow .vv{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* data table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+table.dt{width:100%;border-collapse:collapse;background:var(--surface);font-size:14px;min-width:480px}
+table.dt th{background:var(--ink);color:#fff;padding:11px 12px;text-align:center;font-weight:700;
+  font-family:var(--mono);font-size:12px;letter-spacing:.03em}
+:root[data-theme="dark"] table.dt th{background:#0C0509}
+@media(prefers-color-scheme:dark){table.dt th{background:#0C0509}}
+table.dt td{padding:10px 12px;text-align:center;border-bottom:1px solid var(--line);
+  font-variant-numeric:tabular-nums;color:var(--ink2)}
+table.dt td:first-child{text-align:left;font-weight:700;color:var(--ink);font-family:var(--mono);font-size:13px}
+table.dt tbody tr:last-child td{border-bottom:none}
+table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
+
+/* callout / take / limit */
+.callout{border-left:4px solid var(--hot);background:var(--surface);border-radius:0 14px 14px 0;
+  padding:18px 22px;box-shadow:var(--shadow)}
+.callout .lab{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--hot-deep);font-weight:600;margin-bottom:7px}
+.callout p{font-size:16px}
+.take{background:var(--ink);color:#fff;border-radius:var(--radius);padding:24px 26px;box-shadow:var(--shadow-lg)}
+:root[data-theme="dark"] .take{background:#0C0509;border:1px solid var(--line)}
+@media(prefers-color-scheme:dark){.take{background:#0C0509;border:1px solid var(--line)}}
+.take .lab{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--hot);font-weight:600;margin-bottom:10px}
+.take p{font-size:18px;font-weight:650;color:#fff;line-height:1.55}
+.take p b{color:var(--hot)}
+.limit{border-left:4px solid var(--ink2);background:var(--surface);border-radius:0 14px 14px 0;padding:16px 20px}
+:root[data-theme="dark"] .limit{border-left-color:var(--muted)}
+@media(prefers-color-scheme:dark){.limit{border-left-color:var(--muted)}}
+.limit .lab{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);font-weight:700;margin-bottom:5px}
+.limit p{font-size:14.5px}
+
+/* two-col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mini{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.mini .h{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.mini .h .dot{width:9px;height:9px;border-radius:50%;flex:none}
+.mini p{font-size:14px;color:var(--ink2)}
+.mini ul{margin:6px 0 0;padding-left:18px}
+.mini li{font-size:13.5px;color:var(--ink2);margin:4px 0}
+
+/* method chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{font-family:var(--mono);font-size:12px;font-weight:600;background:var(--surface2);
+  color:var(--hot-deep);border:1px solid var(--line);padding:6px 12px;border-radius:8px}
+
+/* sources */
+.src{font-size:13.5px;color:var(--muted);line-height:1.85}
+.src a{color:var(--hot-deep);text-decoration:none;border-bottom:1px solid var(--line)}
+.src a:hover{border-bottom-color:var(--hot)}
+.src .n{font-family:var(--mono);color:var(--faint);margin-right:6px}
+
+.footer{padding:40px 0 0;text-align:center}
+.footer p{font-size:13px;color:var(--muted)}
+.footer .big{font-family:var(--mono);font-weight:800;color:var(--ink);font-size:15px;letter-spacing:.02em;margin-bottom:6px}
+
+.topbar{max-width:960px;margin:0 auto;padding:22px 20px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.topbar-r{display:flex;align-items:center;gap:10px}
+.back{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--hot-deep);text-decoration:none}
+.back:hover{color:var(--ink)}
+.ig{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--hot-deep);text-decoration:none;background:var(--surface);border:1px solid var(--line);padding:7px 13px;border-radius:999px;box-shadow:var(--shadow)}
+.ig:hover{color:var(--ink)}
+/* theme toggle */
+.tt{width:40px;height:40px;border-radius:50%;flex:none;
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:18px;
+  transition:transform .15s}
+.tt:hover{transform:scale(1.08)}
+.tt:focus-visible{outline:2px solid var(--hot);outline-offset:3px}
+
+.disc{font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:10px;line-height:1.6}
+
+@media(max-width:720px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats .stat:last-child{grid-column:1 / -1}
+  .thesis{grid-template-columns:1fr;gap:14px;text-align:left}
+  .two{grid-template-columns:1fr}
+  .barrow{grid-template-columns:76px 1fr 46px;gap:8px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+.sitenav{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:14px auto 0;padding:0 12px;max-width:960px}.sitenav a{font-size:12.5px;font-weight:800;color:var(--muted);text-decoration:none;padding:7px 13px;border-radius:999px}.sitenav a:hover{color:var(--hot-deep);background:var(--bg2)}.sitenav a.cur{color:#fff;background:var(--hot)}</style>
+
+<div class="topbar">
+  <a class="back" href="index.html">← V4 · 최신 연구 목록</a>
+  <div class="topbar-r">
+    <a class="ig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>@mummys_hand_golf</a>
+    <button class="tt" id="tt" aria-label="라이트/다크 모드 전환" title="테마 전환">◐</button>
+  </div>
+</div>
+
+<nav class="sitenav"><a href="../index.html">🏠 홈</a><a href="../golf-research-summary.html">V1 카드</a><a href="../v2/golf-research-v2.html">V2 근거</a><a href="../v3/index.html">V3 딥다이브</a><a href="index.html" class="cur">V4 최신</a></nav>
+<div class="sg-doc">
+<style>
+.r2row{display:grid;grid-template-columns:210px 1fr 78px;align-items:center;gap:11px;margin-bottom:10px}
+.r2row .nm{font-size:13px;font-weight:750;color:var(--ink2);text-align:right;line-height:1.22}
+.r2row .track{position:relative;height:27px;background:var(--surface2);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.r2row .fill{position:absolute;left:0;top:0;bottom:0;border-radius:7px 8px 8px 7px}
+.r2row .vv{font-family:var(--mono);font-size:12.5px;font-weight:800;color:var(--hot-deep)}
+@media(max-width:560px){.r2row{grid-template-columns:130px 1fr 62px;gap:8px}}
+</style>
+  <header class="hero">
+<!--MHG_GATE--><style>
+html.mhg-locked{overflow:hidden!important}
+html.mhg-locked body{visibility:hidden!important}
+#mhg-gate{position:fixed;inset:0;z-index:2147483600;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(125% 80% at 50% 0%,#3a0c22 0%,#0b0b0d 60%);font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif;visibility:visible}
+#mhg-card{width:min(92vw,360px);background:#fff;border-radius:22px;box-shadow:0 30px 80px -30px rgba(0,0,0,.75);padding:32px 26px 24px;text-align:center}
+#mhg-badge{width:64px;height:64px;margin:0 auto 16px;border-radius:50%;background:linear-gradient(135deg,#FF1E88,#E60F73);display:flex;align-items:center;justify-content:center;font-size:29px;box-shadow:0 12px 24px -10px rgba(230,15,115,.7)}
+#mhg-card h1{font-size:19px;font-weight:900;color:#0E0E10;letter-spacing:-.02em;margin:0 0 6px}
+#mhg-card p{font-size:13px;color:#6B5560;line-height:1.55;margin:0 0 18px}
+#mhg-in{width:100%;font-size:16px;padding:13px 16px;border:2px solid #F4C9DC;border-radius:12px;outline:none;text-align:center;font-weight:700;color:#0E0E10;background:#fff}
+#mhg-in:focus{border-color:#FF1E88}
+#mhg-btn{width:100%;margin-top:11px;font-size:15px;font-weight:900;color:#fff;background:#FF1E88;border:0;border-radius:12px;padding:14px;cursor:pointer;box-shadow:0 12px 24px -12px rgba(230,15,115,.7)}
+#mhg-btn:active{transform:translateY(1px)}
+#mhg-err{font-size:12.5px;color:#E60F73;font-weight:700;margin-top:11px;min-height:16px}
+#mhg-card.mhg-shake{animation:mhgsh .4s}
+@keyframes mhgsh{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+</style>
+<script>(function(){try{if(localStorage.getItem("mhg_auth")==="1")return;}catch(e){}
+function H(s){var x=0;for(var i=0;i<s.length;i++){x=(x*31+s.charCodeAt(i))>>>0;}return x;}
+var EXP=3788819635,root=document.documentElement;
+root.className+=" mhg-locked";
+function build(){
+if(document.getElementById("mhg-gate"))return;
+var g=document.createElement("div");g.id="mhg-gate";
+g.innerHTML='<div id="mhg-card"><div id="mhg-badge">🔒</div><h1>마미손 골프 아카이브</h1><p>비공개 연구 아카이브입니다. 접속 코드를 입력하세요.<br>연재 페이지는 코드 없이 열려요.</p><input id="mhg-in" type="password" inputmode="text" autocomplete="off" placeholder="접속 코드"><button id="mhg-btn">들어가기</button><div id="mhg-err"></div></div>';
+root.appendChild(g);
+var inp=g.querySelector("#mhg-in"),btn=g.querySelector("#mhg-btn"),err=g.querySelector("#mhg-err"),card=g.querySelector("#mhg-card");
+function go(){if(H(inp.value)===EXP){try{localStorage.setItem("mhg_auth","1");}catch(e){}root.className=root.className.replace(/ ?mhg-locked/,"");if(g.parentNode)g.parentNode.removeChild(g);}else{err.textContent="코드가 올바르지 않아요.";card.className="mhg-shake";setTimeout(function(){card.className="";},400);inp.value="";inp.focus();}}
+btn.addEventListener("click",go);inp.addEventListener("keydown",function(e){if(e.key==="Enter")go();});setTimeout(function(){inp.focus();},60);
+}
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",build);}else{build();}
+})();</script>
+    <span class="eyebrow">Deep Dive · V4 · 최신 연구 · S&amp;C Effects</span>
+    <h1>헬스가<br>거리를 늘린다<br><span class="hot">— 증명</span></h1>
+    <p class="lede">예측이 아니라 <b>개입</b>. V4·A는 “강한 사람이 빠르다”(상관)를 보였다. 이건 다음 질문 — <b>“그래서 훈련하면 실제로 늘어나는가?”</b> 2020년 리뷰가 <b>대조군을 둔 개입연구 25편</b>을 종합하니, 유의한 결과들에서 클럽 스피드·볼 스피드·거리가 <b>평균 +4~6.4%</b>. 답은 예스.</p>
+    <div class="cite-line">
+      <b>The effects of strength and conditioning interventions on golf performance: A systematic review (2020)</b><br>
+      Ehlert, A. · <i>Journal of Sports Sciences</i> 38(23) · 개입연구 25편 체계적 리뷰
+    </div>
+    <a class="doi" href="https://pubmed.ncbi.nlm.nih.gov/32723013/" target="_blank" rel="noopener">PubMed에서 보기 ↗</a>
+
+    <div class="thesis">
+      <div class="big">+4–6<small>· % · 훈련의 순효과(CHS·거리)</small></div>
+      <div class="txt">근력·플라이오·코어·스트레칭을 조합한 개입이 <b>대조군 대비</b> 클럽 스피드·볼 스피드·거리를 평균 <b>4~6.4%</b> 높였다(유의 결과 종합). ‘강한 사람이 빠르다’를 넘어 <b>‘훈련이 빠르게 만든다’</b>로.</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="v">25</div><div class="k">개입연구(대조군 비교)</div></div>
+      <div class="stat"><div class="v">+4–6<span class="u">%</span></div><div class="k">CHS·볼스피드·거리</div></div>
+      <div class="stat"><div class="v">복합</div><div class="k">근력+플라이오+코어</div></div>
+      <div class="stat"><div class="v">인과↑</div><div class="k">상관 아닌 개입 근거</div></div>
+      <div class="stat"><div class="v">2020</div><div class="k">발표(J Sports Sci)</div></div>
+    </div>
+    <p class="disc">※ 체계적 리뷰(개입연구 종합). +4~6.4%는 <b>유의한 결과들을 종합</b>한 평균 범위로, 연구·대상·프로토콜에 따라 폭이 넓다. 상관연구(V4·A)와 달리 <b>‘훈련 → 결과’</b>의 개입 근거.</p>
+  </header>
+
+  <section>
+    <span class="eyebrow">01 — 한 줄 요약</span>
+    <h2>상관을 넘어, 개입으로</h2>
+    <p class="sec-intro mt16">V4·A는 “<strong>어떤 몸이 빠른가</strong>”(상관)를 답했다. 이 리뷰는 “<strong>훈련하면 빨라지는가</strong>”(개입)를 답한다. <strong>대조군을 둔 25편</strong>을 모으니, 유의한 결과에서 클럽 스피드·볼 스피드·거리가 평균 <strong>+4~6.4%</strong>. 골프에서 <strong>피지컬 트레이닝은 통한다.</strong></p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 — 상관 vs 개입</span>
+    <h2>왜 이게 더 센 근거인가</h2>
+    <div class="two mt16">
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--putt)"></span>상관(V4·A)</div><p>“점프 잘하는 사람이 빠르더라.” 방향은 알지만 <strong>원인은 단정 못 함</strong>.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--short)"></span>개입(이 리뷰)</div><p>“훈련시켰더니 <strong>대조군보다</strong> 빨라졌다.” <strong>인과에 훨씬 가까운</strong> 근거.</p></div>
+    </div>
+    <div class="callout mt24">
+      <div class="lab">한 문장</div>
+      <p>“강한 사람이 빠르다”(V4·A)와 “<strong>훈련이 빠르게 만든다</strong>”(이 편)는 <strong>다른 층위의 근거</strong>다. 후자가 실전 처방엔 더 강하다.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 — 무엇이 효과?</span>
+    <h2>복합 트레이닝</h2>
+    <p class="sec-intro mt16">효과를 낸 프로그램은 대체로 <strong>단일 종목이 아니라 조합</strong>이었다 — <strong>근력 + 플라이오메트릭(폭발력) + 코어 + 스트레칭</strong>. 특히 <strong>파워·폭발성</strong> 요소가 클럽 스피드와 잘 맞아떨어졌다(점프가 최강 예측이던 <strong>V4·A</strong>와 일관).</p>
+    <div class="chips" style="margin-top:14px">
+      <span class="chip">근력</span><span class="chip">플라이오(폭발력)</span><span class="chip">코어·회전 파워</span><span class="chip">스트레칭·가동성</span>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 — 얼마나</span>
+    <h2>+4~6%가 실제로 뭔데</h2>
+    <div class="mt24">
+      <div class="r2row"><span class="nm">→ 클럽 스피드</span><div class="track"><span class="fill" style="width:60%;background:var(--long)"></span></div><span class="vv">+4–6%</span></div>
+      <div class="r2row"><span class="nm">→ 볼 스피드</span><div class="track"><span class="fill" style="width:62%;background:var(--hot)"></span></div><span class="vv">+4–6%</span></div>
+      <div class="r2row"><span class="nm">→ 거리</span><div class="track"><span class="fill" style="width:64%;background:var(--appr)"></span></div><span class="vv">~+6%</span></div>
+    </div>
+    <p class="disc">드라이버 클럽 스피드 100mph 기준 <strong>+4~6%면 +4~6mph</strong> — 통상 <strong>거리 십수 야드</strong>에 해당한다(1mph ≈ 2.5~3야드 어림). 단 값은 연구별로 편차가 크다.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">05 — 한계 · 유의점</span>
+    <h2>무엇을 조심해서 읽을까</h2>
+    <div class="stack mt16">
+      <div class="limit"><div class="lab">이질성</div><p>프로토콜·기간·대상(아마~프로)이 제각각. 하나의 정답 프로그램을 뽑는 리뷰는 아니다.</p></div>
+      <div class="limit"><div class="lab">유의 결과 종합</div><p>+4~6.4%는 <strong>효과가 나온 결과들</strong>을 종합한 값. 모든 연구가 성공한 건 아님.</p></div>
+      <div class="limit"><div class="lab">기술과 병행</div><p>스피드가 늘어도 <strong>정확성·스코어</strong>는 별개(→ #11 Strokes Gained). 기술 없이 파워만은 반쪽.</p></div>
+    </div>
+  </section>
+
+  <section style="border-bottom:none">
+    <span class="eyebrow">06 — 인용 · 출처</span>
+    <h2>원문과 참고자료</h2>
+    <div class="card mt16">
+      <p style="font-size:15px;line-height:1.7"><strong>Ehlert, A. (2020). The effects of strength and conditioning interventions on golf performance: A systematic review.</strong> <i>Journal of Sports Sciences</i>, 38(23).</p>
+      <a class="doi" style="margin-top:14px" href="https://pubmed.ncbi.nlm.nih.gov/32723013/" target="_blank" rel="noopener">PubMed에서 열람 ↗</a>
+    </div>
+    <div class="mt24 src">
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">더 읽기 · 연결</div>
+      <p><span class="n">[1]</span> V4·A · 무엇이 클럽 스피드를 만드는가 — 예측인자(상관)의 짝.</p>
+      <p><span class="n">[2]</span> V4·D · 오버스피드 — 스피드 트레이닝의 한 갈래.</p>
+      <p><span class="n">[3]</span> 컬렉션 #2 · 8주 프로그램, #16 · 근력·유연성·균형.</p>
+    </div>
+    <p class="disc">+4~6.4%는 리뷰가 유의 결과를 종합한 값으로, 개인·프로그램에 따라 달라진다. 이 페이지는 <b>V4(최신 연구)</b> 트랙입니다.</p>
+  </section>
+
+  <div class="footer">
+    <p class="big">S&amp;C EFFECTS ON GOLF · V4 DEEP DIVE</p>
+    <p>Ehlert (2020), J Sports Sciences · 훈련이 거리를 늘리는가 심층 정리</p>
+  </div>
+</div>
+<script>
+(function(){var root=document.documentElement,btn=document.getElementById('tt');
+if(!btn)return;
+function cur(){var t=root.getAttribute('data-theme');if(t)return t;return (window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';}
+btn.textContent=cur()==='dark'?'☀':'◐';
+btn.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';root.setAttribute('data-theme',n);btn.textContent=n==='dark'?'☀':'◐';});})();
+</script>
+<script data-goatcounter="https://mummyshandgolf.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
