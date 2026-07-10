@@ -1,0 +1,422 @@
+<title>당신이 쓰는 공, 왜 그렇게 생겼나 — 골프공의 과학 · V4</title>
+<meta name="hz:slide-selector" content=".sg-doc">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --bg:#FDEEF3; --bg2:#FCE4EC; --surface:#FFFFFF; --surface2:#FFF2F7;
+  --ink:#0E0E10; --ink2:#4A2E3A; --muted:#6B5560; --faint:#A98A97;
+  --line:#F4C9DC; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#E60F73; --hot-soft:#FFE3F0;
+  /* data */
+  --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
+  --gain:#0E9E86; --loss:#E24A38;
+  --grid:#F0DCE4; --axis:#C9AEBB;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);
+  --shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+  --radius:16px;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,"JetBrains Mono",Menlo,Consolas,monospace;
+  --sans:"Pretendard","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#140A10; --bg2:#1B0F16; --surface:#20131A; --surface2:#291923;
+    --ink:#FCEDF3; --ink2:#E4C6D2; --muted:#BE99A9; --faint:#8A6675;
+    --line:#3A2530; --line2:#301E28;
+    --hot:#FF4DA0; --hot-deep:#FF2E90; --hot-soft:#3A1526;
+    --long:#E7418E; --short:#1EBBA0; --putt:#8A94F0; --appr:#E0A33A;
+    --gain:#22C3A5; --loss:#FF6D57;
+    --grid:#2E1E28; --axis:#5A3F4C;
+    --shadow:0 14px 40px -22px rgba(0,0,0,.7);
+    --shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="light"]{
+  --bg:#FDEEF3; --bg2:#FCE4EC; --surface:#FFFFFF; --surface2:#FFF2F7;
+  --ink:#0E0E10; --ink2:#4A2E3A; --muted:#6B5560; --faint:#A98A97;
+  --line:#F4C9DC; --line2:#F6E2EA;
+  --hot:#FF1E88; --hot-deep:#E60F73; --hot-soft:#FFE3F0;
+  --long:#D10E6E; --short:#0E8C7A; --putt:#4A57C4; --appr:#B87400;
+  --gain:#0E9E86; --loss:#E24A38; --grid:#F0DCE4; --axis:#C9AEBB;
+  --shadow:0 10px 34px -20px rgba(180,20,95,.45);
+  --shadow-lg:0 24px 60px -30px rgba(180,20,95,.55);
+}
+:root[data-theme="dark"]{
+  --bg:#140A10; --bg2:#1B0F16; --surface:#20131A; --surface2:#291923;
+  --ink:#FCEDF3; --ink2:#E4C6D2; --muted:#BE99A9; --faint:#8A6675;
+  --line:#3A2530; --line2:#301E28;
+  --hot:#FF4DA0; --hot-deep:#FF2E90; --hot-soft:#3A1526;
+  --long:#E7418E; --short:#1EBBA0; --putt:#8A94F0; --appr:#E0A33A;
+  --gain:#22C3A5; --loss:#FF6D57; --grid:#2E1E28; --axis:#5A3F4C;
+  --shadow:0 14px 40px -22px rgba(0,0,0,.7);
+  --shadow-lg:0 30px 70px -34px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.72;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  background-image:radial-gradient(120% 60% at 100% -10%,var(--bg2) 0%,transparent 60%);}
+.sg-doc{max-width:960px;margin:0 auto;padding:0 20px 120px;}
+::selection{background:var(--hot);color:#fff}
+
+/* ============ TYPE ============ */
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--hot-deep);display:inline-flex;align-items:center;gap:9px}
+.eyebrow::before{content:"";width:9px;height:9px;background:var(--hot);border-radius:2px;box-shadow:0 0 0 4px var(--hot-soft)}
+h1{font-size:clamp(34px,6.2vw,60px);font-weight:900;letter-spacing:-.03em;line-height:1.06;
+  text-wrap:balance;margin:0}
+h2{font-size:clamp(22px,3.4vw,30px);font-weight:850;letter-spacing:-.02em;line-height:1.2;text-wrap:balance}
+h3{font-size:18px;font-weight:800;letter-spacing:-.01em;line-height:1.35}
+p{font-size:16.5px;color:var(--ink2);text-wrap:pretty}
+strong{color:var(--ink);font-weight:750}
+.hot{color:var(--hot-deep)}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--mono)}
+
+/* ============ HERO ============ */
+.hero{padding:24px 0 40px;border-bottom:1px solid var(--line)}
+.hero .eyebrow{margin-bottom:22px}
+.hero h1{margin-bottom:20px}
+.hero .lede{font-size:clamp(17px,2.4vw,20px);color:var(--ink2);max-width:62ch;line-height:1.65;margin-top:20px;background:var(--surface);border-left:5px solid var(--hot);border-radius:0 14px 14px 0;padding:18px 22px;box-shadow:var(--shadow)}
+.hero .lede b{color:var(--ink);font-weight:750}
+.cite-line{font-family:var(--mono);font-size:12.5px;color:var(--muted);margin-top:20px;line-height:1.7}
+.cite-line b{color:var(--ink)}
+.doi{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-family:var(--mono);
+  font-size:12.5px;font-weight:600;text-decoration:none;color:var(--hot-deep);
+  background:var(--surface);border:1.5px solid var(--hot);padding:6px 13px;border-radius:999px;
+  transition:background .15s,color .15s}
+.doi:hover{background:var(--hot);color:#fff}
+
+/* thesis card */
+.thesis{margin-top:38px;display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px 28px;box-shadow:var(--shadow)}
+.thesis .big{font-family:var(--mono);font-weight:800;font-size:clamp(52px,11vw,86px);
+  line-height:.9;color:var(--hot-deep);letter-spacing:-.04em}
+.thesis .big small{display:block;font-size:14px;letter-spacing:.05em;color:var(--muted);margin-top:10px;font-weight:600}
+.thesis .txt{font-size:16.5px;color:var(--ink2)}
+.thesis .txt b{color:var(--ink)}
+
+/* ============ STAT BAND ============ */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:34px 0 8px}
+.stat{background:var(--surface);padding:20px 16px;text-align:center}
+.stat .v{font-family:var(--mono);font-size:clamp(22px,3.4vw,29px);font-weight:800;color:var(--ink);
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.stat .v .u{font-size:.55em;color:var(--hot-deep);margin-left:1px}
+.stat .k{font-size:12px;color:var(--muted);margin-top:9px;line-height:1.3}
+
+/* ============ SECTIONS ============ */
+section{padding:52px 0;border-bottom:1px solid var(--line)}
+section > .eyebrow{margin-bottom:16px}
+section > h2{margin-bottom:14px}
+.sec-intro{font-size:16.5px;color:var(--ink2);max-width:66ch;margin-bottom:8px}
+.stack{display:flex;flex-direction:column;gap:22px}
+.mt24{margin-top:24px}.mt16{margin-top:16px}
+
+/* card */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px 26px;box-shadow:var(--shadow)}
+.card.tint{background:var(--surface2)}
+.card h3{margin-bottom:10px}
+.card p{font-size:15.5px}
+
+/* formula */
+.formula{background:var(--ink);color:#fff;border-radius:var(--radius);padding:26px 26px;box-shadow:var(--shadow-lg)}
+:root[data-theme="dark"] .formula{background:#0C0509;border:1px solid var(--line)}
+@media(prefers-color-scheme:dark){.formula{background:#0C0509;border:1px solid var(--line)}}
+.formula .lab{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--hot);font-weight:600}
+.formula .eq{font-family:var(--mono);font-size:clamp(14px,2.6vw,19px);font-weight:600;margin-top:16px;line-height:1.9;
+  letter-spacing:-.01em;overflow-x:auto;white-space:nowrap;padding-bottom:6px}
+.formula .eq b{color:#fff}
+.formula .eq .a{color:#7BE0CF}.formula .eq .b{color:#FFB4D8}.formula .eq .c{color:#FFD98A}
+.formula .note{font-size:14px;color:#E9C6D4;margin-top:16px;line-height:1.65}
+.formula .note b{color:#fff}
+
+/* face/path field diagram */
+.field{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 22px 16px;box-shadow:var(--shadow);overflow-x:auto}
+.field .cap{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.field svg{display:block;width:100%;min-width:560px;height:auto}
+
+/* charts */
+.chart-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 24px 18px;box-shadow:var(--shadow)}
+.chart-wrap .ctitle{font-size:15px;font-weight:800;color:var(--ink)}
+.chart-wrap .csub{font-size:13px;color:var(--muted);margin-top:2px;margin-bottom:16px}
+.chart-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px}
+.legend .li{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink2);font-weight:600}
+.legend .sw{width:11px;height:11px;border-radius:3px;flex:none}
+.axl{font-family:var(--mono);font-size:10.5px;fill:var(--axis)}
+.axtitle{font-family:var(--mono);font-size:10.5px;fill:var(--muted);letter-spacing:.08em}
+
+/* horizontal stacked bar */
+.hbar{display:flex;height:44px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.hbar .seg{display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--mono);
+  font-size:12.5px;font-weight:700;white-space:nowrap;position:relative}
+.hbar .seg + .seg{box-shadow:inset 2px 0 0 var(--surface)}
+.barrow{display:grid;grid-template-columns:96px 1fr 58px;align-items:center;gap:12px;margin:9px 0}
+.barrow .nm{font-size:13.5px;font-weight:700;color:var(--ink);text-align:right}
+.barrow .track{background:var(--bg2);border-radius:7px;height:26px;overflow:hidden;position:relative}
+.barrow .fill{height:100%;border-radius:7px 0 0 7px;display:block}
+.barrow .vv{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* data table */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+table.dt{width:100%;border-collapse:collapse;background:var(--surface);font-size:14px;min-width:480px}
+table.dt th{background:var(--ink);color:#fff;padding:11px 12px;text-align:center;font-weight:700;
+  font-family:var(--mono);font-size:12px;letter-spacing:.03em}
+:root[data-theme="dark"] table.dt th{background:#0C0509}
+@media(prefers-color-scheme:dark){table.dt th{background:#0C0509}}
+table.dt td{padding:10px 12px;text-align:center;border-bottom:1px solid var(--line);
+  font-variant-numeric:tabular-nums;color:var(--ink2)}
+table.dt td:first-child{text-align:left;font-weight:700;color:var(--ink);font-family:var(--mono);font-size:13px}
+table.dt tbody tr:last-child td{border-bottom:none}
+table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
+
+/* callout / take / limit */
+.callout{border-left:4px solid var(--hot);background:var(--surface);border-radius:0 14px 14px 0;
+  padding:18px 22px;box-shadow:var(--shadow)}
+.callout .lab{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--hot-deep);font-weight:600;margin-bottom:7px}
+.callout p{font-size:16px}
+.take{background:var(--ink);color:#fff;border-radius:var(--radius);padding:24px 26px;box-shadow:var(--shadow-lg)}
+:root[data-theme="dark"] .take{background:#0C0509;border:1px solid var(--line)}
+@media(prefers-color-scheme:dark){.take{background:#0C0509;border:1px solid var(--line)}}
+.take .lab{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--hot);font-weight:600;margin-bottom:10px}
+.take p{font-size:18px;font-weight:650;color:#fff;line-height:1.55}
+.take p b{color:var(--hot)}
+.limit{border-left:4px solid var(--ink2);background:var(--surface);border-radius:0 14px 14px 0;padding:16px 20px}
+:root[data-theme="dark"] .limit{border-left-color:var(--muted)}
+@media(prefers-color-scheme:dark){.limit{border-left-color:var(--muted)}}
+.limit .lab{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink);font-weight:700;margin-bottom:5px}
+.limit p{font-size:14.5px}
+
+/* two-col */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mini{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
+.mini .h{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.mini .h .dot{width:9px;height:9px;border-radius:50%;flex:none}
+.mini p{font-size:14px;color:var(--ink2)}
+.mini ul{margin:6px 0 0;padding-left:18px}
+.mini li{font-size:13.5px;color:var(--ink2);margin:4px 0}
+
+/* method chips */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip{font-family:var(--mono);font-size:12px;font-weight:600;background:var(--surface2);
+  color:var(--hot-deep);border:1px solid var(--line);padding:6px 12px;border-radius:8px}
+
+/* sources */
+.src{font-size:13.5px;color:var(--muted);line-height:1.85}
+.src a{color:var(--hot-deep);text-decoration:none;border-bottom:1px solid var(--line)}
+.src a:hover{border-bottom-color:var(--hot)}
+.src .n{font-family:var(--mono);color:var(--faint);margin-right:6px}
+
+.footer{padding:40px 0 0;text-align:center}
+.footer p{font-size:13px;color:var(--muted)}
+.footer .big{font-family:var(--mono);font-weight:800;color:var(--ink);font-size:15px;letter-spacing:.02em;margin-bottom:6px}
+
+.topbar{max-width:960px;margin:0 auto;padding:22px 20px 0;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.topbar-r{display:flex;align-items:center;gap:10px}
+.back{display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--hot-deep);text-decoration:none}
+.back:hover{color:var(--ink)}
+.ig{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--hot-deep);text-decoration:none;background:var(--surface);border:1px solid var(--line);padding:7px 13px;border-radius:999px;box-shadow:var(--shadow)}
+.ig:hover{color:var(--ink)}
+/* theme toggle */
+.tt{width:40px;height:40px;border-radius:50%;flex:none;
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--ink);font-size:18px;
+  transition:transform .15s}
+.tt:hover{transform:scale(1.08)}
+.tt:focus-visible{outline:2px solid var(--hot);outline-offset:3px}
+
+.disc{font-size:12px;color:var(--faint);font-family:var(--mono);margin-top:10px;line-height:1.6}
+
+@media(max-width:720px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats .stat:last-child{grid-column:1 / -1}
+  .thesis{grid-template-columns:1fr;gap:14px;text-align:left}
+  .two{grid-template-columns:1fr}
+  .barrow{grid-template-columns:76px 1fr 46px;gap:8px}
+}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+.sitenav{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:14px auto 0;padding:0 12px;max-width:960px}.sitenav a{font-size:12.5px;font-weight:800;color:var(--muted);text-decoration:none;padding:7px 13px;border-radius:999px}.sitenav a:hover{color:var(--hot-deep);background:var(--bg2)}.sitenav a.cur{color:#fff;background:var(--hot)}</style>
+
+<div class="topbar">
+  <a class="back" href="index.html">← V4 · 최신 연구 목록</a>
+  <div class="topbar-r">
+    <a class="ig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>@mummys_hand_golf</a>
+    <button class="tt" id="tt" aria-label="라이트/다크 모드 전환" title="테마 전환">◐</button>
+  </div>
+</div>
+
+<nav class="sitenav"><a href="../index.html">🏠 홈</a><a href="../golf-research-summary.html">V1 카드</a><a href="../v2/golf-research-v2.html">V2 근거</a><a href="../v3/index.html">V3 딥다이브</a><a href="index.html" class="cur">V4 최신</a></nav>
+<div class="sg-doc">
+<style>
+.r2row{display:grid;grid-template-columns:220px 1fr 96px;align-items:center;gap:11px;margin-bottom:10px}
+.r2row .nm{font-size:13px;font-weight:750;color:var(--ink2);text-align:right;line-height:1.22}
+.r2row .track{position:relative;height:27px;background:var(--surface2);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.r2row .fill{position:absolute;left:0;top:0;bottom:0;border-radius:7px 8px 8px 7px}
+.r2row .vv{font-family:var(--mono);font-size:12.5px;font-weight:800;color:var(--hot-deep)}
+@media(max-width:560px){.r2row{grid-template-columns:150px 1fr 74px;gap:8px}}
+</style>
+  <header class="hero">
+<!--MHG_GATE--><style>
+html.mhg-locked{overflow:hidden!important}
+html.mhg-locked body{visibility:hidden!important}
+#mhg-gate{position:fixed;inset:0;z-index:2147483600;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(125% 80% at 50% 0%,#3a0c22 0%,#0b0b0d 60%);font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif;visibility:visible}
+#mhg-card{width:min(92vw,360px);background:#fff;border-radius:22px;box-shadow:0 30px 80px -30px rgba(0,0,0,.75);padding:32px 26px 24px;text-align:center}
+#mhg-badge{width:64px;height:64px;margin:0 auto 16px;border-radius:50%;background:linear-gradient(135deg,#FF1E88,#E60F73);display:flex;align-items:center;justify-content:center;font-size:29px;box-shadow:0 12px 24px -10px rgba(230,15,115,.7)}
+#mhg-card h1{font-size:19px;font-weight:900;color:#0E0E10;letter-spacing:-.02em;margin:0 0 6px}
+#mhg-card p{font-size:13px;color:#6B5560;line-height:1.55;margin:0 0 18px}
+#mhg-in{width:100%;font-size:16px;padding:13px 16px;border:2px solid #F4C9DC;border-radius:12px;outline:none;text-align:center;font-weight:700;color:#0E0E10;background:#fff}
+#mhg-in:focus{border-color:#FF1E88}
+#mhg-btn{width:100%;margin-top:11px;font-size:15px;font-weight:900;color:#fff;background:#FF1E88;border:0;border-radius:12px;padding:14px;cursor:pointer;box-shadow:0 12px 24px -12px rgba(230,15,115,.7)}
+#mhg-btn:active{transform:translateY(1px)}
+#mhg-err{font-size:12.5px;color:#E60F73;font-weight:700;margin-top:11px;min-height:16px}
+#mhg-card.mhg-shake{animation:mhgsh .4s}
+@keyframes mhgsh{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+</style>
+<script>(function(){try{if(localStorage.getItem("mhg_auth")==="1")return;}catch(e){}
+function H(s){var x=0;for(var i=0;i<s.length;i++){x=(x*31+s.charCodeAt(i))>>>0;}return x;}
+var EXP=3788819635,root=document.documentElement;
+root.className+=" mhg-locked";
+function build(){
+if(document.getElementById("mhg-gate"))return;
+var g=document.createElement("div");g.id="mhg-gate";
+g.innerHTML='<div id="mhg-card"><div id="mhg-badge">🔒</div><h1>마미손 골프 아카이브</h1><p>비공개 연구 아카이브입니다. 접속 코드를 입력하세요.<br>연재 페이지는 코드 없이 열려요.</p><input id="mhg-in" type="password" inputmode="text" autocomplete="off" placeholder="접속 코드"><button id="mhg-btn">들어가기</button><div id="mhg-err"></div></div>';
+root.appendChild(g);
+var inp=g.querySelector("#mhg-in"),btn=g.querySelector("#mhg-btn"),err=g.querySelector("#mhg-err"),card=g.querySelector("#mhg-card");
+function go(){if(H(inp.value)===EXP){try{localStorage.setItem("mhg_auth","1");}catch(e){}root.className=root.className.replace(/ ?mhg-locked/,"");if(g.parentNode)g.parentNode.removeChild(g);}else{err.textContent="코드가 올바르지 않아요.";card.className="mhg-shake";setTimeout(function(){card.className="";},400);inp.value="";inp.focus();}}
+btn.addEventListener("click",go);inp.addEventListener("keydown",function(e){if(e.key==="Enter")go();});setTimeout(function(){inp.focus();},60);
+}
+if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",build);}else{build();}
+})();</script>
+    <span class="eyebrow">Deep Dive · V4 · 최신 연구 · Ball Science</span>
+    <h1>당신이 쓰는 공,<br><span class="hot">왜 그렇게 생겼나</span></h1>
+    <p class="lede">딤플은 <b>물리</b>고, 컴프레션은 <b>마케팅이 섞여</b> 있고, 피스 수는 거리가 아니라 <b>스핀을 나누는</b> 문제다. 매끈한 공은 딤플 공의 <b>절반밖에</b> 못 난다 — 그 이유(경계층·후류·마그누스)부터, 컴프레션·커버·2~5피스의 진짜 차이까지 한 장에 정리한다. D플레인(#·볼플라이트)의 ‘공 쪽’ 뒷이야기.</p>
+    <div class="cite-line">
+      <b>Mechanism of drag reduction by dimples on a sphere (2006)</b><br>
+      Choi, Jeon &amp; Choi · <i>Physics of Fluids</i> 18:041702 · 딤플의 항력 저감 메커니즘 규명<br>
+      기반: Bearman &amp; Harvey (1976), <i>Aeronautical Quarterly</i> — 골프공 공기역학의 고전
+    </div>
+    <a class="doi" href="https://pubs.aip.org/aip/pof/article-abstract/18/4/041702/915352" target="_blank" rel="noopener">Physics of Fluids에서 보기 ↗</a>
+
+    <div class="thesis">
+      <div class="big">½<small>· 매끈한 공은 딤플 공의 절반 거리</small></div>
+      <div class="txt">딤플이 공기 흐름을 <b>난류로</b> 만들어 공 뒤쪽까지 붙어 흐르게 → <b>후류(wake)가 줄고 압력 항력이 급감</b>. 총 항력이 대략 <b>절반</b>으로 떨어진다. 딤플 없는 공이 반밖에 못 나는 이유.</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="v">½</div><div class="k">매끈한 공 거리(딤플 대비)</div></div>
+      <div class="stat"><div class="v">~½</div><div class="k">총 항력 감소</div></div>
+      <div class="stat"><div class="v">300–500</div><div class="k">시판 딤플 수(평균 ~336)</div></div>
+      <div class="stat"><div class="v">~5<span class="u">yd</span></div><div class="k">컴프레션 거리차(95mph)</div></div>
+      <div class="stat"><div class="v">2006</div><div class="k">Choi 논문(Phys. Fluids)</div></div>
+    </div>
+    <p class="disc">※ 딤플의 공기역학은 <b>피어리뷰 근거가 탄탄</b>(Choi 2006 등). 컴프레션·피스·재질은 <b>특허·로봇 테스트·규제기관 보고서</b> 중심으로, 근거 강도가 다르다는 점을 아래에 표시.</p>
+  </header>
+
+  <section>
+    <span class="eyebrow">01 — 한 줄 요약</span>
+    <h2>공은 우연히 그렇게 생긴 게 아니다</h2>
+    <p class="sec-intro mt16">골프공의 세 갈래 스펙은 성격이 다르다 — <strong>딤플</strong>은 검증된 물리, <strong>컴프레션</strong>은 효과가 과장된 편, <strong>피스 수·커버</strong>는 거리가 아니라 <strong>드라이버 저스핀 / 웨지 고스핀</strong>이라는 모순을 푸는 설계다. 하나씩 뜯어보자.</p>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 — 딤플의 물리</span>
+    <h2>왜 매끈한 공은 반밖에 못 나나</h2>
+    <p class="sec-intro mt16">Choi 등(2006)이 규명한 메커니즘: 딤플이 표면에서 <strong>국소 박리 → 전단층 불안정 → 난류</strong>를 일으키고, 이 난류가 <strong>벽면에 큰 운동량</strong>을 실어 공기가 뒤쪽까지 <strong>다시 붙어(재부착)</strong> 흐르게 한다. 그 결과 <strong>주 박리가 지연</strong>되고 뒤의 저압 후류가 줄어 <strong>압력 항력이 급감</strong>한다.</p>
+    <div class="formula mt24">
+      <div class="lab">Drag — 세 줄 요약</div>
+      <div class="eq"><span class="a">딤플</span> → 난류 경계층 → 박리 지연</div>
+      <div class="eq"><span class="b">후류(wake) 축소</span> → 압력 항력 <b>↓↓</b></div>
+      <div class="eq"><span class="c">백스핀 + 딤플</span> → 마그누스 <b>양력</b>(체공)</div>
+      <div class="note"><b>순효과:</b> 마찰 항력은 약간 늘지만 압력 항력이 훨씬 크게 줄어 <b>총 항력 ≈ 절반</b>. 그래서 딤플 공이 두 배 가까이 난다.</div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 — 개수의 함정</span>
+    <h2>딤플은 많을수록 좋다? 아니다</h2>
+    <p class="sec-intro mt16">시판 공은 대개 <strong>300~500개</strong>(평균 ~336). 하지만 개수 자체는 성능 지표가 아니다 — 너무 적으면 난류가 안 생겨 항력↑, 너무 많으면 딤플이 <strong>겹치고 얕아져</strong> 오히려 역효과. 실제 성능은 아래 조합이 정한다:</p>
+    <div class="two mt16">
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--long)"></span>깊이 (가장 민감)</div><p>수십 µm 차이로 항력 곡선이 움직인다. 설계의 핵심 변수.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--appr)"></span>지름 · 모서리 형상</div><p>난류 유발 강도와 재부착 위치를 좌우.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--putt)"></span>커버리지 · 패턴</div><p>표면을 얼마나 고르게 덮느냐 — 빈 평면이 많으면 손해.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--short)"></span>결론</div><p>잘 설계된 <strong>322개</strong>가 엉성한 <strong>450개</strong>를 이긴다. 개수는 홍보 문구일 뿐.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 — 컴프레션 신화</span>
+    <h2>‘저컴프레션 = 마법의 거리’?</h2>
+    <p class="sec-intro mt16">통념과 달리, 동일 조건 <strong>로봇 테스트</strong>에서 컴프레션 최고~최저 공 사이 거리 차는 <strong>95mph에서 ~5야드</strong> 수준이다. 있긴 하지만 광고만큼 크지 않다. 컴프레션의 실질 역할은 <strong>타구감(feel)과 스윙속도 매칭</strong>에 가깝고, 거리는 <strong>볼스피드·론치·스핀의 조합</strong>이 정한다.</p>
+    <div class="callout mt24">
+      <div class="lab">근거 주의</div>
+      <p>이 주제의 신뢰 자료는 피어리뷰 논문보다 <strong>로봇 테스트 + 규제기관 보고서</strong>(R&amp;A/USGA ‘장비와 거리 — 골프공’)다. “컴프레션이 거리를 만든다”는 서술엔 <strong>마케팅 톤</strong>이 섞여 있다.</p>
+    </div>
+  </section>
+
+  <section>
+    <span class="eyebrow">05 — 커버 · 피스</span>
+    <h2>거리가 아니라 ‘스핀 분리’의 기술</h2>
+    <p class="sec-intro mt16">멀티피스의 목표는 하나다 — <strong>드라이버에선 저스핀(거리), 웨지에선 고스핀(컨트롤)</strong>. 이 모순을 층으로 푼다. 특허 문헌의 설계 원리는 <strong>반발계수(COR)를 안→밖으로 기울여</strong>, 고속 임팩트(드라이버)는 깊은 층까지 눌려 저스핀·고반발, 저속 임팩트(웨지)는 바깥 층만 반응해 고스핀이 나오게 하는 것.</p>
+    <div class="two mt16">
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--long)"></span>커버 — 갈림길</div><p><strong>아이오노머(설린)</strong>=단단·저스핀·내구·저렴 ↔ <strong>우레탄</strong>=부드럽고 웨지 마찰↑ → 그린사이드 스핀↑.</p></div>
+      <div class="mini"><div class="h"><span class="dot" style="background:var(--putt)"></span>코어</div><p>폴리부타디엔 고무 — 반발의 원천. 컴프레션·초기 속도를 좌우.</p></div>
+    </div>
+    <div class="tbl-wrap mt24">
+      <table class="dt">
+        <thead><tr><th>구성</th><th>층</th><th>성격</th></tr></thead>
+        <tbody>
+          <tr><td>2피스</td><td>코어+커버</td><td>저스핀·내구·직진 거리. 스핀 분리 불가</td></tr>
+          <tr><td>3피스</td><td>+맨틀 1</td><td>드라이버 스핀 억제 + 웨지 스핀 확보 시작</td></tr>
+          <tr><td>4피스</td><td>+맨틀 2</td><td>임팩트 속도별 반응을 더 세밀하게 튜닝</td></tr>
+          <tr><td>5피스</td><td>+1 (TP5류)</td><td>분리를 극한까지 — 4→5 체감차는 작음</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="disc mt16">가장 큰 점프는 <strong>2→3피스 + 우레탄 커버</strong>다. 그 이후(3→4→5)는 정밀 튜닝이라 일반 골퍼 체감은 작다 — <strong>피스가 많다고 거리가 늘지 않는다.</strong></p>
+  </section>
+
+  <section>
+    <span class="eyebrow">06 — 한계 · 근거 강도</span>
+    <h2>무엇을 얼마나 믿을까</h2>
+    <div class="stack mt16">
+      <div class="limit"><div class="lab">딤플 = 강함</div><p>공기역학은 <strong>피어리뷰 논문</strong>으로 잘 뒷받침(Choi 2006, Bearman &amp; Harvey 1976).</p></div>
+      <div class="limit"><div class="lab">피스·재질 = 중간</div><p>원리는 명확하나 근거는 <strong>특허·업계 로봇 테스트</strong> 중심. 독립 피어리뷰는 적다.</p></div>
+      <div class="limit"><div class="lab">컴프레션 = 약함</div><p>거리 효과는 작고 <strong>과장</strong>되기 쉽다. feel·매칭 지표로 읽는 게 안전.</p></div>
+      <div class="limit"><div class="lab">결국 피팅</div><p>‘어떤 공이 나에게 맞나’는 스윙속도·스핀 성향에 따른 <strong>피팅</strong> 문제 — 일반화된 정답은 없다.</p></div>
+    </div>
+  </section>
+
+  <section style="border-bottom:none">
+    <span class="eyebrow">07 — 인용 · 출처</span>
+    <h2>원문과 참고자료</h2>
+    <div class="card mt16">
+      <p style="font-size:15px;line-height:1.7"><strong>Choi, J., Jeon, W.-P., &amp; Choi, H. (2006). Mechanism of drag reduction by dimples on a sphere.</strong> <i>Physics of Fluids</i>, 18(4), 041702.</p>
+      <a class="doi" style="margin-top:14px" href="https://pubs.aip.org/aip/pof/article-abstract/18/4/041702/915352" target="_blank" rel="noopener">Physics of Fluids에서 열람 ↗</a>
+    </div>
+    <div class="mt24 src">
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px">더 읽기 · 연결</div>
+      <p><span class="n">[1]</span> Bearman, P. W. &amp; Harvey, J. K. (1976). Golf ball aerodynamics. <i>Aeronautical Quarterly</i>, 27(2), 112–122 — 골프공 공기역학의 고전.</p>
+      <p><span class="n">[2]</span> R&amp;A / USGA — “Effect of Equipment on Distance: Golf Balls” — 규격·거리 데이터 공식 보고서.</p>
+      <p><span class="n">[3]</span> V4 · D-플레인/볼플라이트 — 공의 ‘스핀축·발사’ 편과 짝.</p>
+    </div>
+    <p class="disc">½·~5yd 등은 문헌·로봇 테스트가 보고한 대략값으로, 공·조건에 따라 달라진다. 이 페이지는 <b>V4(최신 연구)</b> 트랙입니다.</p>
+  </section>
+
+  <div class="footer">
+    <p class="big">THE SCIENCE OF THE GOLF BALL · V4 DEEP DIVE</p>
+    <p>Choi et al. (2006), Physics of Fluids · 딤플·컴프레션·재질·피스 심층 정리</p>
+  </div>
+</div>
+<script>
+(function(){var root=document.documentElement,btn=document.getElementById('tt');
+if(!btn)return;
+function cur(){var t=root.getAttribute('data-theme');if(t)return t;return (window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light';}
+btn.textContent=cur()==='dark'?'☀':'◐';
+btn.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';root.setAttribute('data-theme',n);btn.textContent=n==='dark'?'☀':'◐';});})();
+</script>
+<script data-goatcounter="https://mummyshandgolf.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
