@@ -334,9 +334,70 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
       <div class="eq"><span class="c">백스핀 + 딤플</span> → 마그누스 <b>양력</b>(체공)</div>
       <div class="note"><b>순효과:</b> 마찰 항력은 약간 늘지만 압력 항력이 훨씬 크게 줄어 <b>총 항력 ≈ 절반</b>. 그래서 딤플 공이 두 배 가까이 난다.</div>
     </div>
+    <div class="field mt24">
+      <div class="cap">그림 1 — 항력: 매끈한 공 vs 딤플 공</div>
+      <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="매끈한 공은 이른 박리로 큰 후류, 딤플 공은 늦은 박리로 작은 후류">
+<defs><marker id="mhgA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--axis)"/></marker></defs>
+<!-- 매끈한 공 -->
+<polygon points="206,96 356,62 356,238 206,204" fill="var(--grid)" opacity=".8"/>
+<circle cx="190" cy="150" r="55" fill="var(--surface2)" stroke="var(--faint)" stroke-width="2.5"/>
+<path d="M28 104 C100 104,138 98,170 96" fill="none" stroke="var(--axis)" stroke-width="2.5"/>
+<path d="M206 96 L352 63" fill="none" stroke="var(--axis)" stroke-width="2.5" marker-end="url(#mhgA)"/>
+<path d="M28 196 C100 196,138 202,170 204" fill="none" stroke="var(--axis)" stroke-width="2.5"/>
+<path d="M206 204 L352 237" fill="none" stroke="var(--axis)" stroke-width="2.5" marker-end="url(#mhgA)"/>
+<path d="M28 150 H128" fill="none" stroke="var(--axis)" stroke-width="2.5" marker-end="url(#mhgA)"/>
+<circle cx="203" cy="99" r="4.5" fill="var(--hot)"/><circle cx="203" cy="201" r="4.5" fill="var(--hot)"/>
+<text x="190" y="272" text-anchor="middle" font-size="17" font-weight="800" fill="var(--ink)">매끈한 공</text>
+<text x="190" y="293" text-anchor="middle" font-size="13.5" font-weight="600" fill="var(--muted)">이른 박리 → 큰 후류 = 큰 항력</text>
+<!-- 딤플 공 -->
+<polygon points="622,118 736,131 736,169 622,182" fill="var(--grid)" opacity=".8"/>
+<circle cx="570" cy="150" r="55" fill="var(--surface2)" stroke="var(--faint)" stroke-width="2.5"/><circle cx="545" cy="131" r="5.0" fill="var(--faint)" opacity=".55"/><circle cx="570" cy="120" r="5.0" fill="var(--faint)" opacity=".55"/><circle cx="595" cy="131" r="5.0" fill="var(--faint)" opacity=".55"/><circle cx="537" cy="153" r="5.0" fill="var(--faint)" opacity=".55"/><circle cx="570" cy="147" r="5.0" fill="var(--faint)" opacity=".55"/><circle cx="603" cy="153" r="5.0" fill="var(--faint)" opacity=".55"/><circle cx="548" cy="173" r="5.0" fill="var(--faint)" opacity=".55"/><circle cx="577" cy="178" r="5.0" fill="var(--faint)" opacity=".55"/><circle cx="598" cy="171" r="5.0" fill="var(--faint)" opacity=".55"/>
+<path d="M408 104 C470 104,505 92,540 88 C578 84,606 96,618 114" fill="none" stroke="var(--axis)" stroke-width="2.5"/>
+<path d="M622 118 L732 130" fill="none" stroke="var(--axis)" stroke-width="2.5" marker-end="url(#mhgA)"/>
+<path d="M408 196 C470 196,505 208,540 212 C578 216,606 204,618 186" fill="none" stroke="var(--axis)" stroke-width="2.5"/>
+<path d="M622 182 L732 170" fill="none" stroke="var(--axis)" stroke-width="2.5" marker-end="url(#mhgA)"/>
+<path d="M408 150 H508" fill="none" stroke="var(--axis)" stroke-width="2.5" marker-end="url(#mhgA)"/>
+<circle cx="620" cy="116" r="4.5" fill="var(--hot)"/><circle cx="620" cy="184" r="4.5" fill="var(--hot)"/>
+<text x="570" y="272" text-anchor="middle" font-size="17" font-weight="800" fill="var(--ink)">딤플 공</text>
+<text x="570" y="293" text-anchor="middle" font-size="13.5" font-weight="600" fill="var(--muted)">늦은 박리 → 작은 후류 = 항력 ≈ 절반</text>
+<text x="380" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="var(--muted)">● 박리점(흐름이 표면에서 떨어지는 곳) · 음영 = 후류(wake)</text>
+</svg>
+    </div>
     <div class="two mt24">
       <div class="mini"><div class="h"><span class="dot" style="background:var(--short)"></span>딤플의 두 번째 일 — 양력</div><p>딤플은 항력만 줄이지 않는다. <strong>백스핀</strong>과 만나면 공 주변 공기 흐름이 아래로 꺾이며 <strong>위로 미는 힘(마그누스 양력)</strong>이 생긴다 — 공이 그렇게 오래 떠 있는 이유. 항력 감소 + 양력, 이 <strong>둘의 합작</strong>이 비거리다.</p></div>
       <div class="mini"><div class="h"><span class="dot" style="background:var(--appr)"></span>스핀이 없다면</div><p>같은 속도라도 백스핀 없는 공은 양력을 못 받아 <strong>일찍 떨어진다</strong>. 드라이버 ~2,500rpm대가 ‘뜨는 힘과 스핀 손실의 균형점’으로 통하는 배경(→ D-플레인 편).</p></div>
+    </div>
+    <div class="field mt16">
+      <div class="cap">그림 2 — 양력·항력·마그누스 (백스핀 볼)</div>
+      <svg viewBox="0 0 760 350" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="백스핀 볼: 공기가 아래로 꺾이고 양력이 위로, 항력은 비행 반대 방향">
+<defs>
+<marker id="mhgB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--axis)"/></marker>
+<marker id="mhgL" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--gain)"/></marker>
+<marker id="mhgD" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--loss)"/></marker>
+<marker id="mhgS" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--hot)"/></marker>
+<marker id="mhgI" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--ink)"/></marker>
+</defs>
+<circle cx="360" cy="185" r="62" fill="var(--surface2)" stroke="var(--faint)" stroke-width="2.5"/><circle cx="332" cy="163" r="5.6" fill="var(--faint)" opacity=".55"/><circle cx="360" cy="151" r="5.6" fill="var(--faint)" opacity=".55"/><circle cx="388" cy="163" r="5.6" fill="var(--faint)" opacity=".55"/><circle cx="323" cy="188" r="5.6" fill="var(--faint)" opacity=".55"/><circle cx="360" cy="182" r="5.6" fill="var(--faint)" opacity=".55"/><circle cx="397" cy="188" r="5.6" fill="var(--faint)" opacity=".55"/><circle cx="335" cy="211" r="5.6" fill="var(--faint)" opacity=".55"/><circle cx="367" cy="216" r="5.6" fill="var(--faint)" opacity=".55"/><circle cx="391" cy="209" r="5.6" fill="var(--faint)" opacity=".55"/>
+<!-- 공기 흐름: 공 뒤에서 아래로 꺾임(다운워시) -->
+<path d="M40 105 C180 103,275 100,330 116 C420 142,520 182,700 214" fill="none" stroke="var(--axis)" stroke-width="2.5" marker-end="url(#mhgB)"/>
+<path d="M40 145 C160 144,240 136,296 148" fill="none" stroke="var(--axis)" stroke-width="2.5"/>
+<path d="M428 176 C520 200,590 222,690 246" fill="none" stroke="var(--axis)" stroke-width="2.5" marker-end="url(#mhgB)"/>
+<path d="M40 268 C200 270,290 268,338 254 C420 236,530 246,700 268" fill="none" stroke="var(--axis)" stroke-width="2.5" marker-end="url(#mhgB)"/>
+<!-- 백스핀(위쪽 표면이 흐름 방향으로) -->
+<path d="M318 156 A 51 51 0 0 1 402 156" fill="none" stroke="var(--hot)" stroke-width="4" stroke-dasharray="7 6" marker-end="url(#mhgS)"/>
+<text x="360" y="196" text-anchor="middle" font-size="16" font-weight="800" fill="var(--hot)">백스핀</text>
+<!-- 양력 -->
+<line x1="360" y1="108" x2="360" y2="36" stroke="var(--gain)" stroke-width="6" marker-end="url(#mhgL)"/>
+<text x="378" y="52" font-size="18" font-weight="900" fill="var(--gain)">양력 ↑</text>
+<!-- 항력 (비행 반대 = 뒤쪽) -->
+<line x1="436" y1="120" x2="540" y2="106" stroke="var(--loss)" stroke-width="5" marker-end="url(#mhgD)"/>
+<text x="548" y="102" font-size="17" font-weight="900" fill="var(--loss)">항력</text>
+<!-- 비행 방향 -->
+<line x1="250" y1="322" x2="128" y2="322" stroke="var(--ink)" stroke-width="4" marker-end="url(#mhgI)"/>
+<text x="262" y="328" font-size="16" font-weight="800" fill="var(--ink)">비행 방향</text>
+<text x="600" y="292" text-anchor="middle" font-size="14" font-weight="700" fill="var(--muted)">공기가 아래로 꺾임(다운워시) ↘</text>
+<text x="600" y="312" text-anchor="middle" font-size="13" font-weight="600" fill="var(--muted)">그 반작용이 공을 위로 민다 = 마그누스 양력</text>
+</svg>
     </div>
   </section>
 
