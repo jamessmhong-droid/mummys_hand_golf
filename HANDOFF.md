@@ -4,12 +4,18 @@ Claude Code에서 이 프로젝트를 이어서 작업하기 위한 인수인계
 
 ## 1. 프로젝트 개요
 골프 경기력(생체역학·퍼포먼스·트레이닝) 관련 영향력 있는 논문 **20편**(고유 18편 + 중복 2편)을
-정적 HTML 사이트로 정리. 두 가지 버전을 제공한다.
+정적 HTML 사이트로 정리. 네 가지 버전 + 연재/가이드 허브를 제공한다.
 
-- **V1 — 카드용 요약**: 인스타그램 카드 업로드용 간결판. 핑크 카드 디자인.
-- **V2 — 전문가용 근거 자료집**: V1과 **동일 디자인**에 연구 설계 라벨·통계·**한계(Limitations)** 추가.
+- **V1 — 카드용 요약**: 인스타그램 카드 업로드용 간결판. 핑크 카드 디자인. (생성기 `generate.py`)
+- **V2 — 전문가용 근거 자료집**: V1과 **동일 디자인**에 연구 설계 라벨·통계·**한계(Limitations)**·참고문헌 추가. (생성기 `generate_v2.py`)
+- **V3 — 롱폼 딥다이브**: 논문 18편 전편 + 운동사슬 테마 1편(완간). 손으로 관리하는 정적 페이지(`v3/`).
+- **V4 — 최신 연구 트랙**: 2013년 이후 연구를 잇는 사이드 트랙(현재 9편, 계속 추가). 정적 페이지(`v4/`).
+- **연재 허브(`series.html`)**: 매주 저녁 8시(KST) 한 편씩 공개하는 날짜 잠금 리더. `generate_series.py`가
+  공개된 회차만 iframe으로 심는다(GitHub Action이 매일 재빌드).
+- **연습 가이드(`practice-guide.html`)**: 핸디캡별 연습시간 배분(Strokes Gained 근거).
+- **접속 게이트**: 홈·V1~V4에 소프트 접속코드 게이트(`<!--MHG_GATE-->`)를 주입. 연재는 공개.
 
-두 버전은 같은 콘텐츠 데이터를 공유하며 서로 상호 링크된다.
+V1·V2는 같은 콘텐츠 데이터(`golf_data.json`)를 공유하며 서로 상호 링크된다.
 
 ## 2. 파일 구조
 ```
@@ -43,13 +49,15 @@ python3 -c "import importlib.util,json; \
  s=importlib.util.spec_from_file_location('g','generate.py'); m=importlib.util.module_from_spec(s); s.loader.exec_module(m); \
  json.dump({'papers':{str(k):v for k,v in m.papers.items()},'dups':{str(k):v for k,v in m.dups.items()},'partA':m.partA,'partB':m.partB}, open('golf_data.json','w'), ensure_ascii=False, indent=1)"
 python3 generate_v2.py                     # V2 재생성
-# site/ 재조립
-rm -rf site && mkdir -p site/v2
-cp index_landing.html site/index.html 2>/dev/null || true   # 랜딩은 site/index.html 참고
-cp golf-research-summary.html site/ && cp -r pages site/pages
-cp v2/golf-research-v2.html site/v2/ && cp -r v2/pages site/v2/pages
+# site/ 로 산출물 복사 (덮어쓰기만 — 절대 rm -rf 하지 말 것)
+cp golf-research-summary.html site/ && cp -f pages/*.html site/pages/
+cp v2/golf-research-v2.html site/v2/ && cp -f v2/pages/*.html site/v2/pages/
+python3 generate_series.py                 # 연재 페이지(site/series.html)를 직접 생성
+cp site/series.html series.html            # 루트 사본 동기화
 ```
-> 참고: 랜딩 페이지 `site/index.html`은 손으로 작성된 파일(생성기 산출물 아님). 유지하려면 재조립 시 덮어쓰지 말 것.
+> ⚠️ **`rm -rf site` 금지.** 랜딩(`site/index.html`)·연재·`.nojekyll`·README 등 생성기가 만들지
+> 않는 파일이 site/에만 있어, 통째로 지우면 복구가 불가능하다(루트에 사본 없음). 반드시 개별 덮어쓰기로만 재조립할 것.
+> V3(`v3/`)·V4(`v4/`)는 손으로 관리하는 정적 페이지이며 재생성 대상이 아니다 — 수정 시 루트와 `site/` **양쪽**을 직접 편집한다.
 
 ## 4. 디자인 테마 토큰 (V1·V2 공통)
 ```
