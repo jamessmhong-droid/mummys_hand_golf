@@ -55,6 +55,9 @@ INJECT = ('<base href="{bh}">'
 
 def wrap_doc(raw, basehref):
     """이미 완성된 문서(<head> 보유)는 head 뒤에 주입, 조각(fragment)이면 문서로 감싼다."""
+    # 연재 리더는 공개 채널이므로, 임베드하는 페이지의 접속코드 게이트(<!--MHG_GATE-->)를
+    # 제거한다. sandbox 로 스크립트가 막혀 우연히 안 잠길 뿐이라, 원본에서 통째로 걷어낸다.
+    raw = re.sub(r"<!--MHG_GATE-->.*?</script>", "", raw, count=1, flags=re.S)
     inj = INJECT.format(bh=basehref)
     if re.search(r"<head[^>]*>", raw, re.I):
         return re.sub(r"(<head[^>]*>)", r"\1" + inj, raw, count=1, flags=re.I)

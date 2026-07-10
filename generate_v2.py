@@ -168,7 +168,8 @@ def nav(prefix, cur):
              ("golf-research-summary.html", "V1 카드", "v1"),
              ("v2/golf-research-v2.html", "V2 근거", "v2"),
              ("v3/index.html", "V3 딥다이브", "v3"),
-             ("v4/index.html", "V4 최신", "v4")]
+             ("v4/index.html", "V4 최신", "v4"),
+             ("series.html", "📅 연재", "series")]
     out = []
     for href, label, key in items:
         c = ' class="cur"' if key == cur else ''
@@ -293,14 +294,14 @@ def ref_bibliography():
         chips = ref_chips(p)
         chiprow = f"<div class='reflinks bib'>{chips}</div>" if chips else ""
         items.append(
-            f"<li id='ref-{pid:02d}'><span class='rnum'>{pid:02d}</span>"
+            f"<li id='ref-{DISP[pid]:02d}'><span class='rnum'>{DISP[pid]:02d}</span>"
             f"<div class='rtxt'><span class='rt-title'>{esc(p['title'])}</span>"
             f"<span class='rt-src'>{esc(p['authors'])} · {esc(p['journal'])}</span>"
             f"{chiprow}</div></li>")
     return ("<section class='refsec'><div class='sec-head'>"
             "<span class='sec-num'>REF</span><h2>참고문헌 · References</h2></div>"
             "<p class='refsec-sub'>고유 논문 18편 · 각 항목의 DOI·PMID를 누르면 원문(또는 학술 검색)으로 이동합니다. "
-            "14·15번은 1·3번과 동일 논문이라 생략했습니다.</p>"
+            "원본 목록 20편 중 중복 2편(1·3번과 동일 논문)을 제외한 번호입니다.</p>"
             "<ol class='reflist'>" + "".join(items) + "</ol></section>")
 
 ix = []
