@@ -34,8 +34,8 @@ btn.addEventListener("click",go);inp.addEventListener("keydown",function(e){if(e
 if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",build);}else{build();}
 })();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="V4 · 최신 연구 트랙 — 2013년 이후 골프 경기력 연구를 딥다이브로 잇는 사이드 트랙.">
-<title>V4 · 최신 연구 트랙 — 2013년 이후 골프 과학</title>
+<meta name="description" content="V5 · 장비·피팅 — 골프공·클럽·피팅을 과학으로. 투어볼 비교부터.">
+<title>V5 · 장비·피팅 — 골프 장비의 과학</title>
 <style>
 :root{
   --bg:#FDEEF3;--bg2:#FCE4EC;--surface:#FFFFFF;--surface2:#FFF2F7;
@@ -160,134 +160,51 @@ h1 span{color:var(--hot-deep)}
 </head>
 <body>
 <button class="tt" id="tt" aria-label="라이트/다크 모드 전환" title="테마 전환">◐</button>
-
 <div class="wrap">
-  <nav class="sitenav"><a href="../index.html">🏠 홈</a><a href="../golf-research-summary.html">V1 카드</a><a href="../v2/golf-research-v2.html">V2 근거</a><a href="../v3/index.html">V3 딥다이브</a><a href="index.html" class="cur">V4 최신</a><a href="../v5/index.html">V5 장비</a><a href="../series.html">📅 연재</a></nav>
-
+  <nav class="sitenav"><a href="../index.html">🏠 홈</a><a href="../golf-research-summary.html">V1 카드</a><a href="../v2/golf-research-v2.html">V2 근거</a><a href="../v3/index.html">V3 딥다이브</a><a href="../v4/index.html">V4 최신</a><a href="index.html" class="cur">V5 장비</a></nav>
   <header class="hero">
-    <span class="eyebrow">Version 4 · 최신 연구 트랙</span>
-    <h1>고전 다음의<br><span>골프 과학</span></h1>
-    <p><b>V4는 2013년 이후의 최신 연구를 잇는 사이드 트랙이다.</b> V1~V3 컬렉션(대부분 ~2012년)이 다진 토대 위에, 메타분석·힘판·시지각 등 <b>요즘 근거</b>로 기존 논문을 갱신하거나 새 렌즈를 더한다. 본편 업로드 사이사이 순차 공개.</p>
+    <span class="eyebrow">Version 5 · 장비·피팅</span>
+    <h1>장비를<br><span>과학으로</span></h1>
+    <p><b>V5는 골프 ‘장비’를 과학으로 뜯어보는 트랙이다.</b> 볼·클럽·피팅의 마케팅을 걷어내고, 스펙·독립 테스트·물리로 “무엇이 진짜 차이인가”를 본다. 첫 편은 투어볼 4종 비교.</p>
     <div class="vbar">
       <a class="vpill" href="../golf-research-summary.html" style="text-decoration:none"><b>V1</b> 카드용 요약</a>
       <a class="vpill" href="../v2/golf-research-v2.html" style="text-decoration:none"><b>V2</b> 근거 자료집</a>
       <a class="vpill" href="../v3/index.html" style="text-decoration:none"><b>V3</b> 딥다이브</a>
-      <span class="vpill cur"><b>V4</b> 최신 연구 · 현재</span>
+      <a class="vpill" href="../v4/index.html" style="text-decoration:none"><b>V4</b> 최신 연구</a>
+      <span class="vpill cur"><b>V5</b> 장비·피팅 · 현재</span>
     </div>
   </header>
 
   <div class="secline">
-    <span class="n">최신 연구</span>
+    <span class="n">장비 가이드</span>
     <span class="rule"></span>
-    <span class="count">10편 공개 · 계속 추가</span>
+    <span class="count">1편 공개 · 계속 추가</span>
   </div>
 
-  <a class="feat" href="physical-drivers.html">
-    <div class="ftop"><span class="no">V4·A</span><span class="live">LIVE</span><span class="part">2024 · 신체 능력</span></div>
-    <h3>무엇이 클럽 스피드를 만드는가 — 유연성의 몰락</h3>
-    <div class="cite">Brennan et al. (2024) · Sports Medicine · 체계적 리뷰+메타분석</div>
-    <p class="desc">여러 신체 능력을 종합하니 점프 임펄스(하체 폭발 파워)가 클럽스피드 최강 예측(zr≈0.82). 유연성·균형은 통계적으로 무의미. #16·#2·#17의 ‘유연성’ 통념을 갱신.</p>
-    <div class="chips"><span class="chip"><b>zr .82</b> 점프 임펄스</span><span class="chip">유연성 n.s.</span><span class="chip">↔ #16 · #2</span></div>
-    <span class="go">딥다이브 열기 →</span>
-  </a>
-
-  <a class="feat" href="ground-forces.html" style="margin-top:14px">
-    <div class="ftop"><span class="no">V4·B</span><span class="live">LIVE</span><span class="part">2025 · 지면반력</span></div>
-    <h3>스피드는 지면에서 시작된다 — 힘판이 말하는 스윙</h3>
-    <div class="cite">GRF·COP 체계적 리뷰 (2025) · Sports Medicine</div>
-    <p class="desc">리드풋(앞발) 수직 지면반력이 볼스피드 분산의 ~85%(거리 ~74%)를 설명. 실력은 힘의 크기보다 타이밍 — 트레일→리드 조기 전환, 임팩트 직전 정점. #7 Nesbit의 지면판.</p>
-    <div class="chips"><span class="chip"><b>R² .85</b> 볼스피드</span><span class="chip">크기보다 타이밍</span><span class="chip">↔ #7 · 운동사슬</span></div>
-    <span class="go">딥다이브 열기 →</span>
-  </a>
-
-  <a class="feat" href="quiet-eye.html" style="margin-top:14px">
-    <div class="ftop"><span class="no" style="background:var(--putt)">V4·QE</span><span class="live">LIVE</span><span class="part">심리·시지각 · 퍼팅</span></div>
-    <h3>잘 넣는 눈은 조용하다 — 콰이엇 아이</h3>
-    <div class="cite">Vickers (1992) · Vine, Moore & Wilson (2011) · Frontiers in Psychology</div>
-    <p class="desc">스트로크 직전 목표에 머무는 ‘마지막 긴 응시(콰이엇 아이)’. 고수일수록·넣은 퍼트일수록 길다. 훈련(≥2초 응시+임팩트 후 200~300ms 유지)으로 늘고, 압박에도 무너지지 않는다.</p>
-    <div class="chips"><span class="chip"><b>≥2s</b> 응시</span><span class="chip">압박에 강함</span><span class="chip">↔ #10 · #11</span></div>
-    <span class="go">딥다이브 열기 →</span>
-  </a>
-
-  <a class="feat" href="wearable-imu.html" style="margin-top:14px">
-    <div class="ftop"><span class="no" style="background:var(--appr)">V4·C</span><span class="live">LIVE</span><span class="part">2023 · 웨어러블 측정</span></div>
-    <h3>랩 밖으로 나온 X-Factor — 손목 센서가 랩을 대신한다</h3>
-    <div class="cite">IMU 검증 (2023) · Sensors 23(20) · 골퍼 36명 · IMU vs 3D 모션캡처</div>
-    <p class="desc">비싼 3D 모션캡처로만 재던 스윙 회전을 웨어러블 IMU로. 상체 회전 ICC 1.00으로 거의 완벽 일치. 단 X-Factor 등 ‘빼서 만든’ 지표는 오차 폭이 넓어 해석 주의. #3·#4의 측정 혁명판.</p>
-    <div class="chips"><span class="chip"><b>ICC 1.00</b> 상체 회전</span><span class="chip">X-Factor 오차 넓음</span><span class="chip">↔ #3 · #4 · #14</span></div>
-    <span class="go">딥다이브 열기 →</span>
-  </a>
-
-  <a class="feat" href="overspeed-training.html" style="margin-top:14px">
-    <div class="ftop"><span class="no" style="background:var(--short)">V4·D</span><span class="live">LIVE</span><span class="part">2021 · 스피드 트레이닝</span></div>
-    <h3>가벼운 채로 더 빠르게 — 오버스피드의 진짜 효과</h3>
-    <div class="cite">Bliss, Livingstone & Tallent (2021) · J Sport Exerc Sci · 스킬 골퍼 13명</div>
-    <p class="desc">가벼운 도구로 최대 스윙 → 신경근 적응으로 클럽 스피드↑. 오버스피드 워밍업이 CHS·캐리를 즉시 유의하게 올렸다(p=.003) — 단 폭발적 맨몸 워밍업과 차이 없음. 만성은 4~6주 ~5%, 이후 정체.</p>
-    <div class="chips"><span class="chip"><b>p=.003</b> CHS↑</span><span class="chip">맨몸과 동등</span><span class="chip">↔ #6 · V4·A</span></div>
-    <span class="go">딥다이브 열기 →</span>
-  </a>
-
-  <a class="feat" href="d-plane.html" style="margin-top:14px">
-    <div class="ftop"><span class="no">V4·DP</span><span class="live">LIVE</span><span class="part">2013 · 볼플라이트·D-플레인</span></div>
-    <h3>공은 페이스가 가리키는 곳으로 출발한다 — D-플레인</h3>
-    <div class="cite">Sweeney, Mills, Alderson &amp; Elliott (2013) · Sports Biomechanics · 골퍼 21명</div>
-    <p class="desc">옛 볼플라이트 법칙은 거꾸로였다. 공의 시작 방향은 페이스(드라이버 ~85%), 휘어짐은 페이스−패스 상대각. 임팩트 클럽헤드 값만으로 초기 볼플라이트의 71~82%가 설명된다. #1의 ‘페이스–패스’를 물리로.</p>
-    <div class="chips"><span class="chip"><b>~85%</b> 시작=페이스</span><span class="chip">adj.r² .71–.82</span><span class="chip">↔ #1 · #8</span></div>
-    <span class="go">딥다이브 열기 →</span>
-  </a>
-
-  <a class="feat" href="lower-back-injury.html" style="margin-top:14px">
-    <div class="ftop"><span class="no" style="background:var(--appr)">V4·LB</span><span class="live">LIVE</span><span class="part">2016 · 부상·요추</span></div>
-    <h3>장타의 그림자, 허리 — 모던 스윙과 요추 부상</h3>
-    <div class="cite">Cole &amp; Grimshaw (2016) · Sports Medicine 46(3) · 모던 스윙 역학 리뷰</div>
-    <p class="desc">거리를 만드는 X-factor가 요추에 회전·측굴·전단·압축을 동시에 싣는다. 골프 최다 부상이 요통인 이유 — ‘크런치 팩터’. #4·#3의 어두운 뒷면.</p>
-    <div class="chips"><span class="chip"><b>요통</b> 최다 부상</span><span class="chip">크런치 팩터</span><span class="chip">↔ #4 · #3</span></div>
-    <span class="go">딥다이브 열기 →</span>
-  </a>
-
-  <a class="feat" href="golf-and-health.html" style="margin-top:14px">
-    <div class="ftop"><span class="no" style="background:var(--short)">V4·H</span><span class="live">LIVE</span><span class="part">2017 · 건강·수명</span></div>
-    <h3>골프는 오래 사는 운동이다 — 골프와 건강</h3>
-    <div class="cite">Murray et al. (2017) · BJSM 51(1) · ~5,000편 스코핑 리뷰</div>
-    <p class="desc">골프는 중강도 유산소 활동이고 신체·정신 건강, 사망률 감소·기대수명 증가와 연관. 라운드당 6~10km 걷기. 스윙이 아닌 ‘골프=건강’ 레인.</p>
-    <div class="chips"><span class="chip"><b>사망률↓</b> 관찰근거</span><span class="chip">6–10km 걷기</span><span class="chip">↔ 건강·수명</span></div>
-    <span class="go">딥다이브 열기 →</span>
-  </a>
-
-  <a class="feat" href="strength-conditioning-effects.html" style="margin-top:14px">
-    <div class="ftop"><span class="no">V4·SC</span><span class="live">LIVE</span><span class="part">2020 · 훈련 효과</span></div>
-    <h3>헬스가 거리를 늘린다 — 훈련의 순효과</h3>
-    <div class="cite">Ehlert (2020) · J Sports Sciences 38(23) · 개입연구 25편</div>
-    <p class="desc">상관이 아닌 개입. 근력·플라이오·코어 훈련이 대조군 대비 클럽·볼 스피드·거리를 평균 +4~6.4% 높였다. V4·A(예측인자)의 짝 — ‘그래서 하면 되냐’의 답.</p>
-    <div class="chips"><span class="chip"><b>+4–6%</b> 거리↑</span><span class="chip">개입 25편</span><span class="chip">↔ V4·A · V4·D</span></div>
-    <span class="go">딥다이브 열기 →</span>
-  </a>
-
-  <a class="feat" href="golf-ball-science.html" style="margin-top:14px">
-    <div class="ftop"><span class="no" style="background:var(--putt)">V4·BS</span><span class="live">LIVE</span><span class="part">2006 · 볼 공기역학</span></div>
-    <h3>당신이 쓰는 공, 왜 그렇게 생겼나 — 골프공의 과학</h3>
-    <div class="cite">Choi, Jeon &amp; Choi (2006) · Physics of Fluids · 딤플 항력 저감</div>
-    <p class="desc">매끈한 공은 딤플 공의 절반밖에 못 난다. 딤플=검증된 물리, 컴프레션=과장, 피스 수=스핀 분리. 개수보다 깊이·기하가 핵심. 2~5피스의 진짜 차이.</p>
-    <div class="chips"><span class="chip"><b>½</b> 매끈한 공 거리</span><span class="chip">컴프레션 과장</span><span class="chip">↔ D-플레인</span></div>
+  <a class="feat" href="ball-comparison.html">
+    <div class="ftop"><span class="no">V5·1</span><span class="live">LIVE</span><span class="part">투어볼 · 4종 비교</span></div>
+    <h3>Pro V1 · V1x / TP5 · TP5x — 뭘 써야 하나</h3>
+    <div class="cite">제조사 스펙 + 독립 로봇 테스트 종합 · 볼 공기역학 Choi (2006)</div>
+    <p class="desc">3·4·5피스는 우열이 아니라 스핀 분리 방식. 구조·감·스핀·탄도를 한 표로, 어떤 스윙에 어떤 공인지. ‘색깔공은 커버가 다르다’의 진실(우레탄 vs 아이오노머)까지.</p>
+    <div class="chips"><span class="chip"><b>V1≈TP5</b> 부드+정지력</span><span class="chip">V1x≈TP5x 단단+거리</span><span class="chip">↔ V4·BS</span></div>
     <span class="go">딥다이브 열기 →</span>
   </a>
 
   <div class="secline">
     <span class="n">트랙 소개</span>
     <span class="rule"></span>
-    <span class="count">2013 → 현재</span>
+    <span class="count">장비 · 피팅</span>
   </div>
   <div style="background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px 26px;box-shadow:var(--shadow)">
-    <div style="font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--hot-deep);font-weight:700">V4 · LATEST RESEARCH TRACK</div>
-    <p style="margin-top:10px;font-size:15px;color:var(--ink2);line-height:1.75">본 컬렉션(V1~V3) 18편은 골프 과학의 <strong>고전·기반 연구</strong>로, 대부분 2012년 이전입니다. V4는 그 이후 나온 <strong>메타분석·힘판(GRF)·웨어러블·시지각</strong> 연구를 딥다이브로 더해, 기존 결론을 <strong>갱신</strong>하거나 <strong>새 관점</strong>을 잇습니다.</p>
+    <div style="font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--hot-deep);font-weight:700">V5 · EQUIPMENT &amp; FITTING</div>
+    <p style="margin-top:10px;font-size:15px;color:var(--ink2);line-height:1.75">V1~V4가 <strong>경기력의 과학</strong>이라면, V5는 <strong>장비의 과학</strong>입니다. 볼·클럽·샤프트·피팅을 스펙과 독립 테스트로 뜯어, 광고가 아닌 <strong>근거</strong>로 고르게 돕습니다.</p>
   </div>
 
   <div class="foot">
-    <p class="big">V4 · LATEST RESEARCH · DEEP DIVE INDEX</p>
-    <p>2013년 이후 골프 경기력 최신 연구 · 사이드 트랙 · 순차 공개</p>
+    <p class="big">V5 · EQUIPMENT &amp; FITTING · GUIDE INDEX</p>
+    <p>골프 장비를 과학으로 · 순차 공개</p>
   </div>
 </div>
-
 <script>
 (function(){
   var root=document.documentElement, btn=document.getElementById('tt');
