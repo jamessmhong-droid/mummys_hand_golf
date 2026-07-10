@@ -330,6 +330,36 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
       <div class="lab">한 문장</div>
       <p>“<strong>세게 치는 자세</strong>”와 “<strong>허리에 나쁜 자세</strong>”가 임팩트 순간 <strong>같은 동작</strong>이라는 게 문제의 핵심이다.</p>
     </div>
+<div style="background:radial-gradient(120% 90% at 50% 30%,#1B0F16 0%,#0E0810 70%);border-radius:16px;padding:22px 18px 16px;margin:24px 0 0;box-shadow:var(--shadow-lg)"><div style="font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#BE99A9;margin-bottom:6px">그림 — 크런치 팩터 (측면 굴곡 × 회전)</div><svg viewBox="0 0 760 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="임팩트에서 상체가 옆으로 기울며 동시에 회전, 요추 한 점에 부하가 겹친다">
+<defs>
+<marker id="crA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#FF6D57"/></marker>
+<marker id="crS" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#FF4DA0"/></marker>
+</defs>
+<!-- 골반 기준선 -->
+<line x1="250" y1="330" x2="510" y2="330" stroke="#BE99A9" stroke-width="3" stroke-dasharray="6 6"/>
+<text x="520" y="335" font-size="15" font-weight="700" fill="#BE99A9">골반</text>
+<!-- 기울어진 척추(측면 굴곡): 골반 중앙에서 리드측(왼쪽)으로 -->
+<line x1="380" y1="332" x2="300" y2="96" stroke="#5A3F4C" stroke-width="14" stroke-linecap="round"/>
+<!-- 척추 마디 -->
+<circle cx="368" cy="292" r="6" fill="#FCEDF3"/><circle cx="356" cy="252" r="6" fill="#FCEDF3"/>
+<circle cx="344" cy="212" r="7" fill="#FF6D57"/><circle cx="332" cy="172" r="6" fill="#FCEDF3"/>
+<circle cx="320" cy="132" r="6" fill="#FCEDF3"/>
+<!-- 부하 집중 지점(요추) -->
+<circle cx="344" cy="212" r="22" fill="none" stroke="#FF6D57" stroke-width="3.5"/>
+<circle cx="344" cy="212" r="34" fill="none" stroke="#FF6D57" stroke-width="2" opacity=".5"/>
+<text x="392" y="208" font-size="16" font-weight="900" fill="#FF6D57">부하 집중</text>
+<text x="392" y="230" font-size="13.5" font-weight="700" fill="#BE99A9">하부 요추 한 점</text>
+<!-- 측면 굴곡 화살표 -->
+<path d="M300 70 C270 84,258 104,262 128" fill="none" stroke="#FF6D57" stroke-width="4" marker-end="url(#crA)"/>
+<text x="150" y="70" font-size="17" font-weight="900" fill="#FF6D57">① 측면 굴곡</text>
+<text x="150" y="92" font-size="13.5" font-weight="700" fill="#BE99A9">리드측으로 기울기</text>
+<!-- 회전 화살표(축 회전) -->
+<path d="M470 150 A 120 60 0 1 1 250 150" fill="none" stroke="#FF4DA0" stroke-width="4" stroke-dasharray="8 7" marker-end="url(#crS)"/>
+<text x="470" y="120" font-size="17" font-weight="900" fill="#FF4DA0">② 빠른 회전</text>
+<!-- 타깃 방향 -->
+<text x="60" y="340" font-size="14" font-weight="800" fill="#FCEDF3">◀ 타깃</text>
+<text x="380" y="372" text-anchor="middle" font-size="15" font-weight="800" fill="#FCEDF3">① + ② 가 겹치는 순간 = 크런치 팩터</text>
+</svg></div>
   </section>
 
   <section>
