@@ -300,6 +300,22 @@ table.dt tbody tr:nth-child(even) td{background:var(--surface2)}
 
   <!-- ================= HERO ================= -->
   <header class="hero">
+<style id="mhg-figunify">
+/* 규칙2: 모든 그림 패널(.field/.chart-wrap)을 다크 캡션박스 스타일로 통일.
+   내부 토큰은 d-plane.html의 다크 토큰과 동일(규칙3). */
+.field,.chart-wrap{
+  background:radial-gradient(120% 90% at 50% 30%,#1B0F16 0%,#0E0810 70%)!important;
+  border:0!important;border-radius:16px!important;
+  box-shadow:0 30px 70px -34px rgba(0,0,0,.8)!important;
+  --bg:#140A10;--bg2:#1B0F16;--surface:#20131A;--surface2:#291923;
+  --ink:#FCEDF3;--ink2:#E4C6D2;--muted:#BE99A9;--faint:#8A6675;
+  --line:#3A2530;--line2:#301E28;
+  --hot:#FF4DA0;--hot-deep:#FF2E90;--hot-soft:#3A1526;
+  --long:#E7418E;--short:#1EBBA0;--putt:#8A94F0;--appr:#E0A33A;
+  --gain:#22C3A5;--loss:#FF6D57;--grid:#2E1E28;--axis:#5A3F4C;
+}
+.field .track,.chart-wrap .track{background:#291923!important}
+</style>
 <!--MHG_GATE--><style>
 html.mhg-locked{overflow:hidden!important}
 html.mhg-locked body{visibility:hidden!important}
@@ -754,7 +770,7 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
   });
 
   // ---- tiny line-chart renderer ----
-  function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim();}
+  function css(v){var _p=document.querySelector('.chart-wrap,.field')||document.documentElement;return getComputedStyle(_p).getPropertyValue(v).trim();}
   function line(id, series, opts){
     var svg=document.getElementById(id); if(!svg)return;
     var W=380,H=240, L=42,R=14,T=16,B=34;
