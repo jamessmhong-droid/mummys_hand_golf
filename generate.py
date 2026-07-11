@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os, html
+from v1_diagrams import DIAGRAMS
 
 # --- 아카이브 소프트 게이트(접속코드) — series 제외, 홈·V1~V4에 주입 ---
 GATE = '<!--MHG_GATE--><style>\nhtml.mhg-locked{overflow:hidden!important}\nhtml.mhg-locked body{visibility:hidden!important}\n#mhg-gate{position:fixed;inset:0;z-index:2147483600;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(125% 80% at 50% 0%,#3a0c22 0%,#0b0b0d 60%);font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif;visibility:visible}\n#mhg-card{width:min(92vw,360px);background:#fff;border-radius:22px;box-shadow:0 30px 80px -30px rgba(0,0,0,.75);padding:32px 26px 24px;text-align:center}\n#mhg-badge{width:64px;height:64px;margin:0 auto 16px;border-radius:50%;background:linear-gradient(135deg,#FF1E88,#E60F73);display:flex;align-items:center;justify-content:center;font-size:29px;box-shadow:0 12px 24px -10px rgba(230,15,115,.7)}\n#mhg-card h1{font-size:19px;font-weight:900;color:#0E0E10;letter-spacing:-.02em;margin:0 0 6px}\n#mhg-card p{font-size:13px;color:#6B5560;line-height:1.55;margin:0 0 18px}\n#mhg-in{width:100%;font-size:16px;padding:13px 16px;border:2px solid #F4C9DC;border-radius:12px;outline:none;text-align:center;font-weight:700;color:#0E0E10;background:#fff}\n#mhg-in:focus{border-color:#FF1E88}\n#mhg-btn{width:100%;margin-top:11px;font-size:15px;font-weight:900;color:#fff;background:#FF1E88;border:0;border-radius:12px;padding:14px;cursor:pointer;box-shadow:0 12px 24px -12px rgba(230,15,115,.7)}\n#mhg-btn:active{transform:translateY(1px)}\n#mhg-err{font-size:12.5px;color:#E60F73;font-weight:700;margin-top:11px;min-height:16px}\n#mhg-card.mhg-shake{animation:mhgsh .4s}\n@keyframes mhgsh{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}\n</style>\n<script>(function(){try{if(localStorage.getItem("mhg_auth")==="1")return;}catch(e){}\nfunction H(s){var x=0;for(var i=0;i<s.length;i++){x=(x*31+s.charCodeAt(i))>>>0;}return x;}\nvar EXP=3788819635,root=document.documentElement;\nroot.className+=" mhg-locked";\nfunction build(){\nif(document.getElementById("mhg-gate"))return;\nvar g=document.createElement("div");g.id="mhg-gate";\ng.innerHTML=\'<div id="mhg-card"><div id="mhg-badge">🔒</div><h1>마미손 골프 아카이브</h1><p>비공개 연구 아카이브입니다. 접속 코드를 입력하세요.<br>연재 페이지는 코드 없이 열려요.</p><input id="mhg-in" type="password" inputmode="text" autocomplete="off" placeholder="접속 코드"><button id="mhg-btn">들어가기</button><div id="mhg-err"></div></div>\';\nroot.appendChild(g);\nvar inp=g.querySelector("#mhg-in"),btn=g.querySelector("#mhg-btn"),err=g.querySelector("#mhg-err"),card=g.querySelector("#mhg-card");\nfunction go(){if(H(inp.value)===EXP){try{localStorage.setItem("mhg_auth","1");}catch(e){}root.className=root.className.replace(/ ?mhg-locked/,"");if(g.parentNode)g.parentNode.removeChild(g);}else{err.textContent="코드가 올바르지 않아요.";card.className="mhg-shake";setTimeout(function(){card.className="";},400);inp.value="";inp.focus();}}\nbtn.addEventListener("click",go);inp.addEventListener("keydown",function(e){if(e.key==="Enter")go();});setTimeout(function(){inp.focus();},60);\n}\nif(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",build);}else{build();}\n})();</script>'
@@ -524,6 +525,16 @@ def detail_html(pid, p):
   <div class="ccite"><b>{html.escape(p['authors'])}</b> · {html.escape(p['journal'])}<div class="cpill">{html.escape(p['cites'])}</div></div>
   <div class="sfoot">{PIG}<span class="swipe">밀어서 다음 <b>→</b></span></div>
 </div>""")
+    # 1.5) diagram slide (dark panel) — one signature visual per paper
+    dia = DIAGRAMS.get(pid)
+    if dia:
+        svg, cap = dia
+        S.append(f"""<div class="slide" id="s-dia">
+  <div class="stop"><span class="slabel">한눈에 보기</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
+  <div class="sbody diabody"><div class="diapanel">{svg}</div></div>
+  <p class="diacap">{cap}</p>
+  <div class="sfoot">{PIG}<span class="swipe">밀어서 다음 <b>→</b></span></div>
+</div>""")
     # 2) one finding per slide
     for i, f in enumerate(finds):
         S.append(f"""<div class="slide" id="s{i+2}">
@@ -574,6 +585,9 @@ body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;pad
 .ccite b{{color:var(--ink);font-weight:800}}
 .cpill{{display:table;margin-top:11px;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 13px;border-radius:999px}}
 .sbody{{flex:1;display:flex;align-items:center;padding:6px 0}}
+.diabody{{flex-direction:column;justify-content:center;padding:2px 0}}
+.diapanel{{width:100%;background:radial-gradient(120% 90% at 50% 30%,#1B0F16 0%,#0E0810 70%);border-radius:16px;padding:16px 14px;box-shadow:0 24px 56px -30px rgba(0,0,0,.8)}}
+.diacap{{font-size:15px;font-weight:800;color:var(--ink);text-align:center;margin:14px 4px 2px;line-height:1.4}}
 .ftext{{font-size:27px;font-weight:750;line-height:1.5;color:var(--ink)}}
 .ftext b{{color:var(--hot-deep)}}
 .slide.take{{background:var(--ink);border-color:var(--ink)}}
@@ -611,7 +625,7 @@ body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;pad
 <div class="carousel">
 {slides}
 </div>
-<p class="swipehint">아래로 스크롤 · 총 {total+1}장 (표지 · 발견 {len(finds)} · 결론 · 팔로우) · 인스타 캐러셀 순서 그대로</p>
+<p class="swipehint">아래로 스크롤 · 총 {total+1+(1 if pid in DIAGRAMS else 0)}장 (표지 · 그림 · 발견 {len(finds)} · 결론 · 팔로우) · 인스타 캐러셀 순서 그대로</p>
 <div class="controls"><a href="../golf-research-summary.html">← 목록</a><a href="{v2href}">근거 자세히 보기 →</a></div>
 {GC}
 </body></html>"""

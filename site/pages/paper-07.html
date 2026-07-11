@@ -54,6 +54,9 @@ body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padd
 .ccite b{color:var(--ink);font-weight:800}
 .cpill{display:table;margin-top:11px;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 13px;border-radius:999px}
 .sbody{flex:1;display:flex;align-items:center;padding:6px 0}
+.diabody{flex-direction:column;justify-content:center;padding:2px 0}
+.diapanel{width:100%;background:radial-gradient(120% 90% at 50% 30%,#1B0F16 0%,#0E0810 70%);border-radius:16px;padding:16px 14px;box-shadow:0 24px 56px -30px rgba(0,0,0,.8)}
+.diacap{font-size:15px;font-weight:800;color:var(--ink);text-align:center;margin:14px 4px 2px;line-height:1.4}
 .ftext{font-size:27px;font-weight:750;line-height:1.5;color:var(--ink)}
 .ftext b{color:var(--hot-deep)}
 .slide.take{background:var(--ink);border-color:var(--ink)}
@@ -87,13 +90,19 @@ body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padd
 .cta-txt span{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-top:2px}
 </style></head>
 <body>
-<nav class="sitenav"><a href="../index.html">🏠 홈</a><a href="../golf-research-summary.html" class="cur">V1 카드</a><a href="../v2/golf-research-v2.html">V2 근거</a><a href="../v3/index.html">V3 딥다이브</a><a href="../v4/index.html">V4 최신</a><a href="../v5/index.html">V5 장비</a><a href="../series.html">📅 연재</a></nav>
+<nav class="sitenav"><a href="../index.html">🏠 홈</a><a href="../golf-research-summary.html" class="cur">V1 카드</a><a href="../v2/golf-research-v2.html">V2 근거</a><a href="../v3/index.html">V3 딥다이브</a><a href="../v4/index.html">V4 최신</a><a href="../series.html">📅 연재</a></nav>
 <div class="carousel">
 <div class="slide cover" id="s1">
   <div class="stop"><span class="pno">07</span><span class="ppart">PART 01 · 생체역학</span><img class="smasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
   <div class="chook">힘만 키우면 장타? 절반만 맞다.</div>
   <div class="csub"><span class="clab">논문</span>골프 스윙의 에너지·파워 분석 (모델링)</div>
   <div class="ccite"><b>Nesbit, S.M. &amp; Serrano, M. (2005)</b> · J. Sports Science &amp; Medicine, 4(4), 520–533 · 원제 &#x27;Work and Power Analysis of the Golf Swing&#x27;<div class="cpill">약 150+ 인용</div></div>
+  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="swipe">밀어서 다음 <b>→</b></span></div>
+</div>
+<div class="slide" id="s-dia">
+  <div class="stop"><span class="slabel">한눈에 보기</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
+  <div class="sbody diabody"><div class="diapanel"><svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="힘×가동범위" style="width:100%;height:auto;display:block"><rect x="24" y="88" width="112" height="84" rx="14" fill="#241620" stroke="#FF4DA0" stroke-width="2"/><text x="80" y="126" text-anchor="middle" font-size="15" font-weight="900" fill="#FF4DA0">힘</text><text x="152" y="138" text-anchor="middle" font-size="30" font-weight="900" fill="#FCEDF3">×</text><rect x="168" y="88" width="112" height="84" rx="14" fill="#241620" stroke="#1EBBA0" stroke-width="2"/><text x="224" y="126" text-anchor="middle" font-size="15" font-weight="900" fill="#1EBBA0">가동범위</text><text x="298" y="138" text-anchor="middle" font-size="26" font-weight="900" fill="#FCEDF3">=</text><rect x="316" y="88" width="66" height="84" rx="14" fill="#FF5A4E"/><text x="349" y="117" text-anchor="middle" font-size="12.5" font-weight="900" fill="#1B0F16">클럽</text><text x="349" y="132" text-anchor="middle" font-size="12.5" font-weight="900" fill="#1B0F16">스피드</text><text x="200" y="40" text-anchor="middle" font-size="13" font-weight="800" fill="#BE99A9">둘 중 <tspan fill="#FCEDF3">하나만으론 부족</tspan></text><text x="80" y="192" text-anchor="middle" font-size="11" font-weight="600" fill="#8A6675">한 축</text><text x="224" y="192" text-anchor="middle" font-size="11" font-weight="600" fill="#8A6675">다른 축</text></svg></div></div>
+  <p class="diacap">힘과 가동범위가 함께 스피드를 만든다</p>
   <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="swipe">밀어서 다음 <b>→</b></span></div>
 </div>
 <div class="slide" id="s2">
@@ -135,7 +144,7 @@ body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padd
   <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="hint">EP.7 / 18</span></div>
 </div>
 </div>
-<p class="swipehint">아래로 스크롤 · 총 7장 (표지 · 발견 4 · 결론 · 팔로우) · 인스타 캐러셀 순서 그대로</p>
+<p class="swipehint">아래로 스크롤 · 총 8장 (표지 · 그림 · 발견 4 · 결론 · 팔로우) · 인스타 캐러셀 순서 그대로</p>
 <div class="controls"><a href="../golf-research-summary.html">← 목록</a><a href="../v2/pages/paper-07.html">근거 자세히 보기 →</a></div>
 <script data-goatcounter="https://mummyshandgolf.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body></html>
