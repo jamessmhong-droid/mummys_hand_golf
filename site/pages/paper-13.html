@@ -54,6 +54,9 @@ body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padd
 .ccite b{color:var(--ink);font-weight:800}
 .cpill{display:table;margin-top:11px;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 13px;border-radius:999px}
 .sbody{flex:1;display:flex;align-items:center;padding:6px 0}
+.diabody{flex-direction:column;justify-content:center;padding:2px 0}
+.diapanel{width:100%;background:radial-gradient(120% 90% at 50% 30%,#1B0F16 0%,#0E0810 70%);border-radius:16px;padding:16px 14px;box-shadow:0 24px 56px -30px rgba(0,0,0,.8)}
+.diacap{font-size:15px;font-weight:800;color:var(--ink);text-align:center;margin:14px 4px 2px;line-height:1.4}
 .ftext{font-size:27px;font-weight:750;line-height:1.5;color:var(--ink)}
 .ftext b{color:var(--hot-deep)}
 .slide.take{background:var(--ink);border-color:var(--ink)}
@@ -87,13 +90,19 @@ body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padd
 .cta-txt span{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-top:2px}
 </style></head>
 <body>
-<nav class="sitenav"><a href="../index.html">🏠 홈</a><a href="../golf-research-summary.html" class="cur">V1 카드</a><a href="../v2/golf-research-v2.html">V2 근거</a><a href="../v3/index.html">V3 딥다이브</a><a href="../v4/index.html">V4 최신</a><a href="../v5/index.html">V5 장비</a><a href="../series.html">📅 연재</a></nav>
+<nav class="sitenav"><a href="../index.html">🏠 홈</a><a href="../golf-research-summary.html" class="cur">V1 카드</a><a href="../v2/golf-research-v2.html">V2 근거</a><a href="../v3/index.html">V3 딥다이브</a><a href="../v4/index.html">V4 최신</a><a href="../series.html">📅 연재</a></nav>
 <div class="carousel">
 <div class="slide cover" id="s1">
   <div class="stop"><span class="pno">13</span><span class="ppart">PART 02 · 경기력·데이터</span><img class="smasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
   <div class="chook">스윙의 주인공은 팔이 아니었다.</div>
   <div class="csub"><span class="clab">논문</span>골프 스윙 중 근활성(EMG)</div>
   <div class="ccite"><b>McHardy, A. &amp; Pollard, H. (2005)</b> · British Journal of Sports Medicine, 39(11), 799–804 · PMID 16244187<div class="cpill">약 다수 인용</div></div>
+  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="swipe">밀어서 다음 <b>→</b></span></div>
+</div>
+<div class="slide" id="s-dia">
+  <div class="stop"><span class="slabel">한눈에 보기</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
+  <div class="sbody diabody"><div class="diapanel"><svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="근활성" style="width:100%;height:auto;display:block"><text x="200" y="24" text-anchor="middle" font-size="13" font-weight="800" fill="#BE99A9">스윙 주도 = <tspan fill="#FCEDF3">가슴·몸통</tspan> (팔 아님)</text><path d="M170 60 Q200 52 230 60 L242 168 Q200 182 158 168 Z" fill="#6E5260" opacity=".55"/><circle cx="200" cy="46" r="15" fill="#6E5260" opacity=".55"/><ellipse cx="184" cy="90" rx="22" ry="15" fill="#FF4DA0"/><ellipse cx="216" cy="90" rx="22" ry="15" fill="#FF4DA0"/><text x="200" y="94" text-anchor="middle" font-size="10.5" font-weight="900" fill="#1B0F16">대흉근</text><rect x="182" y="112" width="36" height="46" rx="8" fill="#E0A33A"/><text x="200" y="140" text-anchor="middle" font-size="10.5" font-weight="900" fill="#1B0F16">몸통</text><line x1="168" y1="66" x2="120" y2="150" stroke="#5A3F4C" stroke-width="9" stroke-linecap="round"/><line x1="232" y1="66" x2="280" y2="150" stroke="#5A3F4C" stroke-width="9" stroke-linecap="round"/><text x="108" y="168" text-anchor="middle" font-size="11" font-weight="700" fill="#8A6675">팔 低</text><text x="292" y="168" text-anchor="middle" font-size="11" font-weight="700" fill="#8A6675">팔 低</text><rect x="150" y="204" width="14" height="14" rx="4" fill="#FF4DA0"/><text x="170" y="215" font-size="11.5" font-weight="700" fill="#BE99A9">활성 高</text><rect x="238" y="204" width="14" height="14" rx="4" fill="#5A3F4C"/><text x="258" y="215" font-size="11.5" font-weight="700" fill="#BE99A9">활성 低</text></svg></div></div>
+  <p class="diacap">스윙은 대흉근·몸통이 주도한다</p>
   <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="swipe">밀어서 다음 <b>→</b></span></div>
 </div>
 <div class="slide" id="s2">
@@ -140,7 +149,7 @@ body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padd
   <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="hint">EP.13 / 18</span></div>
 </div>
 </div>
-<p class="swipehint">아래로 스크롤 · 총 8장 (표지 · 발견 5 · 결론 · 팔로우) · 인스타 캐러셀 순서 그대로</p>
+<p class="swipehint">아래로 스크롤 · 총 9장 (표지 · 그림 · 발견 5 · 결론 · 팔로우) · 인스타 캐러셀 순서 그대로</p>
 <div class="controls"><a href="../golf-research-summary.html">← 목록</a><a href="../v2/pages/paper-13.html">근거 자세히 보기 →</a></div>
 <script data-goatcounter="https://mummyshandgolf.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body></html>

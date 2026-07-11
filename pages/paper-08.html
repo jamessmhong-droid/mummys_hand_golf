@@ -54,6 +54,9 @@ body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padd
 .ccite b{color:var(--ink);font-weight:800}
 .cpill{display:table;margin-top:11px;background:var(--hot);color:#fff;font-size:12px;font-weight:800;padding:4px 13px;border-radius:999px}
 .sbody{flex:1;display:flex;align-items:center;padding:6px 0}
+.diabody{flex-direction:column;justify-content:center;padding:2px 0}
+.diapanel{width:100%;background:radial-gradient(120% 90% at 50% 30%,#1B0F16 0%,#0E0810 70%);border-radius:16px;padding:16px 14px;box-shadow:0 24px 56px -30px rgba(0,0,0,.8)}
+.diacap{font-size:15px;font-weight:800;color:var(--ink);text-align:center;margin:14px 4px 2px;line-height:1.4}
 .ftext{font-size:27px;font-weight:750;line-height:1.5;color:var(--ink)}
 .ftext b{color:var(--hot-deep)}
 .slide.take{background:var(--ink);border-color:var(--ink)}
@@ -87,13 +90,19 @@ body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padd
 .cta-txt span{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-top:2px}
 </style></head>
 <body>
-<nav class="sitenav"><a href="../index.html">🏠 홈</a><a href="../golf-research-summary.html" class="cur">V1 카드</a><a href="../v2/golf-research-v2.html">V2 근거</a><a href="../v3/index.html">V3 딥다이브</a><a href="../v4/index.html">V4 최신</a><a href="../v5/index.html">V5 장비</a><a href="../series.html">📅 연재</a></nav>
+<nav class="sitenav"><a href="../index.html">🏠 홈</a><a href="../golf-research-summary.html" class="cur">V1 카드</a><a href="../v2/golf-research-v2.html">V2 근거</a><a href="../v3/index.html">V3 딥다이브</a><a href="../v4/index.html">V4 최신</a><a href="../series.html">📅 연재</a></nav>
 <div class="carousel">
 <div class="slide cover" id="s1">
   <div class="stop"><span class="pno">08</span><span class="ppart">PART 01 · 생체역학</span><img class="smasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
   <div class="chook">볼 스피드의 73%는 이 4가지로 정해진다.</div>
   <div class="csub"><span class="clab">논문</span>생체역학 변수와 드라이빙 수행의 관계</div>
   <div class="ccite"><b>Chu, Y., Sell, T.C. &amp; Lephart, S.M. (2010)</b> · Journal of Sports Sciences, 28(11), 1251–1259 · PMID 20845215<div class="cpill">약 120+ 인용</div></div>
+  <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="swipe">밀어서 다음 <b>→</b></span></div>
+</div>
+<div class="slide" id="s-dia">
+  <div class="stop"><span class="slabel">한눈에 보기</span><img class="smasc" src="../assets/mascot.png" alt=""></div>
+  <div class="sbody diabody"><div class="diapanel"><svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="볼 스피드 설명력" style="width:100%;height:auto;display:block"><text x="200" y="26" text-anchor="middle" font-size="13" font-weight="800" fill="#BE99A9">4요인이 <tspan fill="#FCEDF3">볼 스피드</tspan> 설명</text><circle cx="130" cy="128" r="66" fill="none" stroke="#241620" stroke-width="30"/><circle cx="130" cy="128" r="66" fill="none" stroke="#FF4DA0" stroke-width="30" stroke-dasharray="304.8 109.9" stroke-dashoffset="103.7" stroke-linecap="round" transform="rotate(-90 130 128)"/><text x="130" y="126" text-anchor="middle" font-size="30" font-weight="900" fill="#FCEDF3">73%</text><text x="130" y="148" text-anchor="middle" font-size="12" font-weight="700" fill="#FF4DA0">설명됨</text><rect x="236" y="108" width="15" height="15" rx="4" fill="#FF4DA0"/><text x="258" y="120" font-size="13" font-weight="800" fill="#FCEDF3">설명됨</text><rect x="236" y="136" width="15" height="15" rx="4" fill="#241620" stroke="#5A3F4C"/><text x="258" y="148" font-size="13" font-weight="700" fill="#BE99A9">나머지</text></svg></div></div>
+  <p class="diacap">볼 스피드의 최대 73%를 4요인이 설명</p>
   <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="swipe">밀어서 다음 <b>→</b></span></div>
 </div>
 <div class="slide" id="s2">
@@ -140,7 +149,7 @@ body{display:flex;flex-direction:column;align-items:center;min-height:100vh;padd
   <div class="sfoot"><a class="pig" href="https://www.instagram.com/mummys_hand_golf/" target="_blank" rel="noopener"><img src="../assets/wm.png" alt="">@mummys_hand_golf</a><span class="hint">EP.8 / 18</span></div>
 </div>
 </div>
-<p class="swipehint">아래로 스크롤 · 총 8장 (표지 · 발견 5 · 결론 · 팔로우) · 인스타 캐러셀 순서 그대로</p>
+<p class="swipehint">아래로 스크롤 · 총 9장 (표지 · 그림 · 발견 5 · 결론 · 팔로우) · 인스타 캐러셀 순서 그대로</p>
 <div class="controls"><a href="../golf-research-summary.html">← 목록</a><a href="../v2/pages/paper-08.html">근거 자세히 보기 →</a></div>
 <script data-goatcounter="https://mummyshandgolf.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body></html>
