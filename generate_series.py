@@ -107,6 +107,14 @@ meta = [{"n": n, "pid": pid, "hook": hook, "title": title, "part": part_label(pi
          "date": unlock_date(n).strftime("%-m/%-d %-H시"), "open": n <= unlocked}
         for (n, pid, v3, hook, title) in EPISODES]
 
+# ── 특별편(V5 컨디셔닝): 날짜잠금 밖, 상시 공개 · 단일 뷰로 구워넣기 ──
+# 연재 리더 안에 그대로 담아 로그인 없이 공개. wrap_doc 이 게이트·외부링크를 걷어낸다.
+_sp_raw = read(os.path.join(SITE, "v5", "conditioning-program.html"))
+special = {"hook": "운동만으로 거리 +6.8%",
+           "title": "8주 골프 컨디셔닝 — 버티는 몸",
+           "doc": wrap_doc(_sp_raw, "v5/")}
+special_json = json.dumps(special, ensure_ascii=False).replace("</", "<\\/")
+
 # </script> 로 스크립트가 조기 종료되지 않도록 안전 이스케이프
 content_json = json.dumps(content, ensure_ascii=False).replace("</", "<\\/")
 meta_json    = json.dumps(meta, ensure_ascii=False).replace("</", "<\\/")
@@ -151,6 +159,14 @@ body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Go
 .framewrap iframe{width:100%;height:74vh;min-height:520px;border:1px solid var(--line);border-top:none;border-radius:0 0 14px 14px;background:#fff;display:block}
 .hint{font-size:12px;color:var(--muted);text-align:center;padding:0 16px 16px;margin-top:-6px}
 
+/* 특별편 배너(상시 공개) */
+.special{display:block;width:100%;text-align:left;cursor:pointer;font-family:inherit;margin:22px 0 0;border:0;border-radius:20px;padding:20px 22px;color:#fff;background:linear-gradient(120deg,#E60F73,#8A2BE2);box-shadow:0 18px 40px -22px rgba(230,15,115,.7);transition:transform .14s ease}
+.special:hover{transform:translateY(-3px)}
+.special .sbadge{display:inline-block;background:rgba(255,255,255,.22);font-size:11.5px;font-weight:800;letter-spacing:.09em;padding:5px 12px;border-radius:999px}
+.special .stitle{font-size:19px;font-weight:900;line-height:1.35;margin-top:11px}
+.special .stitle b{color:#FFE14D}
+.special .sgo{font-size:12.5px;font-weight:700;margin-top:8px;opacity:.95}
+
 .countdown{margin:14px 0 24px;text-align:center;font-size:14px;font-weight:800;color:var(--muted)}
 .countdown b{color:var(--hot-deep);font-size:16px}
 
@@ -190,6 +206,12 @@ body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Go
   <div class="prog"><div class="progbar"><span id="pbar" style="width:0%"></span></div><div class="proglabel" id="plabel">— / 18 공개</div></div>
 </header>
 
+<button class="special" id="specialBtn">
+  <span class="sbadge">🎁 THE 특별편 · 상시 공개</span>
+  <div class="stitle">8주 골프 컨디셔닝 — <b>운동만으로 거리 +6.8%</b></div>
+  <div class="sgo">스윙 레슨 없이 몸만 바꿔 +6.8%(Lephart 2007) · 지금 바로 열기 →</div>
+</button>
+
 <section class="reader" id="reader" hidden>
   <div class="rhead">
     <span class="tag" id="rtag">이번 주 공개</span><span class="no" id="rno"></span>
@@ -218,9 +240,11 @@ body{background:var(--bg);color:var(--ink);font-family:'Pretendard','Apple SD Go
 
 <script id="epmeta" type="application/json">__META__</script>
 <script id="epcontent" type="application/json">__CONTENT__</script>
+<script id="special" type="application/json">__SPECIAL__</script>
 <script>
 var META = JSON.parse(document.getElementById('epmeta').textContent);
 var CONTENT = JSON.parse(document.getElementById('epcontent').textContent);
+var SPECIAL = JSON.parse(document.getElementById('special').textContent);
 var UNLOCKED = __UNLOCKED__, TOTAL = META.length;
 var START_MS = Date.UTC(__SY__, __SM__, __SD__, __SH__, __SMIN__) - 9*3600*1000; // START (KST) as epoch
 var DAY = 24*3600*1000, CADENCE = __CADENCE__;
@@ -242,11 +266,13 @@ document.getElementById('plabel').textContent = UNLOCKED + ' / ' + TOTAL + ' 공
 var sel = null, fmt = 'v1';
 var frame = document.getElementById('frame');
 function load(){
-  if(sel===null) return;
+  if(sel===null || sel==='S') return;
   frame.srcdoc = CONTENT[String(sel)][fmt];
 }
 function selectEp(n){
   sel = n; fmt = 'v1';
+  var _tb=document.querySelector('.tabs'); if(_tb) _tb.style.display='';
+  var _hn=document.querySelector('.hint'); if(_hn) _hn.style.display='';
   var m = META[n-1];
   document.getElementById('rno').textContent = 'EP.'+n+' / '+TOTAL;
   document.getElementById('rhook').textContent = m.hook;
@@ -269,6 +295,23 @@ document.querySelectorAll('.tab').forEach(function(t){
 // 리더: 공개된 최신 회차를 기본으로
 var reader = document.getElementById('reader');
 if(UNLOCKED >= 1){ reader.hidden = false; }
+
+// 특별편(상시 공개) — 단일 뷰, 탭 숨김
+function selectSpecial(){
+  sel = 'S';
+  document.getElementById('rno').textContent = '특별편';
+  document.getElementById('rhook').textContent = SPECIAL.hook;
+  document.getElementById('rtitle').textContent = 'SPECIAL · ' + SPECIAL.title;
+  document.getElementById('rtag').textContent = '특별편 · 상시';
+  var tb = document.querySelector('.tabs'); if(tb) tb.style.display = 'none';
+  var hn = document.querySelector('.hint'); if(hn) hn.style.display = 'none';
+  document.querySelectorAll('.ep').forEach(function(el){ el.classList.remove('sel'); });
+  reader.hidden = false;
+  frame.srcdoc = SPECIAL.doc;
+}
+var specialBtn = document.getElementById('specialBtn');
+if(specialBtn){ specialBtn.addEventListener('click', function(){
+  selectSpecial(); reader.scrollIntoView({behavior:'smooth', block:'start'}); }); }
 
 // 카운트다운
 var cEl = document.getElementById('countdown'), now = Date.now();
@@ -325,6 +368,7 @@ if(UNLOCKED >= 1){ selectEp(UNLOCKED); }
 HTML = (HTML
         .replace("__META__", meta_json)
         .replace("__CONTENT__", content_json)
+        .replace("__SPECIAL__", special_json)
         .replace("__UNLOCKED__", str(unlocked))
         .replace("__SY__", str(START_KST.year))
         .replace("__SM__", str(START_KST.month - 1))   # JS month 0-based
