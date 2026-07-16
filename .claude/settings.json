@@ -1,0 +1,18 @@
+{
+  "env": {
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-opus-4-8"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|NotebookEdit|MultiEdit|Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/orchestration-gate.py\""
+          }
+        ]
+      }
+    ]
+  }
+}
