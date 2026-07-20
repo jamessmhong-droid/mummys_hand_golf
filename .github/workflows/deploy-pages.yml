@@ -6,9 +6,13 @@ on:
   workflow_dispatch:
   schedule:
     # 매일 저녁 8시 KST(11:00 UTC)에 그 주 공개 편을 자동으로 열어 재배포.
-    # GitHub Actions 스케줄 지연/누락 대비로 30분 뒤 백업 실행도 둔다(idempotent).
-    - cron: '0 11 * * *'
-    - cron: '30 11 * * *'
+    # GitHub Actions 예약은 고부하 시 1시간+ 지연·누락이 잦다. 20:00~22:00 KST를
+    # 30분 간격으로 촘촘히 깔아, 하나라도 돌면 그날 공개 편이 열리게 한다(빌드는 idempotent).
+    - cron: '0 11 * * *'    # 20:00 KST
+    - cron: '30 11 * * *'   # 20:30 KST
+    - cron: '0 12 * * *'    # 21:00 KST
+    - cron: '30 12 * * *'   # 21:30 KST
+    - cron: '0 13 * * *'    # 22:00 KST
 
 permissions:
   contents: read
