@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os, html
+import os, html, re
 from v1_diagrams import DIAGRAMS
 
 # --- 아카이브 소프트 게이트(접속코드) — series 제외, 홈·V1~V4에 주입 ---
@@ -8,6 +8,12 @@ GATE = '<!--MHG_GATE--><style>\nhtml.mhg-locked{overflow:hidden!important}\nhtml
 OUT = os.path.dirname(os.path.abspath(__file__))
 PAGES = os.path.join(OUT, "pages")
 os.makedirs(PAGES, exist_ok=True)
+
+def meta_description(title, summary):
+    """Plain-text, attribute-safe SEO description derived from paper content."""
+    plain_summary = re.sub(r"<[^>]+>", "", summary)
+    plain_summary = " ".join(html.unescape(plain_summary).split())
+    return html.escape(f"{title} — {plain_summary}", quote=True)
 
 # 방문자 카운트(GoatCounter) — 비공개 대시보드: https://mummyshandgolf.goatcounter.com
 GC = ('<script data-goatcounter="https://mummyshandgolf.goatcounter.com/count" '
@@ -521,7 +527,7 @@ def detail_html(pid, p):
     S.append(f"""<div class="slide cover" id="s1">
   <div class="stop"><span class="pno">{DISP[pid]:02d}</span><span class="ppart">{html.escape(p['part'])}</span><img class="smasc" src="../assets/mascot.png" alt="마미손 골프 마스코트"></div>
   <div class="chook">{html.escape(hook)}</div>
-  <div class="csub"><span class="clab">논문</span>{html.escape(p['title'])}</div>
+  <h1 class="csub"><span class="clab">논문</span>{html.escape(p['title'])}</h1>
   <div class="ccite"><b>{html.escape(p['authors'])}</b> · {html.escape(p['journal'])}<div class="cpill">{html.escape(p['cites'])}</div></div>
   <div class="sfoot">{PIG}<span class="swipe">밀어서 다음 <b>→</b></span></div>
 </div>""")
@@ -567,6 +573,7 @@ def detail_html(pid, p):
 <html lang="ko"><head><meta charset="UTF-8">{GATE}
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{html.escape(p['title'])} — 카드</title>
+<meta name="description" content="{meta_description(p['title'], p['summary'])}">
 {favicon_links("../")}
 <style>{CSS}{NAV_CSS}
 body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:22px 0 40px}}
@@ -578,7 +585,7 @@ body{{display:flex;flex-direction:column;align-items:center;min-height:100vh;pad
 .slabel{{font-size:13px;font-weight:800;letter-spacing:.02em;color:#fff;background:var(--hot);padding:7px 15px;border-radius:999px}}
 .ppart{{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--muted);text-transform:uppercase;margin-bottom:6px}}
 .chook{{font-size:33px;font-weight:900;letter-spacing:-.02em;line-height:1.28;color:var(--ink);margin:6px 0 16px;padding-left:14px;border-left:5px solid var(--hot)}}
-.csub{{font-size:17.5px;font-weight:800;line-height:1.45;color:var(--muted)}}
+.csub{{font-size:17.5px;font-weight:800;line-height:1.45;color:var(--muted);margin:0}}
 .clab{{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.08em;color:#fff;background:var(--ink);padding:3px 9px;border-radius:999px;margin-right:8px;vertical-align:middle}}
 .ppart{{flex:1}}
 .ccite{{font-size:14px;line-height:1.6;color:var(--muted);font-weight:600;margin-top:auto}}
@@ -670,6 +677,7 @@ index = f"""<!DOCTYPE html>
 <html lang="ko"><head><meta charset="UTF-8">{GATE}
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>골프 경기력 핵심 연구 18선 — 요약</title>
+<meta name="description" content="골프 비거리·정확성·퍼팅·부상 예방을 다룬 핵심 연구 18편을 인스타그램 카드 형식으로 요약한 연구 아카이브입니다.">
 {favicon_links("")}
 <style>{CSS}{BRAND_CSS}{NAV_CSS}
 .wrap{{max-width:920px;margin:0 auto;padding:56px 24px 96px}}

@@ -20,7 +20,8 @@ import os, re, json, datetime
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.join(ROOT, "site")
-OUT  = os.path.join(SITE, "series.html")
+SITE_OUT = os.path.join(SITE, "series.html")
+ROOT_OUT = os.path.join(ROOT, "series.html")
 
 # ── 연재 설정 ──────────────────────────────────────────────
 START_KST = datetime.datetime(2026, 7, 6, 20, 0)  # 1편 공개 시각 (KST, 저녁 8시)
@@ -88,7 +89,8 @@ _override = os.environ.get("SERIES_TODAY")
 if _override:
     now = datetime.datetime.fromisoformat(_override)
 else:
-    now = datetime.datetime.utcnow() + datetime.timedelta(hours=9)  # KST 벽시계
+    kst = datetime.timezone(datetime.timedelta(hours=9))
+    now = datetime.datetime.now(datetime.timezone.utc).astimezone(kst).replace(tzinfo=None)  # KST 벽시계
 if now < START_KST:
     unlocked = 0
 else:
@@ -97,6 +99,9 @@ else:
 def unlock_date(n):  # n = 1..18 → 공개 일시(KST)
     return START_KST + datetime.timedelta(days=(n - 1) * CADENCE)
 
+def format_kst_wall_clock(value):
+    return f"{value.month}/{value.day} {value.hour}시"
+
 # 공개된 회차의 본문만 담는다(잠긴 회차 콘텐츠는 출력물에 없음 = 진짜 잠금)
 content = {}
 for n, pid, v3, hook, title in EPISODES:
@@ -104,7 +109,7 @@ for n, pid, v3, hook, title in EPISODES:
         content[str(n)] = build_srcdoc(pid, v3)
 
 meta = [{"n": n, "pid": pid, "hook": hook, "title": title, "part": part_label(pid),
-         "date": unlock_date(n).strftime("%-m/%-d %-H시"), "open": n <= unlocked}
+         "date": format_kst_wall_clock(unlock_date(n)), "open": n <= unlocked}
         for (n, pid, v3, hook, title) in EPISODES]
 
 # ── 특별편(V5 컨디셔닝): 날짜잠금 밖, 상시 공개 · 단일 뷰로 구워넣기 ──
@@ -377,8 +382,9 @@ HTML = (HTML
         .replace("__SMIN__", str(START_KST.minute))
         .replace("__CADENCE__", str(CADENCE)))
 
-with open(OUT, "w", encoding="utf-8") as f:
-    f.write(HTML)
+for output_path in (SITE_OUT, ROOT_OUT):
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(HTML)
 
 kb = len(HTML.encode("utf-8")) / 1024
 print(f"series.html written · now(KST)={now} · unlocked={unlocked}/{len(EPISODES)} · {kb:.0f} KB")

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Version 2 — expert content, V1 (pink card) design. Reuses golf_data.json.
-import os, json, html
+import os, json, html, re
 
 # --- 아카이브 소프트 게이트(접속코드) — series 제외, 홈·V1~V4에 주입 ---
 GATE = '<!--MHG_GATE--><style>\nhtml.mhg-locked{overflow:hidden!important}\nhtml.mhg-locked body{visibility:hidden!important}\n#mhg-gate{position:fixed;inset:0;z-index:2147483600;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(125% 80% at 50% 0%,#3a0c22 0%,#0b0b0d 60%);font-family:"Pretendard","Apple SD Gothic Neo","Segoe UI",system-ui,sans-serif;visibility:visible}\n#mhg-card{width:min(92vw,360px);background:#fff;border-radius:22px;box-shadow:0 30px 80px -30px rgba(0,0,0,.75);padding:32px 26px 24px;text-align:center}\n#mhg-badge{width:64px;height:64px;margin:0 auto 16px;border-radius:50%;background:linear-gradient(135deg,#FF1E88,#E60F73);display:flex;align-items:center;justify-content:center;font-size:29px;box-shadow:0 12px 24px -10px rgba(230,15,115,.7)}\n#mhg-card h1{font-size:19px;font-weight:900;color:#0E0E10;letter-spacing:-.02em;margin:0 0 6px}\n#mhg-card p{font-size:13px;color:#6B5560;line-height:1.55;margin:0 0 18px}\n#mhg-in{width:100%;font-size:16px;padding:13px 16px;border:2px solid #F4C9DC;border-radius:12px;outline:none;text-align:center;font-weight:700;color:#0E0E10;background:#fff}\n#mhg-in:focus{border-color:#FF1E88}\n#mhg-btn{width:100%;margin-top:11px;font-size:15px;font-weight:900;color:#fff;background:#FF1E88;border:0;border-radius:12px;padding:14px;cursor:pointer;box-shadow:0 12px 24px -12px rgba(230,15,115,.7)}\n#mhg-btn:active{transform:translateY(1px)}\n#mhg-err{font-size:12.5px;color:#E60F73;font-weight:700;margin-top:11px;min-height:16px}\n#mhg-card.mhg-shake{animation:mhgsh .4s}\n@keyframes mhgsh{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}\n</style>\n<script>(function(){try{if(localStorage.getItem("mhg_auth")==="1")return;}catch(e){}\nfunction H(s){var x=0;for(var i=0;i<s.length;i++){x=(x*31+s.charCodeAt(i))>>>0;}return x;}\nvar EXP=3788819635,root=document.documentElement;\nroot.className+=" mhg-locked";\nfunction build(){\nif(document.getElementById("mhg-gate"))return;\nvar g=document.createElement("div");g.id="mhg-gate";\ng.innerHTML=\'<div id="mhg-card"><div id="mhg-badge">🔒</div><h1>마미손 골프 아카이브</h1><p>비공개 연구 아카이브입니다. 접속 코드를 입력하세요.<br>연재 페이지는 코드 없이 열려요.</p><input id="mhg-in" type="password" inputmode="text" autocomplete="off" placeholder="접속 코드"><button id="mhg-btn">들어가기</button><div id="mhg-err"></div></div>\';\nroot.appendChild(g);\nvar inp=g.querySelector("#mhg-in"),btn=g.querySelector("#mhg-btn"),err=g.querySelector("#mhg-err"),card=g.querySelector("#mhg-card");\nfunction go(){if(H(inp.value)===EXP){try{localStorage.setItem("mhg_auth","1");}catch(e){}root.className=root.className.replace(/ ?mhg-locked/,"");if(g.parentNode)g.parentNode.removeChild(g);}else{err.textContent="코드가 올바르지 않아요.";card.className="mhg-shake";setTimeout(function(){card.className="";},400);inp.value="";inp.focus();}}\nbtn.addEventListener("click",go);inp.addEventListener("keydown",function(e){if(e.key==="Enter")go();});setTimeout(function(){inp.focus();},60);\n}\nif(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",build);}else{build();}\n})();</script>'
@@ -9,6 +9,12 @@ OUT = os.path.dirname(os.path.abspath(__file__))
 V2 = os.path.join(OUT, "v2")
 V2PAGES = os.path.join(V2, "pages")
 os.makedirs(V2PAGES, exist_ok=True)
+
+def meta_description(title, summary):
+    """Plain-text, attribute-safe SEO description derived from paper content."""
+    plain_summary = re.sub(r"<[^>]+>", "", summary)
+    plain_summary = " ".join(html.unescape(plain_summary).split())
+    return html.escape(f"{title} — {plain_summary}", quote=True)
 
 # 방문자 카운트(GoatCounter) — 비공개 대시보드: https://mummyshandgolf.goatcounter.com
 GC = ('<script data-goatcounter="https://mummyshandgolf.goatcounter.com/count" '
@@ -195,6 +201,7 @@ def detail(pid, p):
     h.append("<!DOCTYPE html><html lang='ko'><head><meta charset='UTF-8'>" + GATE)
     h.append("<meta name='viewport' content='width=device-width, initial-scale=1.0'>")
     h.append(f"<title>{esc(p['title'])} — 전문가용 (V2)</title>")
+    h.append(f"<meta name='description' content='{meta_description(p['title'], p['summary'])}'>")
     h.append(favicon_links("../../"))
     h.append(f"<style>{DETAIL_CSS}{BRAND_CSS}{NAV_CSS}</style></head><body><div class='wrap'>")
     h.append(card_watermark("../../"))
@@ -308,6 +315,7 @@ ix = []
 ix.append("<!DOCTYPE html><html lang='ko'><head><meta charset='UTF-8'>" + GATE)
 ix.append("<meta name='viewport' content='width=device-width, initial-scale=1.0'>")
 ix.append("<title>골프 경기력 핵심 연구 18선 — 전문가용 근거 자료집 (V2)</title>")
+ix.append("<meta name='description' content='골프 경기력 핵심 연구 18편의 연구 설계·표본·핵심 통계·한계와 DOI·PMID 원문 링크를 정리한 전문가용 근거 자료집입니다.'>")
 ix.append(favicon_links("../"))
 ix.append(f"<style>{INDEX_CSS}{BRAND_CSS}{NAV_CSS}</style></head><body><div class='wrap'>")
 ix.append(nav("../", "v2"))
